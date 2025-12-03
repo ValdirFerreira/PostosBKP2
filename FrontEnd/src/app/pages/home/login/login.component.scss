@@ -1,0 +1,461 @@
+.container-login {
+    display: flex;
+    // background: #4056b7;
+    background: #fff;
+    height: 100vh;
+
+    @media screen and (max-width: 1020px) {
+        justify-content: center;
+    }
+
+    .container-base-form {
+        margin: auto;
+        @media screen and (max-width: 1020px) {
+            margin: auto;
+        }
+    }
+
+    .container-form {
+        display: flex;
+        flex-direction: column;
+        padding: 32px;
+        max-width: 433px;
+        width: auto;
+        min-height: 446px;
+        background: #fefefe;
+
+        border-radius: 4px;
+        margin: auto;
+        @media screen and (max-width: 1020px) {
+            height: 100%;
+            width: 86%;
+        }
+
+        .container-formulario-login {
+           // width: 400px; // ajuste conforme o seu SVG
+            // .background-logo-login {
+            //     position: absolute;
+            //     background-image: url(../../../../assets/login/Background_login.svg);
+            //     background-repeat: no-repeat;
+            //     background-size: contain; // garante ajuste correto
+            //     background-position: center; // centraliza o círculo
+            //     width: 400px; // ajuste conforme o seu SVG
+            //     height: 560px; // ajuste conforme o seu SVG
+
+            //     display: flex; // permite centralizar o logo
+            //     align-items: center; // vertical
+            //     justify-content: center; // horizontal
+            //     top: 0%;
+            //     margin-bottom: 6px;
+            //     margin: auto;
+            // }
+
+            .logo-login {
+                background-image: url(../../../../assets/login/Regular.svg);
+                background-repeat: no-repeat;
+                background-size: contain;
+                background-position: center;
+                height: 43px;
+                width: 93px;
+                margin: auto;
+                position: relative;
+         
+            }
+
+            .titulo-login {
+                font-weight: 600;
+                font-size: 30px;
+                line-height: 38px;
+                letter-spacing: 0%;
+                text-align: center;
+                margin-top: 10px;
+                color: #1b212d;
+            }
+            .sub-titulo-login {
+                padding-top: 2px;
+                font-style: normal;
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 21px;
+                color: #6e778b;
+                max-width: 500px;
+                text-align: center;
+            }
+        }
+    }
+}
+
+.form-group-login {
+    // @media screen and (max-width: 1020px) {
+
+    // }
+}
+
+.formulario {
+    padding-top: 40px;
+}
+.form-group {
+    padding-bottom: 12px;
+}
+.legenda-input {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    color: #3b3e44;
+    padding: 8px;
+}
+.input-login {
+    background: #ffffff;
+    box-sizing: border-box;
+    border-radius: 6px;
+    width: 379px;
+    height: 72px;
+    border: 1px solid #ccd4db;
+
+    padding: 16px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    display: flex;
+    align-items: center;
+    color: #6e778b;
+
+    @media screen and (max-width: 1020px) {
+        width: 100%;
+    }
+}
+
+.container-buttons {
+    padding-top: 24px;
+    .btn-login {
+        width: 379px;
+        height: 48px;
+        // background: #4056b7;
+        background: #1849a9;
+
+        border-radius: 8px;
+        border: 0px solid;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 14px;
+        text-align: center;
+        color: #ffffff;
+        cursor: pointer;
+        @media screen and (max-width: 1020px) {
+            width: 100%;
+        }
+    }
+}
+
+.desc-input {
+    padding-bottom: 2px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 24px;
+    color: #1b212d;
+
+    // background-image: url(../../../../assets/login/icon-user.png) !important;
+    // background-repeat: no-repeat !important;
+    // background-position: 20px 10px;
+}
+
+.desc-input-senha {
+    padding-bottom: 2px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 24px;
+    color: #1b212d;
+
+    // background-image: url(../../../../assets/login/unlock-alt.png);
+    // background-repeat: no-repeat !important;
+    // background-position: 20px 10px;
+}
+
+.input-email {
+    // background-image: url(../../../../assets/login/icon-user.png) !important;
+    // background-repeat: no-repeat !important;
+    // background-position: 3% 10px;
+}
+
+.input-senha {
+    // background-image: url(../../../../assets/login/unlock-alt.png);
+    // background-repeat: no-repeat !important;
+    // background-position: 3% 10px;
+}
+
+.input-senha-eye {
+    background-image: url(../../../../assets/login/icon-eye.svg);
+    background-repeat: no-repeat !important;
+    // background-position: 95% 26px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    position: absolute;
+    margin-left: 343px;
+    margin-top: 52px;
+    @media screen and (max-width: 1020px) {
+        margin-left: 318px;
+    }
+}
+
+.input-senha-eye-open {
+    background-image: url(../../../../assets/login/icon-eye-open.svg);
+    background-repeat: no-repeat !important;
+    // background-position: 95% 26px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    position: absolute;
+    margin-left: 343px;
+    margin-top: 52px;
+    @media screen and (max-width: 1020px) {
+        margin-left: 318px;
+    }
+}
+
+.esqueceu-senha {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    color: #175CD3;
+    cursor: pointer;
+    padding-right: 20px;
+}
+
+.direitos-reservados {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 20px;
+    text-align: center;
+    color: #75787c;
+}
+
+.link-login-ipsos {
+    position: absolute;
+    bottom: 0px;
+    right: 11px;
+    cursor: pointer;
+    color: blue;
+
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    text-decoration: underline;
+
+    // @media screen and (max-width: 1020px) {
+    //     position: relative;
+    // }
+}
+
+.error {
+    font-size: 14px;
+    color: red;
+}
+
+// Style esqueceu senha
+
+.fundo-informacoes {
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0.2;
+    z-index: 9999;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+.form-informacoes {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 50%;
+    width: 500px;
+    background-color: white;
+    position: fixed;
+    // left: 35%;
+    top: 24vh;
+    z-index: 9999;
+    border-radius: 12px;
+    align-items: center;
+
+    @media screen and (max-width: 900px) {
+        height: 60%;
+        width: 77%;
+        position: fixed;
+        left: 13%;
+        align-items: center;
+    }
+}
+
+.container-titulo {
+    display: flex;
+    justify-content: space-between;
+    margin: 16px 0 8px 16px;
+}
+
+.titulo-informacoes {
+    font-family: "Poppins";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 28px;
+    color: black;
+
+    @media screen and (max-width: 720px) {
+        padding-right: 1rem;
+    }
+}
+
+.container-form-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    @media screen and (max-width: 480px) {
+        margin-left: 12px;
+    }
+}
+
+.container-recuperar-senha {
+    display: flex;
+    justify-content: center;
+}
+
+.fechar {
+    font-weight: 900;
+    font-size: 16px;
+    line-height: 24px;
+    color: #5e687d;
+    margin-right: 16px;
+    cursor: pointer;
+}
+
+.footer-form-recover {
+    display: flex;
+    justify-content: center;
+    align-content: flex-end;
+    margin-bottom: 30px;
+}
+
+.warn {
+    color: #ff3a29;
+    font-weight: 500;
+    margin-top: 8px;
+}
+
+.email {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    color: #585656;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.success {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    color: #585656;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.img-sucesso-error {
+    margin-top: 32px;
+    height: 82px;
+    width: 82px;
+}
+
+.container-geral {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sucesso-erro-legenda {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 28px;
+    text-align: center;
+}
+
+.sucesso-erro-sublegenda {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 200;
+    font-size: 14px;
+    line-height: 25px;
+    text-align: center;
+}
+
+.container-legendas {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 24px 16px 0px 16px;
+}
+
+.container-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin: 16px;
+}
+
+.btn-default-recuperarsenha {
+    border-width: 0;
+    padding: 16px 70px;
+
+    background: #00438b;
+    border-radius: 3px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 14px;
+    color: white;
+    cursor: pointer;
+
+    @media screen and (max-width: 375px) {
+        width: 100%;
+        margin: 12px 0 12px 0;
+    }
+}
+
+.btn-default-fechar-lateral {
+    border-width: 0;
+    padding: 16px 70px;
+
+    background: #00438b;
+    border-radius: 3px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 14px;
+    color: white;
+    cursor: pointer;
+
+    @media screen and (max-width: 375px) {
+        width: 100%;
+        margin: 12px 0 12px 0;
+    }
+}

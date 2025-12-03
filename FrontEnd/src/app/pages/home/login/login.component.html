@@ -1,0 +1,137 @@
+<div class="container-login">
+
+    <div class="container-base-form">
+        <div class="container-form">
+            <div class="container-formulario-login">
+                <!-- <div class="background-logo-login"> -->
+                    <div class="logo-login">
+
+                    </div>
+                <!-- </div> -->
+                <div class="titulo-login">
+                    {{'login.titulo' | translate}}
+                </div>
+                <div class="sub-titulo-login">
+                    {{'login.sub-titulo' | translate}}
+                </div>
+
+                <div class="form-group-login">
+                    <form class="formulario" [formGroup]="loginForm"
+                        (submit)="login()">
+                        <div class="form-group">
+                            <div class="desc-input">{{'login.usuario' |
+                                translate}}</div>
+                            <input class="input-login input-email" type="text"
+                                placeholder="{{'login.email.placeholder' | translate}}"
+                                [ngClass]="{'error-input': loginForm.get('login')?.errors?.['required'] && loginForm.get('login')?.touched ||
+                        loginForm.get('login')?.errors?.['login'] && loginForm.get('Email')?.touched}"
+                                formControlName="login" required id="login" />
+
+                            <label
+                                *ngIf="loginForm.get('login')?.errors?.['required'] &&
+                                loginForm.get('login')?.touched"
+                                class="error"><i
+                                    class="fas fa-times-circle red"></i>
+                                {{'login.campoobrigatorio' | translate}}</label>
+
+                        </div>
+                        <div class="form-group">
+                            <div class="input-senha-eye"
+                                [ngClass]="{'input-senha-eye-open': mostraSenha, 'input-senha-eye': !mostraSenha}"
+                                (click)="mostrarSenha()"></div>
+                            <div class="desc-input-senha">{{'login.senha' |
+                                translate}}</div>
+
+                            <input *ngIf="!mostraSenha"
+                                class="input-login input-senha" type="password"
+                                placeholder="***********"
+                                [ngClass]="{'error-input': loginForm.get('senha')?.errors?.['required'] &&
+                        loginForm.get('senha')?.touched || usuarioInvalido }"
+                                formControlName="senha" id="senha"
+                                required />
+
+                            <input *ngIf="mostraSenha"
+                                class="input-login input-senha" type="text"
+                                placeholder="***********"
+                                [ngClass]="{'error-input': loginForm.get('senha')?.errors?.['required'] &&
+                        loginForm.get('senha')?.touched || usuarioInvalido }"
+                                formControlName="senha" id="senha"
+                                required />
+
+                            <label *ngIf="emailSenhaObrigatorio"
+                                class="error"><i
+                                    class="fas fa-times-circle red"></i>
+                                {{'login.emailSenhaObrigatorio' |
+                                translate}}</label>
+
+                            <label
+                                *ngIf="loginForm.get('senha')?.errors?.['required'] &&
+                                loginForm.get('senha')?.touched"
+                                class="error"><i
+                                    class="fas fa-times-circle red"></i>
+                                {{'login.campoobrigatorio' | translate}}</label>
+                            <label *ngIf="usuarioInvalido" class="error"><i
+                                    class="fas fa-times-circle red"></i>
+                                {{'login.usuarioInvalido' | translate}}</label>
+
+                        </div>
+
+                        <div>
+                            <a class="esqueceu-senha">
+                                <div
+                                    (click)="abrirEsqueciSenha()">{{'login.esqueceu.senha'
+                                    | translate}}</div>
+                            </a>
+                        </div>
+
+                        <div class="container-buttons">
+                            <!-- <button [disabled]="!loginForm.valid" [ngClass]="{'disabled': !loginForm.valid}"
+                                class="btn-login">{{'login.btn.acessar' | translate}}</button> -->
+                            <button [ngClass]="{'disabled': !loginForm.valid}"
+                                class="btn-login">{{'login.btn.acessar' |
+                                translate}}</button>
+
+                        </div>
+
+                        <footer class="direitos-reservados"> ©{{anoPortal}} <a
+                                href="https://www.ipsos.com/en">Ipsos</a>
+                            {{'login.direitos' | translate}}</footer>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div *ngIf="divRecuperarSenha" class="container-recuperar-senha">
+    <div class="fundo-informacoes" (click)="fecharRecuperarSenha()">
+    </div>
+    <div class="form-informacoes" *ngIf="!recuperarSenhaEnviado">
+        <div class="container-titulo">
+            <div class="titulo-informacoes">
+                Recover password
+            </div>
+            <i class="fas fa-times fa-lg fechar"
+                (click)="fecharRecuperarSenha()"></i>
+        </div>
+        <iframe [src]="urlSafe" height="350" width="400"></iframe>
+    </div>
+</div>
+
+<div *ngIf="divFalhaAutenticacao" class="container-recuperar-senha">
+    <div class="fundo-informacoes" (click)="fecharFalhaAutenticacao()">
+    </div>
+    <div class="form-informacoes">
+        <div class="container-titulo">
+            <div class="titulo-informacoes">
+
+            </div>
+            <i class="fas fa-times fa-lg fechar"
+                (click)="fecharFalhaAutenticacao()"></i>
+        </div>
+        <iframe [src]="urlSafe" height="350" width="400"></iframe>
+    </div>
+</div>

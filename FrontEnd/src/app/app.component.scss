@@ -1,0 +1,36 @@
+.alert {
+
+    position: fixed;
+    right: 0.25rem;
+    top: 75px;
+    z-index: 2000;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    width: 482px;
+    height: 48px;
+    background: #fefefe;
+    box-shadow: 0px 0px 1px rgba(40, 41, 61, 0.04), 0px 2px 4px rgba(96, 97, 112, 0.16);
+    border-radius: 4px;
+
+    p {
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+        font-weight: 500;
+        font-size: 14px;
+    }
+}
+
+.btn-alert {
+    width: 118px;
+    height: 32px;
+
+    background: #d6fde3;
+    border-radius: 4px;
+    font-weight: 600;
+    color: #1CA154;
+    font-size: 12px;
+    border: none;
+}

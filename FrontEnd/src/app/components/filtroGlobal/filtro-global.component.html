@@ -1,0 +1,100 @@
+<div class="container-filtro">
+
+    <div   class="group-filtro">
+        <ng-select placeholder="Target" id="tipoAtivoModel" class="selectFiltroTarget" bindLabel="DescItem"
+            [items]="filtroService.listaTarget" [searchable]="false" [clearable]="false"
+            [(ngModel)]="filtroService.ModelTarget" [multiple]="false" (change)="FiltroOnda()"></ng-select>
+    </div>
+    <div class="group-filtro">
+        <ng-select placeholder="Região Cliente" id="tipoAtivoModel" class="selectFiltroRegiao" bindLabel="DescItem"
+            [items]="filtroService.listaRegiao" [searchable]="false" [clearable]="true" 
+            [(ngModel)]="filtroService.ModelRegiao" [multiple]="true">
+
+        <ng-template
+          ng-option-tmp
+          let-item="item"
+          let-item$="item$"
+          let-index="index"
+        >
+          <div class="ng-option-label">
+            <input
+              id="item-{{ index }}"
+              type="checkbox"
+              [ngModel]="item$.selected"
+              [ngModelOptions]="{ standalone: true }"
+            />
+            {{ item["DescItem"] }}
+          </div>
+        </ng-template>
+        <ng-template ng-multi-label-tmp let-items="items">
+          <div class="ng-value" *ngIf="items.length">
+            <span class="ng-value-label">Região Cliente: ({{ items.length }})</span>
+          </div>
+        </ng-template>            
+        
+        </ng-select>
+    </div>
+
+    <!-- [closeOnSelect]="false" -->
+
+    <div class="group-filtro">
+        <ng-select placeholder="Demográfico" id="tipoAtivoModel" class="selectFiltroDemografico" bindLabel="DescItem"
+            [items]="filtroService.listaDemografico" [searchable]="false" [clearable]="true" 
+            [(ngModel)]="filtroService.ModelDemografico" [multiple]="true"></ng-select>
+    </div>
+
+    <div  class="group-filtro" style="position: relative; top: -3px;">
+        <ng-select placeholder="Wave" id="tipoAtivoModel" class="selectFiltroGlobal" bindLabel="DescItem"
+            [items]="filtroService.listaOnda" [searchable]="false" [clearable]="false"
+            [(ngModel)]="filtroService.ModelOnda" [multiple]="false"></ng-select>
+    </div>
+
+    <div class="group-filtro">
+        <div class="btn-filtrar" (click)="executaFiltrar()">
+            {{'filtro.btn.filtrar' | translate}}
+        </div>
+    </div>
+</div>
+
+
+<div class="container-filtro-mobile">
+
+    <div class="container-titulo-mobile-filtro">
+
+        <div class="titulo-filtros-mobile">Filtros</div>
+        <div (click)="closeFiltro()"><img class="fechar-menu-icone" src="assets/imagePages/fechar-menu.svg"></div>
+    </div>
+
+    <div class="linha-separacao"></div>
+
+
+    <div  class="group-filtro">
+        <ng-select placeholder="Target" id="tipoAtivoModel" class="selectFiltroVisao" bindLabel="DescItem"
+            [items]="filtroService.listaTarget" [searchable]="false" [clearable]="true"
+            [(ngModel)]="filtroService.ModelTarget" [multiple]="true"></ng-select>
+    </div>
+
+    <div class="group-filtro">
+        <ng-select placeholder="Região Cliente" id="tipoAtivoModel" class="selectFiltroVisao" bindLabel="DescItem"
+            [items]="filtroService.listaRegiao" [searchable]="false" [clearable]="true"
+            [(ngModel)]="filtroService.ModelRegiao" [multiple]="true"></ng-select>
+    </div>
+
+    <div class="group-filtro">
+        <ng-select placeholder="Demográfico" id="tipoAtivoModel" class="selectFiltroVisao" bindLabel="DescItem"
+            [items]="filtroService.listaDemografico" [searchable]="false" [clearable]="true"
+            [(ngModel)]="filtroService.ModelDemografico" [multiple]="true"></ng-select>
+    </div>
+
+    <div   class="group-filtro">
+        <ng-select placeholder="Wave" id="tipoAtivoModel" class="selectFiltroVisao" bindLabel="DescItem"
+            [items]="filtroService.listaOnda" [searchable]="false" [clearable]="false"
+            [(ngModel)]="filtroService.ModelOnda" [multiple]="false"></ng-select>
+    </div>
+
+    <div class="group-filtro">
+        <div class="btn-filtrar" (click)="executaFiltrar()">
+            Filtrar
+        </div>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-ripple-multiple" [fullScreen]="true">
+  <p style="color: white"> </p>
+</ngx-spinner>
+
+<div id="modalLogout" class="alert" *ngIf="objAlert.blnShowAlert">
+  <!-- <img src="assets/icons/warning-01.svg" alt="warning" /> -->
+  <p>{{ objAlert.message }}</p>
+
+  <div *ngIf="objAlert.blnShowButton">
+    <button type="button" class="btn-alert" (click)="callUpdateToken(true)">Renovar sesión</button>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

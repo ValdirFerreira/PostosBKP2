@@ -1,0 +1,350 @@
+.container-sidebar {
+  position: fixed;
+  padding-top: 72px;
+  background: #fefefe;
+  box-shadow: 0px 0.5px 2px rgba(53, 51, 52, 0.16);
+  width: 88px;
+  min-height: 700px;
+  height: -webkit-fill-available;
+
+  @media screen and (max-width: 1020px) {
+    display: none;
+  }
+}
+
+.grupo-menu {
+  @media screen and (max-width: 1020px) {
+    min-height: 0px;
+    width: 236px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.grupo-menu-home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+  grid-gap: 8px;
+  gap: 8px;
+  width: 100px;
+  height: 94px;
+  background: #fefefe;
+  box-shadow: 0px 0.5px 2px rgb(53 51 52 / 16%);
+  border-radius: 4px;
+  margin: 16px;
+  cursor: pointer;
+}
+
+.container-icone-menu {
+  padding: 12px 27px 0px 27px;
+  .icone-menu {
+    cursor: pointer;
+    min-height: 32px;
+  }
+
+  @media screen and (max-width: 1020px) {
+    padding: 16px 27px 0px 18px;
+    height: 45px;
+    width: 20px;
+  }
+}
+
+.container-icone-menu-home {
+  padding: 16px 27px 38px 27px;
+  .icone-menu {
+    cursor: pointer;
+    min-height: 32px;
+  }
+
+  @media screen and (max-width: 1020px) {
+    // padding: 16px 27px 0px 18px;
+  }
+}
+
+.container-icone-menu-ipsos {
+  padding: 48px 29px 16px 16px;
+  position: fixed;
+  bottom: 70px;
+  width: 43px;
+  height: 16px;
+  color: #4056b7;
+  .icone-menu-ipsos {
+    cursor: pointer;
+    width: 43px;
+    height: 16px;
+  }
+}
+
+.titulo-menu {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 110%;
+  text-align: center;
+  color: #4056b7;
+  @media screen and (max-width: 1020px) {
+    font-size: 12px;
+  }
+}
+
+.titulo-menu-inativo {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 110%;
+  color: #6e778b;
+  text-align: center;
+  @media screen and (max-width: 1020px) {
+    font-size: 12px;
+  }
+}
+
+.one-ativo {
+  background-image: url(../../../assets/img-sidebar/one-ativo.svg) !important;
+  background-repeat: no-repeat !important;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.one-inativo {
+  background-image: url(../../../assets/img-sidebar/one-Inativo.svg) !important;
+  background-repeat: no-repeat !important;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.awareness-ativo {
+  background-image: url(../../../assets/img-sidebar/awareness-ativo.svg) !important;
+  background-repeat: no-repeat !important;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.awareness-inativo {
+  background-image: url(../../../assets/img-sidebar/awareness-inativo.svg) !important;
+  background-repeat: no-repeat !important;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.consideration-ativo {
+  background-image: url(../../../assets/img-sidebar/awareness-ativo.svg) !important;
+  background-repeat: no-repeat !important;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.consideration-inativo {
+  background-image: url(../../../assets/img-sidebar/awareness-inativo.svg) !important;
+  background-repeat: no-repeat !important;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.funill-ativo {
+  background-image: url(../../../assets/img-sidebar/funill-ativo.svg) !important;
+  background-repeat: no-repeat !important;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.funill-inativo {
+  background-image: url(../../../assets/img-sidebar/funill-inativo.svg) !important;
+  background-repeat: no-repeat !important;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.imagem-pura-ativo {
+  background-image: url(../../../assets/img-sidebar/imagem-pura-ativo.svg) !important;
+  background-repeat: no-repeat !important;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.imagem-pura-inativo {
+  background-image: url(../../../assets/img-sidebar/imagem-pura-inativo.svg) !important;
+  background-repeat: no-repeat !important;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.posicao-marca-ativo {
+  background-image: url(../../../assets/img-sidebar/posicao-marca-ativo.svg) !important;
+  background-repeat: no-repeat !important;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.posicao-marca-inativo {
+  background-image: url(../../../assets/img-sidebar/posicao-marca-inativo.svg) !important;
+  background-repeat: no-repeat !important;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.brand-creator-ativo {
+  background-image: url(../../../assets/img-sidebar/brand-creator-ativo.svg) !important;
+  background-repeat: no-repeat !important;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.brand-creator-inativo {
+  background-image: url(../../../assets/img-sidebar/brand-creator-inativo.svg) !important;
+  background-repeat: no-repeat !important;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.comunicacao-ativo {
+  background-image: url(../../../assets/img-sidebar/comunicacao-ativo.svg) !important;
+  background-repeat: no-repeat !important;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.comunicacao-inativo {
+  background-image: url(../../../assets/img-sidebar/comunicacao-inativo.svg) !important;
+  background-repeat: no-repeat !important;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+// MENU HOME
+.home-awareness-inativo {
+  background-image: url(../../../assets/img-sidebar/home-awareness-inativo.svg) !important;
+  background-repeat: no-repeat !important;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.home-funill-inativo {
+  background-image: url(../../../assets/img-sidebar/home-funill-inativo.svg) !important;
+  background-repeat: no-repeat !important;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.home-imagem-pura-inativo {
+  background-image: url(../../../assets/img-sidebar/home-imagem-pura-inativo.svg) !important;
+  background-repeat: no-repeat !important;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.home-posicao-marca-inativo {
+  background-image: url(../../../assets/img-sidebar/home-posicao-marca-inativo.svg) !important;
+  background-repeat: no-repeat !important;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.home-brand-creator-inativo {
+  background-image: url(../../../assets/img-sidebar/home-brand-creator-inativo.svg) !important;
+  background-repeat: no-repeat !important;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.home-comunicacao-inativo {
+  background-image: url(../../../assets/img-sidebar/home-comunicacao-inativo.svg) !important;
+  background-repeat: no-repeat !important;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+
+.comunicacao-sair {
+  background-image: url(../../../assets/img-sidebar/btn-sair.svg) !important;
+  background-repeat: no-repeat !important;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.comunicacao-sair-portal {
+  background-image: url(../../../assets/img-sidebar/icone-sair.png) !important;
+  background-repeat: no-repeat !important;
+  width: 32px;
+  height: 32px;
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.base-sidebar-home {
+  display: flex;
+  justify-content: center;
+}
+
+.container-sidebar-home {
+  position: absolute;
+  padding-top: 345px;
+  display: flex;
+  justify-content: center;
+  @media screen and (max-width: 1020px) {
+    width: 88px;
+    display: grid;
+    padding-top: 145px;
+    padding-bottom: 69px;
+  }
+}
+
+.container-menu-lateral-mobile {
+  z-index: 99999;
+  position: fixed;
+  background: #ffff;
+  top: 0;
+  width: 339px;
+  height: 100vh;
+  -webkit-box-shadow: 3px 30px 17px 3px rgba(86, 89, 166, 0.16);
+  -moz-box-shadow: 3px 0px 17px 3px rgba(86, 89, 166, 0.16);
+  // box-shadow: 3px 0px 17px 3px rgba(86, 89, 166, 0.16);
+  transition: ease-in-out 300ms;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  left: -500px;
+
+  &.active {
+    left: 0px;
+  }
+}
+
+.container-logo-page-mobile {
+  padding: 29px 27px 16px 27px;
+  background: #fafafa;
+  border-radius: 0px 10px 0px 0px;
+  border-bottom: 1px solid #dedede;
+  display: flex;
+  justify-content: space-between;
+}
+
+.fechar-menu-icone {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}

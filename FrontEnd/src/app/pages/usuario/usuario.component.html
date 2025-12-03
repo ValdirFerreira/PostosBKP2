@@ -1,0 +1,189 @@
+<app-sidebar></app-sidebar>
+<app-navbar></app-navbar>
+
+<div class="basepage-user">
+
+  <!-- ====================== LISTAGEM DE USUÁRIOS ====================== -->
+  <section *ngIf="tipoTela == 1" class="container-base-user-list">
+    <header class="user-header">
+      <div class="header-content">
+        <!-- Pesquisa -->
+        <div class="search-box">
+          <!-- <label for="search" class="sr-only">Pesquisar</label> -->
+          <input
+            type="text"
+            id="search"
+            name="search"
+            [(ngModel)]="searchText"
+            (ngModelChange)="filtrarUsuarios()"
+            autocomplete="off"
+            placeholder="🔍 Pesquisar usuário..."
+            class="form-control text-search" />
+
+        </div>
+
+        <!-- Botão Novo Usuário -->
+        <button (click)="novoUsuario()" class="btn btn-primary btn-add">
+          <img src="assets/icones/adicionar-tag.png" alt="Adicionar usuário" />
+          Novo Usuário
+        </button>
+      </div>
+    </header>
+
+    <!-- Tabela de usuários -->
+    <div class="table-card">
+      <table class="table table-hover table-striped align-middle">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th class="text-center">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let user of filteredUsers | paginate: { itemsPerPage: 5, currentPage: p }">
+            <td>{{ user.Name }}</td>
+            <td>{{ user.Email }}</td>
+            <td>
+              <span class="badge"
+                [ngClass]="user.FlagAtivo ? 'bg-success' : 'bg-danger'">
+                {{ user.FlagAtivo ? 'Ativo' : 'Inativo' }}
+              </span>
+            </td>
+            <td class="text-center">
+              <button (click)="openEdit(user)" class="btn btn-outline-primary">
+                <img src="assets/icones/Edit-button.png" alt="Editar" />
+                Editar
+              </button>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Paginação -->
+    <footer class="pagination-footer">
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </footer>
+  </section>
+
+  <!-- ====================== EDIÇÃO DE USUÁRIOS ====================== -->
+  <section *ngIf="tipoTela == 2 || tipoTela == 3" class="container-base-user">
+    <div class="card-form">
+      <h2 class="form-title">Cadastro de Usuário</h2>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="valorEmailUser">Email</label>
+          <input maxlength="100" type="email" id="valorEmailUser"
+            [(ngModel)]="valorEmailUser" autocomplete="off"
+            placeholder="Digite o email" class="form-control text-search" />
+          <small *ngIf="validEmail" class="text-danger">Campo
+            Obrigatório!</small>
+        </div>
+
+        <div class="form-group">
+          <label for="valorNomeUser">Nome</label>
+          <input maxlength="30" type="text" id="valorNomeUser"
+            [(ngModel)]="valorNomeUser" autocomplete="off"
+            placeholder="Digite o nome" class="form-control text-search" />
+          <small *ngIf="validNome" class="text-danger">Campo
+            Obrigatório!</small>
+        </div>
+
+        <div class="form-group">
+          <label for="tipoAtivoModel">Ativo</label>
+          <ng-select id="tipoAtivoModel"
+            [items]="listatipoAtivoModelModel"
+            bindLabel="DescUserPerfil"
+            [clearable]="false"
+            [(ngModel)]="tipoAtivoModel">
+          </ng-select>
+        </div>
+
+        <div class="form-group">
+          <label for="tipoUserModel">Tipo de Usuário</label>
+          <ng-select id="tipoUserModel"
+            [items]="listatipoUserModel"
+            bindLabel="DescUserPerfil"
+            [clearable]="false"
+            [(ngModel)]="tipoUserModel">
+          </ng-select>
+        </div>
+
+        <!-- <div class="form-group full-width">
+          <label for="dataSelectBancoModel">Portais</label>
+          <ng-select id="dataSelectBancoModel"
+            [items]="dataBancoModel"
+            bindLabel="NomeBanco"
+            [clearable]="true"
+            [(ngModel)]="dataSelectBancoModel"
+            [multiple]="true"
+            [closeOnSelect]="false">
+          </ng-select>
+          <small *ngIf="validPortais" class="text-danger">Campo Obrigatório!</small>
+        </div> -->
+      </div>
+
+      <div class="form-actions">
+        <button (click)="cancelar()"
+          class="btn btn-outline-secondary">Cancelar</button>
+        <button (click)="salvar()" class="btn btn-primary">Salvar</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== EXCLUSÃO DE USUÁRIOS ====================== -->
+  <section *ngIf="tipoTela == 4" class="container-base-user">
+    <div class="card-form">
+      <div class="alert alert-warning text-center">
+        Tem certeza que deseja excluir este usuário?
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" [(ngModel)]="valorEmailUser" disabled
+            class="form-control" />
+        </div>
+        <div class="form-group">
+          <label>Nome</label>
+          <input type="text" [(ngModel)]="valorNomeUser" disabled
+            class="form-control" />
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <ng-select [items]="listatipoAtivoModelModel"
+            bindLabel="Descricao"
+            [(ngModel)]="tipoAtivoModel"
+            [disabled]="true"></ng-select>
+        </div>
+        <div class="form-group">
+          <label>Tipo de Usuário</label>
+          <ng-select [items]="listatipoUserModel"
+            bindLabel="Descricao"
+            [(ngModel)]="tipoUserModel"
+            [disabled]="true"></ng-select>
+        </div>
+      </div>
+
+      <div class="container-acesso">
+        <h6>Acessos:</h6>
+        <mat-checkbox [(ngModel)]="acessoVolumetria">Dashboard
+          Volumetria</mat-checkbox>
+        <mat-checkbox [(ngModel)]="acessoBMR">Dashboard BMR</mat-checkbox>
+      </div>
+
+      <div class="form-actions">
+        <button (click)="cancelar()"
+          class="btn btn-outline-secondary">Cancelar</button>
+        <button (click)="UserForDelete()"
+          class="btn btn-danger">Excluir</button>
+      </div>
+    </div>
+  </section>
+
+</div>
