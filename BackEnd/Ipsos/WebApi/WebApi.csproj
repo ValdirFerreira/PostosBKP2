@@ -197,6 +197,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\PainelPostosController.cs" />
     <Compile Include="Controllers\DashBoardTwoController.cs" />
     <Compile Include="Controllers\FiltrosController.cs" />
     <Compile Include="Controllers\TradutorController.cs" />
@@ -206,6 +207,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ArquivoResult.cs" />
+    <Compile Include="Models\ProprietarioConsultarRequest.cs" />
     <Compile Include="Models\Response.cs" />
     <Compile Include="Models\UsuarioDAL.cs" />
     <Compile Include="OAuthProvider.cs" />

@@ -47,12 +47,12 @@
         <span class="search-icon"><div class="searchIps"></div></span>
         <input type="text" placeholder="Pesquise aqui..." [(ngModel)]="pesquisa"
           (input)="onPesquisar()" />
-        <span class="shortcut">⌘ F</span>
+        <span class="shortcut"></span>
       </div>
     </div>
 
-    <div class="actions">
-      <button class="btn-select">Todos <span class="arrow">▾</span></button>
+    <div style="display: flex; justify-content: center; align-items: center;">
+      <!-- <button class="btn-select">Todos <span class="arrow">▾</span></button> -->
       <button (click)="changeCadastro(true)" class="btn-new">Novo Proprietário
         <span
           class="plus">+</span></button>
@@ -75,17 +75,18 @@
         <tr *ngFor="let p of pagedList">
           <td class="col-actions">
             <button class="icon-btn"><div class="btn-shop"></div></button>
-            <button class="icon-btn"><div class="btn-edit"></div></button>
+            <button class="icon-btn"><div class="btn-edit"
+                (click)="ProprietarioConsultarPeloID(p.Cod)"></div></button>
             <button class="icon-btn"><div class="btn-block"></div></button>
           </td>
 
-          <td class="col-name">{{ p.nome }}</td>
+          <td class="col-name">{{ p.Nome }}</td>
 
           <td>
-            <span class="tag">{{ p.posicao }}</span>
+            <span class="tag">{{ p.Funcao }}</span>
           </td>
 
-          <td class="col-email">{{ p.email }}</td>
+          <td class="col-email">{{ p.Email }}</td>
         </tr>
 
         <tr *ngIf="pagedList.length === 0">
@@ -123,6 +124,10 @@
       <p class="subtitle">Preencha os campos necessários para o cadastro do
         posto de gasolina</p>
     </div>
+
+    <div class="actions">
+
+    </div>
   </div>
 
   <div class="page-wrapper">
@@ -130,58 +135,227 @@
     <aside class="sidebar">
       <h2 class="sidebar-title">Configurações</h2>
       <nav class="menu">
-        <div class="menu-item active">Dados do Proprietário</div>
-        <div class="menu-item">Contato</div>
-        <div class="menu-item">Upload Contrato</div>
+        <div class="menu-item"
+          [class.active]="active === 'proprietario'"
+          (click)="active = 'proprietario'">
+          Dados do Proprietário
+        </div>
+        <div class="menu-item"
+          [class.active]="active === 'contato'"
+          (click)="active = 'contato'">
+          Contato
+        </div>
+        <div class="menu-item"
+          [class.active]="active === 'upload'"
+          (click)="active = 'upload'">
+          Upload Contrato
+        </div>
       </nav>
+
     </aside>
 
     <!-- CONTEÚDO -->
-    <main class="content">
-      <h1 class="title">Dados do Proprietário</h1>
 
-      <p class="description">
-        Esta seção reúne os dados essenciais para início do preenchimento.
-        Mantenha as informações claras e atualizadas para garantir a
-        continuidade
-        do processo.
-      </p>
+    <div class="content">
 
-      <!-- FORMULÁRIO -->
-      <form class="form">
+      <div *ngIf="active === 'proprietario'">
+        <h1 class="title">Dados do Proprietário</h1>
 
-        <!-- Nome -->
-        <div class="form-group">
-          <label>Nome do proprietário <span class="required">*</span></label>
-          <input type="text" placeholder="Qual é o nome completo?"
-            [(ngModel)]="model.nome" name="nome">
+        <p class="description">
+          Esta seção reúne os dados essenciais para início do preenchimento.
+          Mantenha as informações claras e atualizadas para garantir a
+          continuidade
+          do processo.
+        </p>
+
+        <!-- FORMULÁRIO -->
+        <form class="form">
+
+          <!-- Nome -->
+          <div class="form-group">
+            <label>Nome do proprietário <span class="required">*</span></label>
+            <input type="text" placeholder="Qual é o nome completo?"
+              [(ngModel)]="model.Nome" name="nome">
+          </div>
+
+          <!-- CPF -->
+          <div class="form-group">
+            <label>CPF</label>
+            <input
+              type="text"
+              placeholder="000.000.000-00"
+              [(ngModel)]="model.Documento"
+              name="cpf"
+              maxlength="14"
+              (input)="onCPFInput($event)"
+              (keydown)="bloquearNaoNumeros($event)">
+          </div>
+
+          <!-- Status -->
+          <div class="form-group">
+            <label>Status</label>
+
+            <select [(ngModel)]="model.Status" name="status">
+              <option value="1">Ativo</option>
+              <option value="2">Inativo</option>
+            </select>
+          </div>
+        </form>
+
+        <!-- AÇÕES -->
+        <div class="actions">
+          <button class="btn-cancel" (click)="cancelar()">Cancelar
+            cadastro</button>
+          <button disabled class="btn-submit" (click)="salvar()">Criar
+            Cadastro</button>
         </div>
-
-        <!-- CPF -->
-        <div class="form-group">
-          <label>CPF</label>
-          <input type="text" placeholder="000.000.000-00"
-            [(ngModel)]="model.cpf" name="cpf">
-        </div>
-
-        <!-- Status -->
-        <div class="form-group">
-          <label>Status</label>
-
-          <select [(ngModel)]="model.status" name="status">
-            <option value="Ativo">Ativo</option>
-            <option value="Inativo">Inativo</option>
-          </select>
-        </div>
-      </form>
-
-      <!-- AÇÕES -->
-      <div class="actions">
-        <button class="btn-cancel" (click)="cancelar()">Cancelar
-          cadastro</button>
-        <button class="btn-submit" (click)="salvar()">Criar Cadastro</button>
       </div>
-    </main>
+
+      <div *ngIf="active === 'contato'">
+
+        <!-- TÍTULO -->
+        <h1 class="title">Contato do Profissional</h1>
+
+        <p class="description">
+          Esta seção reúne os dados essenciais para início do preenchimento.
+          Mantenha as informações claras e atualizadas para garantir a
+          continuidade do processo.
+        </p>
+
+        <!-- FORMULÁRIO -->
+        <form class="form">
+
+          <!-- CELULAR -->
+          <div class="form-group">
+            <label>Celular (WhatsApp) <span class="required">*</span></label>
+            <input
+              type="text"
+              placeholder="(00) 00000-0000"
+              (input)="onTelefoneInput($event)"
+              maxlength="15"
+              [(ngModel)]="model.Telefone"
+              name="celular">
+          </div>
+
+          <!-- EMAIL -->
+          <div class="form-group">
+            <label>Email <span class="required">*</span></label>
+            <input
+              type="email"
+              placeholder="email@example.com"
+              [(ngModel)]="model.Email"
+              name="email">
+          </div>
+
+        </form>
+
+        <!-- AÇÕES -->
+        <div class="actions">
+          <button class="btn-cancel" (click)="cancelar()">Cancelar
+            cadastro</button>
+          <button disabled class="btn-submit" (click)="salvar()">Criar
+            Cadastro</button>
+        </div>
+
+      </div>
+
+      <div *ngIf="active === 'upload'">
+        <h1 class="title">Upload do Contato</h1>
+        <p class="description">
+          Esta seção reúne os dados essenciais para início do preenchimento.
+          Mantenha as informações claras e atualizadas para garantir a
+          continuidade do processo.
+        </p>
+
+        <form class="form">
+          <div class="card">
+
+            <div class="card-header">
+              <h2>Importar Contrato</h2>
+              <span>Arquivos permitidos: PDF</span>
+            </div>
+
+            <!-- <div class="upload-box">
+              <div class="upload-inner">
+
+                <div class="upload-icon">
+                  <div class="icon-circle">+</div>
+                </div>
+
+                <p class="upload-text">Arraste ou clique para fazer o upload</p>
+
+                <span class="upload-or">OU</span>
+
+                <button class="upload-btn">Clique para selecionar</button>
+
+                <input type="file" accept="application/pdf" class="file-input">
+              </div>
+            </div> -->
+
+            <div>
+              <ngx-file-drop [multiple]="false"
+                dropZoneLabel="Drop files here"
+                (onFileDrop)="dropped($event)"
+                (onFileOver)="fileOver($event)"
+                (onFileLeave)="fileLeave($event)">
+
+                <ng-template ngx-file-drop-content-tmp
+                  let-openFileSelector="openFileSelector">
+
+                  <!-- ÁREA INICIAL (SEM ARQUIVOS) -->
+                  <div class="upload-area-custom" (click)="openFileSelector()"
+                    *ngIf="files.length == 0">
+
+                    <img
+                      class="upload-icon-custom">
+
+                    <p class="upload-main-text">Arraste ou clique para fazer o
+                      upload</p>
+
+                    <div class="upload-divider">OU</div>
+                    <br>
+                    <button class="upload-select-btn">
+                      Clique para
+                      selecionar</button>
+
+                  </div>
+
+                  <!-- LISTA DE ARQUIVOS -->
+                  <div class="upload-table" *ngIf="files.length > 0">
+                    <div class="div-arq-2"
+                      *ngFor="let item of files; let i = index">
+                      <div class="div-arq">
+                        <div>
+                          <img class="pdf-ico" alt>
+                        </div>
+                        <div class="div-name-arquivo">
+                          <div class="titulo-name-arq">{{ item.name }}</div>
+                        </div>
+                        <!-- <div class="div-close-arq" (click)="closeArq(i)">
+                          <img src="../../../assets/icones/fechar-circulo.png"
+                            style="width: 14px; height: 14px; cursor: pointer;">
+                          
+                        </div> -->
+                        <div class="closeIco" (click)="closeArq(i)">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </ng-template>
+              </ngx-file-drop>
+            </div>
+
+          </div>
+        </form>
+        <div class="actions">
+          <button class="btn-cancel" (click)="cancelar()">Cancelar
+            cadastro</button>
+          <button class="btn-submit" (click)="salvar()">Criar Cadastro</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 
 </div>

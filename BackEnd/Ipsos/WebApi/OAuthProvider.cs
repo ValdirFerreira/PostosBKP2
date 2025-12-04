@@ -26,8 +26,8 @@ namespace WebApi
                     {
                         new Claim(ClaimTypes.Name, Usuario.Email),
                         //new Claim("Password", Usuario.Password),
-                        new Claim("UserID", Usuario.CodUser.ToString()),
-                        new Claim(ClaimTypes.Role, "User"),
+                        //new Claim("UserID", Usuario.CodUser.ToString()),
+                        //new Claim(ClaimTypes.Role, "User"),
                     };
                     ClaimsIdentity OAuthIdentity = new ClaimsIdentity(claims, Startup.OAuthOptions.AuthenticationType);
                     context.Validated(new Microsoft.Owin.Security.AuthenticationTicket(OAuthIdentity, new Microsoft.Owin.Security.AuthenticationProperties() { }));
@@ -48,5 +48,8 @@ namespace WebApi
 
             return Task.FromResult<object>(null);
         }
+
+
+     
     }
 }

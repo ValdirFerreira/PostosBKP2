@@ -36,6 +36,7 @@ const RxJS = [LoaderInterceptor, HTTPStatus];
         NgSelectModule,
         NgxFileDropModule,
         AppRoutingModule,
+        
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,

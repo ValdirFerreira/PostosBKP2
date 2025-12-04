@@ -117,17 +117,19 @@ export class LoginComponent implements OnInit {
     this.loadingLogin = true;
     this.usuarioInvalido = false;
     this.loginService.login(this.form.login.value, this.form.senha.value, this.authService.IP).subscribe(usuarioModel => {
-
+debugger
       if (usuarioModel && usuarioModel.CodUser > 0) {
+        debugger
         var user = new LoginAcesso();
         user.EmailUser = this.form.login.value;
         user.Senha = this.form.senha.value;
         this.loginService.token(user).subscribe((dataToken: Token) => {
+          debugger
           this.authService.setToken(dataToken.access_token);
           this.session.createSession(usuarioModel);
           this.authService.UsuarioAutenticado(true);
           this.filtroGlobalService.iniciarSessaoUser();
-
+debugger
           this.router.navigate(['/home']);
           this.loadingLogin = false;
         },

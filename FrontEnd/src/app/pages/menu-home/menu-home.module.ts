@@ -19,6 +19,7 @@ import { MenuHomeRoutingModule } from './menu-home-routing.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { SidebarPortaisModule } from 'src/app/components/sidebar-portais/sidebar-portais.module';
 import { FormsModule } from '@angular/forms';
+import { NgxFileDropModule } from 'ngx-file-drop';
 
 
 
@@ -41,6 +42,8 @@ import { FormsModule } from '@angular/forms';
     FooterBottomModule,
     TranslateModule,
       FormsModule ,
+        NgxFileDropModule,
+      
   ]
 })
 export class MenuHomeModule { }

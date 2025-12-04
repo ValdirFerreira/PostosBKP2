@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComunicacaoQuadroResumo\ComunicacaoQuadroResumo.cs" />
+    <Compile Include="DTOs\ProprietarioCadastrarRequest.cs" />
+    <Compile Include="DTOs\ProprietarioDTO.cs" />
     <Compile Include="Filtros\PadraoComboFiltro.cs" />
     <Compile Include="Filtros\ParamGeralFiltro.cs" />
     <Compile Include="GraficoLinhasImagem\GraficoLinhasImagemProcedure.cs" />
