@@ -18,7 +18,7 @@
 </header>
 
 <!-- CONTAINER -->
-<div class="page-container">
+<div class="page-container" *ngIf="!activeCadastro">
 
   <!-- TÍTULO + AÇÕES -->
   <div class="header-title">
@@ -53,7 +53,8 @@
 
     <div class="actions">
       <button class="btn-select">Todos <span class="arrow">▾</span></button>
-      <button class="btn-new">Novo Proprietário <span
+      <button (click)="changeCadastro(true)" class="btn-new">Novo Proprietário
+        <span
           class="plus">+</span></button>
     </div>
   </div>
@@ -108,6 +109,79 @@
 
     <button class="nav-btn" (click)="nextPage()"
       [disabled]="currentPage === totalPages">Avançar ›</button>
+  </div>
+
+</div>
+
+<!-- CADASTRO -->
+
+<div class="page-container" *ngIf="activeCadastro">
+
+  <div class="header-title">
+    <div>
+      <h1>Cadastro do Posto de Gasolina</h1>
+      <p class="subtitle">Preencha os campos necessários para o cadastro do
+        posto de gasolina</p>
+    </div>
+  </div>
+
+  <div class="page-wrapper">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <h2 class="sidebar-title">Configurações</h2>
+      <nav class="menu">
+        <div class="menu-item active">Dados do Proprietário</div>
+        <div class="menu-item">Contato</div>
+        <div class="menu-item">Upload Contrato</div>
+      </nav>
+    </aside>
+
+    <!-- CONTEÚDO -->
+    <main class="content">
+      <h1 class="title">Dados do Proprietário</h1>
+
+      <p class="description">
+        Esta seção reúne os dados essenciais para início do preenchimento.
+        Mantenha as informações claras e atualizadas para garantir a
+        continuidade
+        do processo.
+      </p>
+
+      <!-- FORMULÁRIO -->
+      <form class="form">
+
+        <!-- Nome -->
+        <div class="form-group">
+          <label>Nome do proprietário <span class="required">*</span></label>
+          <input type="text" placeholder="Qual é o nome completo?"
+            [(ngModel)]="model.nome" name="nome">
+        </div>
+
+        <!-- CPF -->
+        <div class="form-group">
+          <label>CPF</label>
+          <input type="text" placeholder="000.000.000-00"
+            [(ngModel)]="model.cpf" name="cpf">
+        </div>
+
+        <!-- Status -->
+        <div class="form-group">
+          <label>Status</label>
+
+          <select [(ngModel)]="model.status" name="status">
+            <option value="Ativo">Ativo</option>
+            <option value="Inativo">Inativo</option>
+          </select>
+        </div>
+      </form>
+
+      <!-- AÇÕES -->
+      <div class="actions">
+        <button class="btn-cancel" (click)="cancelar()">Cancelar
+          cadastro</button>
+        <button class="btn-submit" (click)="salvar()">Criar Cadastro</button>
+      </div>
+    </main>
   </div>
 
 </div>

@@ -32,6 +32,8 @@ export class MenuHomeComponent implements OnInit {
     public filtroService: FiltroGlobalService, private downloadArquivoService: DownloadArquivoService
   ) { }
 
+
+ 
  
  // estado da tela
   abaAtiva: 'ativo' | 'inativo' = 'ativo';
@@ -159,6 +161,48 @@ export class MenuHomeComponent implements OnInit {
     // abrir detalhes
   }
 
+
+
+///////////////////////////////////////////////////////////////////////////////////
+// Cadastro 
+///////////////////////////////////////////////////////////////////////////////////
+
+ activeCadastro:boolean= false;
+
+ changeCadastro(value:boolean)
+ {
+  this.activeCadastro = value
+ }
+
+
+
+ form = {
+    nomeFantasia: '',
+    razaoSocial: '',
+    cnpj: '',
+    status: 'Ativo'
+  };
+
+
+
+  goBack() {
+    this.activeCadastro = false;
+  }
+
+ 
+ model = {
+    nome: '',
+    cpf: '',
+    status: 'Ativo'
+  };
+
+  cancelar() {
+    console.log('Cadastro cancelado');
+  }
+
+  salvar() {
+    console.log('Dados enviados:', this.model);
+  }
 
 
 }
