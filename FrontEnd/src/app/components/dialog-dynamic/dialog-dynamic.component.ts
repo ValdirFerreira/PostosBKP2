@@ -54,15 +54,15 @@ export class DialogDynamicComponent implements OnInit {
   }
 
   aprovar() {
-    if (this.typeDialog === 3 && !this.isNullOrEmpty(this.textObservacao)) {
-      this.confirmation = true;
-    } else if (this.typeDialog === 1) {
-      this.confirmation = true;
-       this.dialogRef.close("1");
-       return;
-    } else {
-      this.confirmation = true;
-    }
+    // if (this.typeDialog === 3 && !this.isNullOrEmpty(this.textObservacao)) {
+    //   this.confirmation = true;
+    // } else if (this.typeDialog === 1) {
+    //   this.confirmation = true;
+    //    this.dialogRef.close("1");
+    //    return;
+    // } else {
+    //   this.confirmation = true;
+    // }
     this.closeDialog();
   }
 

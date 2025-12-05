@@ -220,6 +220,7 @@ export class MenuHomeComponent implements OnInit {
 
   cancelar() {
     console.log('Cadastro cancelado');
+    this.OpenModalCancelar("Deseja sair?")
   }
 
   salvar() {
@@ -480,39 +481,12 @@ export class MenuHomeComponent implements OnInit {
 
 
 
-   OpenModalConfirmacaoAprovacaoNota(mensagem: string) {
+
+
+    OpenModalCancelar(msn: string = "") {
     const dialogRef = this.dialog.open(DialogDynamicComponent);
 
-    dialogRef.componentInstance.typeDialog = 4;
-    dialogRef.componentInstance.titlePopup = "";
-    dialogRef.componentInstance.textOrAudio = mensagem;
-
-    dialogRef.afterClosed().subscribe(result => {
-      // //console.log(`Dialog result: ${result}`);
-
-    });
-  }
-
-
-  OpenModalErro(mensagensErro: string[]) {
-
-    let dialogRef = this.dialog.open(DialogDynamicComponent);
-    dialogRef.componentInstance.typeDialog = 5;
-    dialogRef.componentInstance.titlePopup = "Aviso";
-    dialogRef.componentInstance.mensagensErro = mensagensErro;
-
-    dialogRef.afterClosed().subscribe(result => {
-
-      //console.log(`Dialog result: ${result}`);
-
-    });
-  }
-
-
-  OpenModalConfirmacao(msn: string = "") {
-    const dialogRef = this.dialog.open(DialogDynamicComponent);
-
-    dialogRef.componentInstance.typeDialog = 4;
+    dialogRef.componentInstance.typeDialog = 10;
     dialogRef.componentInstance.titlePopup = "";
     dialogRef.componentInstance.textOrAudio = msn;
 
