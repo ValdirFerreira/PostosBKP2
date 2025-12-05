@@ -12,6 +12,8 @@ import { PainelPostosService } from 'src/app/services/painel-postos.service';
 import { Proprietario } from 'src/app/models/PainelPostos/Proprietario';
 import { ProprietarioCadastrarRequest } from 'src/app/models/PainelPostos/ProprietarioCadastrarRequest';
 import { NgxFileDropEntry } from 'ngx-file-drop';
+import { DialogDynamicComponent } from 'src/app/components/dialog-dynamic/dialog-dynamic.component';
+import { MatDialog } from '@angular/material/dialog';
 
 // interface ProprietarioTela {
 //   id: number;
@@ -34,7 +36,8 @@ export class MenuHomeComponent implements OnInit {
     public menuService: MenuService,
     private translate: TranslateService,
     public filtroService: FiltroGlobalService, private downloadArquivoService: DownloadArquivoService,
-    public service: PainelPostosService
+    public service: PainelPostosService,
+     public dialog: MatDialog,
   ) { }
 
 
@@ -474,6 +477,50 @@ export class MenuHomeComponent implements OnInit {
 
 
 
+
+
+
+   OpenModalConfirmacaoAprovacaoNota(mensagem: string) {
+    const dialogRef = this.dialog.open(DialogDynamicComponent);
+
+    dialogRef.componentInstance.typeDialog = 4;
+    dialogRef.componentInstance.titlePopup = "";
+    dialogRef.componentInstance.textOrAudio = mensagem;
+
+    dialogRef.afterClosed().subscribe(result => {
+      // //console.log(`Dialog result: ${result}`);
+
+    });
+  }
+
+
+  OpenModalErro(mensagensErro: string[]) {
+
+    let dialogRef = this.dialog.open(DialogDynamicComponent);
+    dialogRef.componentInstance.typeDialog = 5;
+    dialogRef.componentInstance.titlePopup = "Aviso";
+    dialogRef.componentInstance.mensagensErro = mensagensErro;
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      //console.log(`Dialog result: ${result}`);
+
+    });
+  }
+
+
+  OpenModalConfirmacao(msn: string = "") {
+    const dialogRef = this.dialog.open(DialogDynamicComponent);
+
+    dialogRef.componentInstance.typeDialog = 4;
+    dialogRef.componentInstance.titlePopup = "";
+    dialogRef.componentInstance.textOrAudio = msn;
+
+    dialogRef.afterClosed().subscribe(result => {
+      //console.log(`Dialog result: ${result}`);
+
+    });
+  }
 
 
 

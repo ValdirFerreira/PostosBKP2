@@ -1,0 +1,255 @@
+.header-dialog {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 34px;
+    padding-top: 18px;
+
+    .icone-close-dialog {
+        height: 32px;
+        width: 32px;
+        cursor: pointer;
+        background-image: url(../../../../public/icons/icon-close-popup.svg);
+        background-repeat: no-repeat;
+    }
+
+    .icone-warning-dialog {
+        height: 56px;
+        width: 68px;
+
+        background-image: url(../../../../public/icons/icon-warning.svg);
+        background-repeat: no-repeat;
+    }
+
+    .title-popup {
+        font-family: Poppins;
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 24px;
+        text-align: left;
+        text-underline-position: from-font;
+        text-decoration-skip-ink: none;
+        margin-right: auto;
+    }
+}
+
+.icon-confirm {
+    background-repeat: no-repeat;
+    background-size: cover; /* A imagem de fundo será dimensionada para preencher o container */
+    background-position: center; /* Centralizar a imagem de fundo */
+    width: 128px;
+    height: 128px;
+    margin: auto;
+    background-image: url(../../../../public/icons/animation_ok.svg);
+    margin-bottom: 30px;
+}
+
+.container-principal {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    // width: 40vw;
+    overflow: hidden;
+    padding: 20px;
+
+    @media screen and (max-width: 1030px) {
+        // width: 40vw;
+    }
+
+    .base-popup-info {
+    }
+
+    .title {
+        //styleName: Headline/Semi-bold H4;
+        font-family: Poppins;
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 32px;
+        text-align: center;
+        text-underline-position: from-font;
+        text-decoration-skip-ink: none;
+    }
+
+    .sub-title {
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 21px;
+        text-align: left;
+    }
+
+    .title-central {
+        font-family: Poppins;
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 24px;
+        text-align: left;
+        text-underline-position: from-font;
+        text-decoration-skip-ink: none;
+        margin-right: auto;
+        color: #374659;
+    }
+}
+
+audio::-webkit-media-controls-enclosure {
+    background-color: transparent !important;
+}
+
+::ng-deep .cdk-overlay-pane {
+    width: auto;
+}
+
+::ng-deep .mat-dialog-container {
+    border-radius: 24px;
+}
+
+.btn-return {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: center;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #3b4395;
+}
+
+
+.form-control-text {
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background-color: var(--white-color);
+    color: var(--black-color);
+    padding: 1rem 0.75rem;
+    height: 46px;
+    font-size: 13px !important;
+
+    &::placeholder {
+        color: var(--menu-text-color-2);
+    }
+    &:focus {
+        border-color: inherit;
+        box-shadow: none;
+    }
+}
+
+.popup-dialog-content {
+    z-index: 1089 !important;
+}
+
+.cdk-overlay-backdrop {
+    z-index: 1088 !important;
+}
+
+/* ESTILO PERSONALIZADO PARA MODAL DE EDIÇÃO DE VALOR */
+.popup-dialog-content.edicao-modal-valor {
+  max-width: 600px;
+  padding: 24px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+
+  .container-principal {
+    padding: 16px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    label {
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    input.form-control {
+      padding: 10px;
+      font-size: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      transition: border 0.2s ease;
+      &:focus {
+        border-color: #3b4395;
+        outline: none;
+      }
+    }
+  }
+
+  .row.mt-4 {
+    margin-top: 24px !important;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+
+    .btn {
+      padding: 10px 24px;
+      border-radius: 6px;
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    .btn-primary {
+      background-color: #3b4395;
+      color: #fff;
+      border: none;
+      &:hover {
+        background-color: #2e357a;
+      }
+    }
+
+    .btn-secondary {
+      background-color: #f2f2f2;
+      color: #333;
+      border: none;
+      &:hover {
+        background-color: #e0e0e0;
+      }
+    }
+  }
+}
+
+// Estilo específico para a edição de valores
+.edicao-modal-valor {
+  max-width: 600px;
+  width: 100%;
+
+  .container-principal {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+
+      label {
+        font-weight: 500;
+        font-size: 14px;
+        margin-bottom: 8px;
+      }
+
+      input.form-control {
+        height: 44px;
+        font-size: 16px;
+        padding: 8px 12px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        transition: border-color 0.2s;
+      }
+
+      input.form-control:focus {
+        outline: none;
+        border-color: #3b4395;
+      }
+    }
+
+    .btn {
+      width: 120px;
+    }
+  }
+}
+
+// Estiliza a largura do próprio dialog
+::ng-deep .cdk-overlay-pane {
+  // max-width: 650px !important;
+  // width: 90vw !important;
+}
