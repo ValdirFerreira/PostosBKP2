@@ -7,9 +7,13 @@ export class ProprietarioCadastrarRequest {
     Email: string;
 }
 
-export class ProprietarioCadastrarResponse {
-    CodProprietario: number;
-}
 
+
+
+export class ResponseCad
+{
+    Cod:number;
+    Info:string;
+}
 
 

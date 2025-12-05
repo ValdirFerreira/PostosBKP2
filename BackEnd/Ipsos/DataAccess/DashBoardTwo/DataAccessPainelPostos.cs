@@ -89,8 +89,11 @@ namespace DataAccess.DashBoardTwo
         }
 
 
-        public int ProprietarioCadastrar(ProprietarioCadastrarRequest req)
+        public ResponseCad ProprietarioCadastrar(ProprietarioCadastrarRequest req)
         {
+
+            var response = new ResponseCad();
+
             int novoId = 0;
 
             try
@@ -139,11 +142,24 @@ namespace DataAccess.DashBoardTwo
                 LogText.Instance.Error(
                     this.GetType().Name,
                     System.Reflection.MethodBase.GetCurrentMethod().Name,
-                    $"[ProprietarioCadastrar] {ex.Message}"
+                    ex.ToString()
                 );
+
+                if (ex is SqlException sqlEx)
+                {
+                    response.Info = SqlErrorTranslator.Translate(sqlEx);
+                }
+                else
+                {
+                    response.Info = "Ocorreu um erro inesperado. Tente novamente.";
+                }
             }
 
-            return novoId;
+
+
+            response.Cod = novoId;
+
+            return response;
         }
 
     }

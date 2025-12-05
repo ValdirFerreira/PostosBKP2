@@ -37,7 +37,7 @@ export class MenuHomeComponent implements OnInit {
     private translate: TranslateService,
     public filtroService: FiltroGlobalService, private downloadArquivoService: DownloadArquivoService,
     public service: PainelPostosService,
-     public dialog: MatDialog,
+    public dialog: MatDialog,
   ) { }
 
 
@@ -140,7 +140,7 @@ export class MenuHomeComponent implements OnInit {
     this.service.consultarProprietarios(1).subscribe({
       next: (res) => {
         this.allData = res;
-        this.active == 'proprietario';
+
       }
     });
 
@@ -198,8 +198,6 @@ export class MenuHomeComponent implements OnInit {
     this.activeCadastro = value
   }
 
-
-
   form = {
     nomeFantasia: '',
     razaoSocial: '',
@@ -207,20 +205,15 @@ export class MenuHomeComponent implements OnInit {
     status: 'Ativo'
   };
 
-
-
   goBack() {
     this.activeCadastro = false;
   }
 
-
   model = new ProprietarioCadastrarRequest();
-
-
 
   cancelar() {
     console.log('Cadastro cancelado');
-    this.OpenModalCancelar("Deseja sair?")
+    this.OpenModalCancelar();
   }
 
   salvar() {
@@ -232,14 +225,74 @@ export class MenuHomeComponent implements OnInit {
   active: string = 'proprietario';
 
 
+  validarCamposObrigatorios() {
+    const mensagensErro: string[] = [];
+    const model = this.model;
+
+    // Nome
+    if (!model.Nome || model.Nome.trim() === "") {
+      mensagensErro.push("O campo Nome é obrigatório.");
+    }
+
+    // Documento
+    if (!model.Documento || model.Documento.trim() === "") {
+      mensagensErro.push("O campo Documento é obrigatório.");
+    }
+
+    // Status (se for número e obrigatório)
+    if (model.Status === null || model.Status === undefined) {
+      mensagensErro.push("O campo Status é obrigatório.");
+    }
+
+    // Telefone
+    if (!model.Telefone || model.Telefone.trim() === "") {
+      mensagensErro.push("O campo Telefone é obrigatório.");
+    }
+
+    // Email
+    if (!model.Email || model.Email.trim() === "") {
+      mensagensErro.push("O campo Email é obrigatório.");
+    }
+
+    // 👉 Se houver erros, abrir popup de erro
+    if (mensagensErro.length > 0) {
+      this.OpenModalErro(mensagensErro);
+      return false;
+    }
+
+    return true; // tudo OK
+  }
 
   salvarProprietario() {
     const model = this.model;
+
+
+
+    if (!this.validarCamposObrigatorios()) {
+      return; // interrompe fluxo
+    }
+
     this.service.cadastrarProprietario(model).subscribe({
       next: (res) => {
-        this.activeCadastro = false;
-        this.resetPagination();
-        console.log("Proprietário cadastrado com sucesso! Novo ID:", res.CodProprietario);
+        debugger
+        if (res.Cod == 0) {
+          const mensagensErro: string[] = [];
+          mensagensErro.push(res.Info)
+          this.OpenModalErro(mensagensErro);
+        }
+        else {
+
+          const dialogRef = this.dialog.open(DialogDynamicComponent);
+
+          dialogRef.componentInstance.typeDialog = 1;
+          dialogRef.afterClosed().subscribe(result => {
+            console.log("RESULTADO RECEBIDO:", result);
+
+            window.location.reload();
+            console.log("Proprietário cadastrado com sucesso! Novo ID:", res.Cod);
+
+          });
+        }
       },
       error: (err) => {
         console.error("Erro ao cadastrar proprietário:", err);
@@ -275,7 +328,6 @@ export class MenuHomeComponent implements OnInit {
     }
     return valor;
   }
-
 
   onTelefoneInput(event: any) {
     let value = event.target.value;
@@ -318,7 +370,6 @@ export class MenuHomeComponent implements OnInit {
     event.target.value = value;
   }
 
-
   validarEmail(email: string): boolean {
     if (!email) return false;
 
@@ -344,14 +395,12 @@ export class MenuHomeComponent implements OnInit {
   }
 
 
+  //////////////////////////////////////////////
+  // files
+  //////////////////////////////////////////////
 
 
-//////////////////////////////////////////////
-// files
-//////////////////////////////////////////////
-
-
- descricaoEvidencia: string;
+  descricaoEvidencia: string;
   public files: File[] = [];
   filevalid: boolean = false;
   erro: boolean = false;
@@ -380,7 +429,6 @@ export class MenuHomeComponent implements OnInit {
         return `${basePath}arq-padrao-icon.png`;
     }
   }
-
 
   closeArq(indexArq: any) {
     //console.log(indexArq, 'arquivo a ser excluido');
@@ -476,22 +524,26 @@ export class MenuHomeComponent implements OnInit {
     // }
   }
 
-
-
-
-
-
-
-
-    OpenModalCancelar(msn: string = "") {
+  OpenModalCancelar() {
     const dialogRef = this.dialog.open(DialogDynamicComponent);
-
-    dialogRef.componentInstance.typeDialog = 10;
-    dialogRef.componentInstance.titlePopup = "";
-    dialogRef.componentInstance.textOrAudio = msn;
-
+    dialogRef.componentInstance.typeDialog = 0;
     dialogRef.afterClosed().subscribe(result => {
-      //console.log(`Dialog result: ${result}`);
+      console.log("RESULTADO RECEBIDO:", result);
+
+      if (result?.cancel) {
+        window.location.reload();
+      }
+    });
+
+  }
+
+  OpenModalErro(mensagensErro: string[]) {
+    const dialogRef = this.dialog.open(DialogDynamicComponent);
+    dialogRef.componentInstance.mensagensErro = mensagensErro;
+
+    dialogRef.componentInstance.typeDialog = 999;
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("RESULTADO RECEBIDO:", result);
 
     });
   }

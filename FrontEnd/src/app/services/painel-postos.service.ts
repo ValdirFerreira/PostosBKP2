@@ -5,7 +5,7 @@ import { FiltroPadrao, FiltroPadraoFullLoad } from '../models/Filtros/FiltroPadr
 
 import { AuthService } from './auth.service';
 import { Proprietario } from '../models/PainelPostos/Proprietario';
-import { ProprietarioCadastrarRequest, ProprietarioCadastrarResponse } from '../models/PainelPostos/ProprietarioCadastrarRequest';
+import { ProprietarioCadastrarRequest,  ResponseCad } from '../models/PainelPostos/ProprietarioCadastrarRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -48,7 +48,7 @@ export class PainelPostosService {
 
 
   cadastrarProprietario(model: ProprietarioCadastrarRequest) {
-    return this.httpClient.post<ProprietarioCadastrarResponse>(
+    return this.httpClient.post<ResponseCad>(
       `${this.baseUrl}/PainelPostos/ProprietarioCadastrar`,
       model
     );

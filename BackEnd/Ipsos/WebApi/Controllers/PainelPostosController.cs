@@ -84,12 +84,9 @@ namespace WebApi.Controllers
             try
             {
                 // chama o método no service/context
-                var novoId = _context.ProprietarioCadastrar(model);
+                var result = _context.ProprietarioCadastrar(model);
 
-                return Request.CreateResponse(HttpStatusCode.OK, new
-                {
-                    CodProprietario = novoId
-                });
+                return Request.CreateResponse(HttpStatusCode.OK, result);
             }
             catch (SqlException ex)
             {

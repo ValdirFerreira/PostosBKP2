@@ -1,4 +1,4 @@
-<div class="popup-wrapper">
+<div class="popup-wrapper" *ngIf="typeDialog == 0">
   <div class="left-area">
     <div class="icon-circle">
       <div class="icon-inner">
@@ -15,8 +15,60 @@
     </p>
 
     <div class="buttons">
-      <button mat-dialog-close class="btn-text">Sim, quero sair</button>
-      <button class="btn-primary" (click)="closeDialog()">Continuar cadastro</button>
+      <button (click)="closeDialog()" class="btn-text">Sim, quero sair</button>
+      <button class="btn-primary-p" mat-dialog-close>Continuar cadastro</button>
+    </div>
+  </div>
+</div>
+
+<div class="popup-wrapper-10" *ngIf="typeDialog == 1">
+  <div class="popup-success-10">
+
+    <div class="icon-area-10">
+      <div class="icon-circle-10">
+        <span class="check-10">✔</span>
+      </div>
+    </div>
+
+    <h2 class="title">Cadastro criado</h2>
+
+    <p class="subtitle">
+      O proprietário já pode ser alocado no cadastro do Posto
+    </p>
+
+    <button class="link-button-10" (click)="closeDialog()">
+      Ir para backlog
+    </button>
+
+  </div>
+</div>
+
+<div class="popup-wrapper" *ngIf="typeDialog == 999">
+  <div class="left-area">
+    <div class="icon-circle">
+      <div class="icon-inner">
+        <span>!</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="right-area">
+
+    <div class="base-popup-info">
+
+      <ng-container *ngFor="let mensagem of mensagensErro">
+        <div class="row">
+          <div class="col-md-12">
+            <label style="color: red;">* {{mensagem}}</label>
+          </div>
+        </div>
+      </ng-container>
+
+    </div>
+
+    <div class="buttons-ok">
+      <!-- <button mat-dialog-close class="btn-text">Ok</button> -->
+      <button class="btn-primary-p" mat-dialog-close>Ok</button>
     </div>
   </div>
 </div>
