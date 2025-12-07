@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComunicacaoQuadroResumo\ComunicacaoQuadroResumo.cs" />
+    <Compile Include="DTOs\FilePostos.cs" />
     <Compile Include="DTOs\ProprietarioCadastrarRequest.cs" />
     <Compile Include="DTOs\ProprietarioDTO.cs" />
     <Compile Include="DTOs\ResponseCad.cs" />

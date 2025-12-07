@@ -233,6 +233,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Arquivos\ExcelExportacao\Workspace\" />
+    <Folder Include="Files\" />
     <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>

@@ -5,7 +5,8 @@ import { FiltroPadrao, FiltroPadraoFullLoad } from '../models/Filtros/FiltroPadr
 
 import { AuthService } from './auth.service';
 import { Proprietario } from '../models/PainelPostos/Proprietario';
-import { ProprietarioCadastrarRequest,  ResponseCad } from '../models/PainelPostos/ProprietarioCadastrarRequest';
+import { ProprietarioCadastrarRequest, ResponseCad } from '../models/PainelPostos/ProprietarioCadastrarRequest';
+import { FilePostos } from '../models/PainelPostos/FilePostos';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +54,21 @@ export class PainelPostosService {
       model
     );
   }
+
+  cadastrarFileProprietario(model: FilePostos) {
+    return this.httpClient.post<boolean>(
+      `${this.baseUrl}/PainelPostos/ProprietarioFileCadastrar`,
+      model
+    );
+  }
+
+  RecuperaArquivo(model: FilePostos) {
+    return this.httpClient.post<FilePostos>(
+      `${this.baseUrl}/PainelPostos/RecuperaArquivo`,
+      model
+    );
+  }
+
 
 
 

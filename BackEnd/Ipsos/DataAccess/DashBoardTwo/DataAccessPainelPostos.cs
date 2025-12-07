@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System;
 using System.Linq;
+using DataAccess.FilesConfig;
 
 namespace DataAccess.DashBoardTwo
 {
@@ -160,6 +161,41 @@ namespace DataAccess.DashBoardTwo
             response.Cod = novoId;
 
             return response;
+        }
+
+
+
+        public bool ProprietarioFileCadastrar(FilePostos req)
+        {
+
+            try
+            {
+                SaveFiles saveFiles = new SaveFiles();
+                saveFiles.SalvaArquivo(req);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+
+        public FilePostos RecuperaArquivo(FilePostos req)
+        {
+
+            try
+            {
+                SaveFiles saveFiles = new SaveFiles();
+               return saveFiles.RecuperaArquivo(req.Cod);
+            }
+            catch (Exception ex)
+            {
+              return null;
+            }
+
+        
         }
 
     }

@@ -13,6 +13,8 @@ import { NgxFileDropEntry } from 'ngx-file-drop';
 import { DialogDynamicComponent } from 'src/app/components/dialog-dynamic/dialog-dynamic.component';
 import { MatDialog } from '@angular/material/dialog';
 import { PostoModel, ServicoCategoria } from 'src/app/models/PainelPostos/PostoModel';
+import { DownloadService } from 'src/app/services/download.service';
+import { FilePostos } from 'src/app/models/PainelPostos/FilePostos';
 
 
 
@@ -31,6 +33,7 @@ export class MenuHomeComponent implements OnInit {
     public filtroService: FiltroGlobalService, private downloadArquivoService: DownloadArquivoService,
     public service: PainelPostosService,
     public dialog: MatDialog,
+    public downloadService: DownloadService,
   ) { }
 
 
@@ -175,7 +178,73 @@ export class MenuHomeComponent implements OnInit {
 
         this.model = mapModel;
 
+        var fileSend = new FilePostos();
+
+        fileSend.Cod = item.Cod;
+        fileSend.FileBase64 = "carregar";
+        fileSend.NomeArquivo = "Contrato";
+
+        this.service.RecuperaArquivo(fileSend).subscribe({
+          next: (res) => {
+            debugger
+
+            var file = this.base64ToFile(res.FileBase64, "Contrato");
+            this.files.push(file);
+
+          },
+          error: (err) => {
+            console.error("Erro file proprietário:", err);
+          }
+        });
+
+
+
         this.activeCadastro = true;
+      }
+    });
+  }
+
+
+  base64ToFile(base64: string, fileName: string, contentType?: string): File {
+    // Remove prefixo "data:xxx;base64,"
+    const arr = base64.split(',');
+    const base64String = arr.length > 1 ? arr[1] : arr[0];
+
+    // Descobre o MIME type se não enviado
+    if (!contentType && arr[0].includes("data:")) {
+      contentType = arr[0].split(':')[1].split(';')[0];
+    }
+
+    const byteCharacters = atob(base64String);
+    const byteNumbers = new Array(byteCharacters.length);
+
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+
+    return new File([byteArray], fileName, { type: contentType || 'application/octet-stream' });
+  }
+
+
+  baixarArquivo(cod: number) {
+
+    var fileSend = new FilePostos();
+
+    fileSend.Cod = cod;
+    fileSend.FileBase64 = "carregar";
+    fileSend.NomeArquivo = "Contrato";
+
+    this.service.RecuperaArquivo(fileSend).subscribe({
+      next: (res) => {
+        debugger
+
+        return this.downloadService.downloadFileFromBase64(res.FileBase64, "Contrato.PDF");
+
+      },
+      error: (err) => {
+        console.error("Erro file proprietário:", err);
       }
     });
   }
@@ -190,7 +259,6 @@ export class MenuHomeComponent implements OnInit {
     this.model.Cod = 0;
     this.activeCadastro = value
   }
-
 
 
   form = {
@@ -262,7 +330,6 @@ export class MenuHomeComponent implements OnInit {
     const model = this.model;
 
 
-
     if (!this.validarCamposObrigatorios()) {
       return; // interrompe fluxo
     }
@@ -270,6 +337,7 @@ export class MenuHomeComponent implements OnInit {
     this.service.cadastrarProprietario(model).subscribe({
       next: (res) => {
         debugger
+
         if (res.Cod == 0) {
           const mensagensErro: string[] = [];
           mensagensErro.push(res.Info)
@@ -277,13 +345,16 @@ export class MenuHomeComponent implements OnInit {
         }
         else {
 
+          debugger
           const dialogRef = this.dialog.open(DialogDynamicComponent);
 
           dialogRef.componentInstance.typeDialog = 1;
           dialogRef.afterClosed().subscribe(result => {
             console.log("RESULTADO RECEBIDO:", result);
 
-            window.location.reload();
+            this.salveFile(res.Cod);
+
+            // window.location.reload();
             console.log("Proprietário cadastrado com sucesso! Novo ID:", res.Cod);
 
           });
@@ -293,6 +364,47 @@ export class MenuHomeComponent implements OnInit {
         console.error("Erro ao cadastrar proprietário:", err);
       }
     });
+  }
+
+  salveFile(Cod: number) {
+    debugger
+    if (this.files.length > 0) {
+
+      let selectedFile = this.files[0];
+
+      var fileSend = new FilePostos();
+
+      this.downloadService.convertFileToBase64(selectedFile).then((base64String) => {
+
+        fileSend.FileBase64 = base64String;
+        fileSend.NomeArquivo = selectedFile.name;
+        fileSend.Cod = Cod;
+
+
+
+        this.service.cadastrarFileProprietario(fileSend).subscribe({
+          next: (res) => {
+            debugger
+            if (!res) {
+              const mensagensErro: string[] = [];
+              mensagensErro.push("Erro no salvamente do arquivo!")
+              this.OpenModalErro(mensagensErro);
+            }
+            else {
+              window.location.reload();
+            }
+
+          },
+          error: (err) => {
+            console.error("Erro ao cadastrar proprietário:", err);
+          }
+        });
+
+      })
+
+    }
+
+
   }
 
   onCPFInput(event: any) {

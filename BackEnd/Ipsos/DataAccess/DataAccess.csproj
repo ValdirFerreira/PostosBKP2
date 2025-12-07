@@ -59,6 +59,7 @@
     <Compile Include="DashBoardTwo\DataAccessPainelPostos.cs" />
     <Compile Include="DashBoardTwo\DashBoardTwoDataAccess.cs" />
     <Compile Include="DashBoardTwo\SqlErrorTranslator.cs" />
+    <Compile Include="FilesConfig\SaveFiles.cs" />
     <Compile Include="Filtros\FiltrosDataAccess.cs" />
     <Compile Include="LogUsuario\LogDataAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

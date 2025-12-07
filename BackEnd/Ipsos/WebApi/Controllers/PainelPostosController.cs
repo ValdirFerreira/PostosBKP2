@@ -104,6 +104,69 @@ namespace WebApi.Controllers
         }
 
 
+        [HttpPost]
+        [Route("ProprietarioFileCadastrar")]
+        public HttpResponseMessage ProprietarioFileCadastrar([FromBody] FilePostos model)
+        {
+            var response = new Response();
+
+            try
+            {
+                // chama o método no service/context
+                var result = _context.ProprietarioFileCadastrar(model);
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (SqlException ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    "Sistema" + ex.Message
+                );
+
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Error = $"Bad request - ({ex.Message})";
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+
+          
+
+        [HttpPost]
+        [Route("RecuperaArquivo")]
+        public HttpResponseMessage RecuperaArquivo([FromBody] FilePostos model)
+        {
+            var response = new Response();
+
+            try
+            {
+                // chama o método no service/context
+                var result = _context.RecuperaArquivo(model);
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (SqlException ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    "Sistema" + ex.Message
+                );
+
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Error = $"Bad request - ({ex.Message})";
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        
+
+
+
 
     }
 }
