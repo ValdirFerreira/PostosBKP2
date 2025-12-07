@@ -28,12 +28,12 @@ import { NgxFileDropModule } from 'ngx-file-drop';
   //   { provide: HIGHCHARTS_MODULES, useFactory: () => [more, exporting, solidgauge, wordcloud, treemap] } // add as factory to your providers
   // ],
   declarations: [
- MenuHomeComponent,
+    MenuHomeComponent,
 
   ],
   imports: [
     CommonModule,
-   MenuHomeRoutingModule,
+    MenuHomeRoutingModule,
     SidebarModule,
     SidebarPortaisModule,
     NavbarModule,
@@ -41,9 +41,9 @@ import { NgxFileDropModule } from 'ngx-file-drop';
     // ChartModule,
     FooterBottomModule,
     TranslateModule,
-      FormsModule ,
-        NgxFileDropModule,
-      
+    FormsModule,
+    NgxFileDropModule,
+
   ]
 })
 export class MenuHomeModule { }

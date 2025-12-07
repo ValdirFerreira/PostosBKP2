@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import * as Highcharts from 'highcharts';
-import { FiltroPadrao } from 'src/app/models/Filtros/FiltroPadrao';
-import { saveAs } from "file-saver";
+
 import { FiltroGlobalService } from 'src/app/services/filtro-global.service';
 import { MenuService } from 'src/app/services/menu.service';
 import { DownloadArquivoService } from 'src/app/services/download-arquivo.service';
@@ -14,14 +12,9 @@ import { ProprietarioCadastrarRequest } from 'src/app/models/PainelPostos/Propri
 import { NgxFileDropEntry } from 'ngx-file-drop';
 import { DialogDynamicComponent } from 'src/app/components/dialog-dynamic/dialog-dynamic.component';
 import { MatDialog } from '@angular/material/dialog';
+import { PostoModel, ServicoCategoria } from 'src/app/models/PainelPostos/PostoModel';
 
-// interface ProprietarioTela {
-//   id: number;
-//   nome: string;
-//   email: string;
-//   posicao: string;
-//   ativo: boolean;
-// }
+
 
 @Component({
   selector: 'app-menu-home',
@@ -197,6 +190,8 @@ export class MenuHomeComponent implements OnInit {
     this.model.Cod = 0;
     this.activeCadastro = value
   }
+
+
 
   form = {
     nomeFantasia: '',
@@ -549,5 +544,67 @@ export class MenuHomeComponent implements OnInit {
   }
 
 
+
+
+  ///////////////////////////////////////////////////////////
+  //ASSOCIAÇÃO DE POSTOS
+  ///////////////////////////////////////////////////////////
+  modelPosto = new PostoModel();
+  activePosto: string = 'postos';
+
+  cargos: string[] = [
+    "Gerente",
+    "Frentista",
+    "Supervisor",
+    "Atendente",
+    "Administrador",
+    "Coordenador"
+  ];
+
+  activeAssPosto: boolean = false;
+
+  changeAssPosto(value: boolean, cod: any) {
+
+    this.activeAssPosto = value
+    this.activeCadastro = false;
+  }
+
+
+  /////////////////////////////////////////////////////
+  // SERVICOS
+  /////////////////////////////////////////////////////
+
+
+
+
+  public servicosDisponiveis: ServicoCategoria[] = [
+    {
+      titulo: "Abastecimento",
+      descricao: "Lorem ipsum dolor sit amet consectetur morbi a consectetur senectus metus nunc sapien.",
+      opcoes: [
+        { nome: "Abastecimento", ativo: true },
+        { nome: "Bomba de ar", ativo: false },
+        { nome: "Gôndolas de fluidos", ativo: false }
+      ]
+    },
+    {
+      titulo: "Serviços adicionais",
+      descricao: "Lorem ipsum dolor sit amet consectetur morbi a consectetur senectus metus nunc sapien.",
+      opcoes: [
+        { nome: "Troca de óleo", ativo: true },
+        { nome: "Mecânica automotiva", ativo: false },
+        { nome: "Lavagem", ativo: false }
+      ]
+    },
+    {
+      titulo: "Lojas e estabelecimentos",
+      descricao: "Lorem ipsum dolor sit amet consectetur morbi a consectetur senectus metus nunc sapien.",
+      opcoes: [
+        { nome: "Conveniência", ativo: true },
+        { nome: "Restaurante", ativo: true },
+        { nome: "Lojas", ativo: true }
+      ]
+    }
+  ];
 
 }

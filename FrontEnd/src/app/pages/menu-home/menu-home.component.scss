@@ -1435,3 +1435,100 @@ ngx-file-drop.drop-over .upload-area-custom {
     }
   }
 }
+
+/////////////////////////////////////////////////////
+/// // SERVIÇOS
+///
+
+.servico-bloco {
+  margin-top: 40px;
+  width: 95%;
+}
+
+.servico-options {
+  display: flex;
+  justify-content: space-between;
+}
+
+.servico-titulo {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1f1f1f;
+}
+
+.servico-descricao {
+  color: #6f6f6f;
+  font-size: 14px;
+  margin-bottom: 25px;
+  max-width: 500px;
+}
+
+.servico-opcoes {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-bottom: 25px;
+}
+
+.servico-item {
+  display: flex;
+  align-items: center;
+  justify-self: start;
+  gap: 10px;
+  width: 260px;
+}
+
+/* Toggle Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #d9d9d9;
+  border-radius: 24px;
+  transition: 0.3s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+input:checked + .slider {
+  background-color: #1664ff;
+}
+
+input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+.servico-nome {
+  font-size: 15px;
+  color: #333;
+}
+
+hr {
+  border: none;
+  border-bottom: 1px solid #e5e5e5;
+  margin-top: 30px;
+}

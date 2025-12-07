@@ -8,8 +8,6 @@ export class ProprietarioCadastrarRequest {
 }
 
 
-
-
 export class ResponseCad
 {
     Cod:number;
