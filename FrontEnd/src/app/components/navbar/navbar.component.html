@@ -1,105 +1,61 @@
-<div class="container-navbar">
-
-  <div class="menu-mobile" *ngIf="!home">
-    <img class="img-filtro" src="assets/imagePages/Menu Hamburger.svg" (click)="abrirMenuMobile($event)">
+<!-- NAVBAR -->
+<header class="topbar">
+  <div class="logo-area">
+    <img src="assets/login/Regular.svg" alt="Ipsos" class="logo" />
+    <div> Ipsos Painel de Postos</div>
   </div>
+  <div class="menu-wrapper">
 
-  <div class="conteudo-navbar">
+    
 
-    <img class="logo-pages"  src="assets/imagePages/logo-pequeno.svg" (click)="goBackHome()">
+  <nav class="top-links">
+  <ng-container *ngFor="let menu of menus">
 
-    <div>
-      <div class="titulo-page" *ngIf="!home">
-        <div class="titulo-page-item">{{'navbar.titulo1' | translate}}</div>
-        <!-- <div class="titulo-page-list">{{'navbar.titulo2' | translate}}</div> -->
-        <div class="titulo-page-list">{{this.menuService.nomePage}}</div>
+    <!-- MENU SEM SUBMENU -->
+    <a
+      *ngIf="!menu.Children"
+      [ngClass]="menu.Ativo ? 'btn-primary' : 'link'"
+      (click)="selectParent(menu); goTo(menu.Url!)"
+    >
+      {{ menu.Nome }}
+    </a>
+
+    <!-- MENU COM SUBMENU -->
+    <div *ngIf="menu.Children" class="dropdown">
+
+      <button
+        [ngClass]="menu.Ativo ? 'btn-primary' : 'link'"
+        (click)="selectParent(menu)"
+      >
+        {{ menu.Nome }}
+        <span class="arrow" [class.open]="openMenu === menu.Id"></span>
+      </button>
+
+      <div class="dropdown-menu" *ngIf="openMenu === menu.Id">
+        <ng-container *ngFor="let item of menu.Children">
+
+          <a
+            class="dropdown-item"
+            *ngIf="!item.Children"
+            (click)="goTo(item.Url!)"
+          >
+            {{ item.Nome }}
+          </a>
+
+        </ng-container>
       </div>
 
-      <!-- <div class="titulo-page-home" *ngIf="home">
-        <div class="titulo-page-item">{{'navbar.titulo1' | translate}}</div>
-
-        <div  class="titulo-page-list">{{this.menuService.nomePage}}</div>
-        <div  class="titulo-page-list">{{'navbar.titulo2' | translate}}</div>
-      </div> -->
-
-
-
-
-
-      <div class="container-filtro-selecionado" *ngIf="!home">
-
-        <!-- <div class="filtro-selecionado"
-          *ngIf="this.filtroService?.listaDenominators?.length && (router.url.includes('/dashboard-awareness') || router.url.includes('/dashboard-funil'))">
-          <div>{{this.filtroService.ModelDenominators.DescItem}}</div> <img class="fechar-circulo"
-            src="assets/icones/fechar-circulo.png" (click)="setDefaultFiltroDenominators()">
-        </div> -->
-
-        <div class="filtro-selecionado" *ngIf="(router.url.includes('/dashboard-awareness') || router.url.includes('/dashboard-funil') || router.url.includes('/dashboard-imagem-pura')) && this.filtroService.ModelTarget"  >
-          <div>{{this.filtroService.ModelTarget.DescItem}}</div> <img class="fechar-circulo" src="assets/icones/fechar-circulo.png"
-            (click)="setDefaultFiltroTarget()">
-        </div>
-
-        <div class="filtro-selecionado" *ngIf="this.filtroService.ModelRegiao?.length">
-          <div>{{'navbar.descricao.filtro.regiao' | translate}}</div> <img class="fechar-circulo"
-            src="assets/icones/fechar-circulo.png" (click)="setDefaultFiltroRegiao()">
-        </div>
-
-        <div class="filtro-selecionado" *ngIf="this.filtroService.ModelDemografico?.length">
-          <div>{{'navbar.descricao.filtro.demografico' | translate}}</div> <img class="fechar-circulo"
-            src="assets/icones/fechar-circulo.png" (click)="setDefaultFiltroDemografico()">
-        </div>
-
-        <!-- <div class="filtro-selecionado" *ngIf="this.filtroService.ModelMarcas">
-          <div>{{this.filtroService.ModelMarcas.DescItem}}</div> <img class="fechar-circulo"
-            src="assets/icones/fechar-circulo.png">
-        </div> -->
-        <div class="filtro-selecionado" *ngIf="this.filtroService.ModelOnda">
-          <div>{{this.filtroService.ModelOnda.DescItem}}</div> <img class="fechar-circulo"
-            src="assets/icones/fechar-circulo.png" (click)="setDefaultFiltroOnda()">
-        </div>
-      </div>
     </div>
-  </div>
+  </ng-container>
+</nav>
 
 
 
-  <div *ngIf="!home && !filtroMobile" class="filtro-pc">
-    <filtro-global></filtro-global>
-  </div>
-
-
-  <div class="filtro-mobile" *ngIf="!home">
-    <img class="img-filtro" src="assets/imagePages/btn-filtro.png" (click)="closeFilter()">
-  </div>
-
-
-
-  <div *ngIf="!home && filtroMobile" class="container-filtro-mobile filter filter-close filter-open" #menu
-    id="global-filter">
-    <filtro-global></filtro-global>
-  </div>
-
-
-  <div class="msn-alerta" *ngIf="alertaAtivo">
-    <div class="titulo-alerta">
-      <div>
-        <!-- Titulo Teste -->
-      </div>
-
-      <div class="btn-close" (click)="fecharAlerta()">
-        X
-      </div>
-    </div>
-
-    <div class="conteudo-msn">
-      {{mensagem}}
-    </div>
-
-    <div class="ckeckbox-nomore">
-      <div>
-        <mat-checkbox [(ngModel)]="checkedtourChecked" class="checkbox-style">Não aparecer novamente</mat-checkbox>
-      </div>
-    </div>
-  </div>
 
 </div>
+
+
+  <div class="user-area">
+    <span class="avatar">UA</span>
+  </div>
+</header>

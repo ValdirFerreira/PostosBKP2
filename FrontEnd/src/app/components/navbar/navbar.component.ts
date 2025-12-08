@@ -37,180 +37,126 @@ export class NavbarComponent implements OnInit {
 
   filtroMobile: boolean = false;
 
-  ngOnInit(): void {
+  open = false;
+
+  // --- propriedades
+openMenu: number | null = null;
 
 
-    // if (!this.home)
-    // {
-    //   this.authService.verificaAcesso();
-    // }
-
-    var arrayMes = new Array(12);
-    arrayMes[0] = "Janeiro";
-    arrayMes[1] = "Fevereiro";
-    arrayMes[2] = "Março";
-    arrayMes[3] = "Abril";
-    arrayMes[4] = "Maio";
-    arrayMes[5] = "Junho";
-    arrayMes[6] = "Julho";
-    arrayMes[7] = "Agosto";
-    arrayMes[8] = "Setembro";
-    arrayMes[9] = "Outubro";
-    arrayMes[10] = "Novembro";
-    arrayMes[11] = "Dezembro";
-    var data = new Date();
-    this.mesAnoAtualizado = arrayMes[data.getMonth()] + " / " + data.getFullYear().toString();
-
-    this.checkDevice();
-
-    this.CarregarPopUpMsn();
-
-  }
-
-  ngOnChanges() {
-    this.CarregarPopUpMsn();
-
-  }
-
-  checkDevice() {
-    if (navigator.userAgent.match(/Android/i)
-      || navigator.userAgent.match(/webOS/i)
-      || navigator.userAgent.match(/iPhone/i)
-      || navigator.userAgent.match(/iPad/i)
-      || navigator.userAgent.match(/iPod/i)
-      || navigator.userAgent.match(/BlackBerry/i)
-      || navigator.userAgent.match(/Windows Phone/i)
-    ) {
-      this.filtroMobile = true; // está utilizando celular
+// --- utilitário: limpa recursivamente Ativo
+clearAllActive(items: MenuItem[]) {
+  items.forEach(i => {
+    i.Ativo = false;
+    if (i.Children && i.Children.length) {
+      this.clearAllActive(i.Children);
     }
-    else {
-      this.filtroMobile = false; // não é celular
-    }
+  });
+}
 
+// --- selecionar apenas o menu pai (abre/fecha)
+selectParent(menu: MenuItem) {
+  // limpa todos (pais e filhos)
+  this.clearAllActive(this.menus);
+
+  // marca somente o pai clicado
+  menu.Ativo = true;
+
+  // abre/fecha dropdown
+  this.openMenu = this.openMenu === menu.Id ? null : menu.Id;
+
+  // se o próprio pai tem Url (é também um link), navega
+  if (menu.Url) {
+    this.router.navigate([menu.Url]);
+    this.openMenu = null; // fecha após navegação, se preferir
   }
+}
 
-  CarregarPopUpMsn() {
+// --- selecionar um filho: marca o pai e o filho, navega e fecha
+selectChild(parent: MenuItem, child: MenuItem) {
+  this.clearAllActive(this.menus);
 
-    var naoVisualizarmensagem = false;
+  // marca pai e filho
+  parent.Ativo = true;
+  child.Ativo = true;
 
-    var userSession = this.session.getUserSession() as UsuarioModel;
+  // fecha dropdown
+  this.openMenu = null;
 
-    if (userSession) {
-      naoVisualizarmensagem = userSession?.FlagPopUp;
-    }
-
-    if (!this.router.url.includes('/home') && !this.mensagem && naoVisualizarmensagem) {
-
-      var filtros = new FiltroPadrao();
-      filtros.CodUser = this.session.getCodUserSession();
-      filtros.CodIdioma = 1;// this.authService.idDefaultLangUser;
-      this.loginService.CarregarPopUpMsn(filtros)
-        .subscribe((response: PopupMsn) => {
-
-          if (response && response.DescItem) {
-            this.mensagem = response.DescItem;
-            this.alertaAtivo = true;
-          }
-
-        }, (error) => console.error(error),
-          () => {
-          }
-        )
-    }
+  // navega
+  if (child.Url) {
+    this.router.navigate([child.Url]);
   }
+}
 
+// --- opcional: marcar com base na rota atual ao iniciar (mantém ativo após reload)
+ngOnInit() {
+  const current = this.router.url; // por exemplo '/proprietario'
+  this.clearAllActive(this.menus);
 
-  fecharAlerta() {
-    this.alertaAtivo = false;
-    var userSession = this.session.getUserSession() as UsuarioModel;
-
-    if (userSession && this.checkedtourChecked) {
-      userSession.FlagPopUp = false;
-      this.loginService.UpdatePopupUser(userSession)
-        .subscribe((response: PopupMsn) => {
-
-          this.session.updateSession(userSession);
-          this.alertaAtivo = false;
-
-        }, (error) => console.error(error),
-          () => {
-          }
-        )
+  for (const m of this.menus) {
+    if (m.Url === current) {
+      m.Ativo = true;
+      break;
     }
 
-  }
-
-
-  closeFilter() {
-
-    this.closeMenu();
-
-    if (this.filtroService.filtroMobileAtivo) {
-      this.filtroService.filtroMobileAtivo = false;
-      var el = document.getElementById('global-filter')
-      if (el != null)
-        el.classList.add('filter-close')
+    if (m.Children && m.Children.length) {
+      for (const c of m.Children) {
+        if (c.Url === current) {
+          m.Ativo = true; // pai ativo
+          c.Ativo = true; // filho ativo
+          break;
+        }
+      }
     }
-    else {
-      this.filtroService.filtroMobileAtivo = true;
-      var el = document.getElementById('global-filter')
-      if (el != undefined)
-        el.classList.remove('filter-close')
-    }
-
   }
-
-  setDefaultFiltroTarget() {
-    // this.filtroService.ModelTarget = this.filtroService.listaTarget[0];
-    // this.filtroService.ModelTarget = null;
-    this.filtroService.ModelTarget = this.filtroService.listaTarget[0];// new Array<PadraoComboFiltro>();
-  }
-
-  setDefaultFiltroRegiao() {
-    this.filtroService.ModelRegiao = new Array<PadraoComboFiltro>();
-  }
-
-  setDefaultFiltroDemografico() {
-    this.filtroService.ModelDemografico = new Array<PadraoComboFiltro>();
-  }
-
-  setDefaultFiltroOnda() {
-    this.filtroService.ModelOnda = this.filtroService.listaOnda[0];
-  }
-
-  setDefaultFiltroDenominators() {
-    //  this.filtroService.listaDenominators = new Array<PadraoComboFiltro>();
-    this.filtroService.ModelDenominators = this.filtroService.listaDenominators[0];
-  }
+}
 
 
-  goBackHome() {
-    this.router.navigate(['/home']);
-  }
+
+goTo(url: string) {
+  this.router.navigate([url]);
+  this.openMenu = null;
+}
 
 
-  closeMenu() {
-    var el = document.getElementById("menu-mobile");
-    if (el)
-      el.classList.remove("active");
-  }
+menus: MenuItem[] = [
+  {
+    Id: 1,
+    Nome: 'Home',
+    Url: '/home',
+    Ordem: 0,
+   
+   
+  },
+  {
+    Id: 1,
+    Nome: 'Dashboard',
+    Url: '/dashboard',
+    Ordem: 1,
+   
+  },
+  {
+    Id: 2,
+    Nome: 'Cadastro Usuário',
+    Ordem: 2,
+    Children: [
+      {
+        Id: 21,
+        Nome: 'Cadastrar Proprietário',
+        Url: '/proprietario',
+        Ordem: 1
+      },
+      {
+        Id: 22,
+        Nome: 'Cadastrar Entrevistador',
+        Url: '/cadastro-entrevistador',
+        Ordem: 2
+      }
+    ]
+  },
+ 
+];
 
-  abrirMenuMobile(e: Event) {
-    var el = document.getElementById('menu-mobile')
-    if (el) {
-      el.classList.add('active')
-      el.classList.add('clicouabrirmenu')
-    }
-
-
-    if (this.filtroService.filtroMobileAtivo) {
-      this.filtroService.filtroMobileAtivo = false;
-      var el = document.getElementById('global-filter')
-      if (el != null)
-        el.classList.add('filter-close')
-    }
-
-  }
 
 
   sairPortal() {
@@ -220,4 +166,19 @@ export class NavbarComponent implements OnInit {
 
 
 }
+
+
+export class MenuItem {
+  Id: number;
+  Nome: string;
+  Url?: string;
+  Icone?: string;
+  Role?: string[];
+  Ativo?: boolean;
+  Ordem?: number;
+  Children?: MenuItem[];
+}
+
+
+
 

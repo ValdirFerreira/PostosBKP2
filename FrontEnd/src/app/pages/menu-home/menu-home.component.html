@@ -1,282 +1,264 @@
 <!-- NAVBAR -->
-<header class="topbar">
-  <div class="logo-area">
-    <img src="assets/login/Regular.svg" alt="Ipsos" class="logo" />
-    <div> Ipsos Painel de Postos</div>
-  </div>
-  <div>
-    <nav class="top-links">
-      <a class="link">Dashboard</a>
-      <button class="btn-primary">Cadastro Usuário
-      </button>
-    </nav>
-  </div>
 
-  <div class="user-area">
-    <span class="avatar">UA</span>
-  </div>
-</header>
+<app-navbar></app-navbar>
 
-<!-- CONTAINER -->
-<div class="page-container" *ngIf="!activeCadastro && !activeAssPosto">
+<div style="display: none;">
 
-  <!-- TÍTULO + AÇÕES -->
-  <div class="header-title">
+  <header class="topbar">
+    <div class="logo-area">
+      <img src="assets/login/Regular.svg" alt="Ipsos" class="logo" />
+      <div> Ipsos Painel de Postos</div>
+    </div>
     <div>
-      <h1>Proprietário</h1>
-      <p class="subtitle">Manage your surveys and questionnaires</p>
-    </div>
-
-    <div class="actions">
-
-    </div>
-  </div>
-
-  <div class="header-title">
-    <!-- ABAS -->
-    <div class="tabs">
-      <button class="tab" [class.active]="abaAtiva === 'ativo'"
-        (click)="trocarAba('ativo')">Ativo</button>
-      <button class="tab" [class.activeIn]="abaAtiva === 'inativo'"
-        (click)="trocarAba('inativo')">Inativo</button>
-    </div>
-
-    <!-- BUSCA + FILTROS -->
-    <div class="filters">
-      <div class="search-box">
-        <span class="search-icon"><div class="searchIps"></div></span>
-        <input type="text" placeholder="Pesquise aqui..." [(ngModel)]="pesquisa"
-          (input)="onPesquisar()" />
-        <span class="shortcut"></span>
-      </div>
-    </div>
-
-    <div style="display: flex; justify-content: center; align-items: center;">
-      <!-- <button class="btn-select">Todos <span class="arrow">▾</span></button> -->
-      <button (click)="changeCadastro(true)" class="btn-new">Novo Proprietário
-        <span
-          class="plus">+</span></button>
-    </div>
-  </div>
-
-  <!-- TABELA -->
-  <div class="table-card">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Ações</th>
-          <th>Nome / Email</th>
-          <th>Posição</th>
-          <th>Email</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr *ngFor="let p of pagedList">
-          <td class="col-actions">
-            <button class="icon-btn"><div class="btn-shop"
-                (click)="changeAssPosto(true,p.Cod)"></div></button>
-            <button class="icon-btn"><div class="btn-edit"
-                (click)="ProprietarioConsultarPeloID(p.Cod)"></div></button>
-            <button class="icon-btn"><div class="btn-block"></div></button>
-          </td>
-
-          <td class="col-name">{{ p.Nome }}</td>
-
-          <td>
-            <span class="tag">{{ p.Funcao }}</span>
-          </td>
-
-          <td class="col-email">{{ p.Email }}</td>
-        </tr>
-
-        <tr *ngIf="pagedList.length === 0">
-          <td colspan="4" class="empty">Nenhum registro encontrado.</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- PAGINAÇÃO -->
-  <div class="pagination">
-    <button class="nav-btn" (click)="prevPage()"
-      [disabled]="currentPage === 1">‹ Retornar</button>
-
-    <div class="pages">
-      <button *ngFor="let pg of pages" (click)="goToPage(pg)"
-        [class.active]="pg === currentPage">
-        {{ pg }}
-      </button>
-    </div>
-
-    <button class="nav-btn" (click)="nextPage()"
-      [disabled]="currentPage === totalPages">Avançar ›</button>
-  </div>
-
-</div>
-
-<!-- CADASTRO -->
-
-<div class="page-container" *ngIf="activeCadastro && !activeAssPosto">
-
-  <div class="header-title">
-    <div>
-      <h1>Cadastro do Posto de Gasolina</h1>
-      <p class="subtitle">Preencha os campos necessários para o cadastro do
-        posto de gasolina</p>
-    </div>
-
-    <div class="actions">
-
-    </div>
-  </div>
-
-  <div class="page-wrapper">
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-      <h2 class="sidebar-title">Configurações</h2>
-      <nav class="menu">
-        <div class="menu-item"
-          [class.active]="active === 'proprietario'"
-          (click)="active = 'proprietario'">
-          Dados do Proprietário
-        </div>
-        <div class="menu-item"
-          [class.active]="active === 'contato'"
-          (click)="active = 'contato'">
-          Contato
-        </div>
-        <div class="menu-item"
-          [class.active]="active === 'upload'"
-          (click)="active = 'upload'">
-          Upload Contrato
-        </div>
+      <nav class="top-links">
+        <a class="link">Dashboard</a>
+        <button class="btn-primary">Cadastro Usuário
+        </button>
       </nav>
+    </div>
 
-    </aside>
+    <div class="user-area">
+      <span class="avatar">UA</span>
+    </div>
+  </header>
 
-    <!-- CONTEÚDO -->
+  <!-- CONTAINER -->
+  <div class="page-container" *ngIf="!activeCadastro && !activeAssPosto">
 
-    <div class="content">
+    <!-- TÍTULO + AÇÕES -->
+    <div class="header-title">
+      <div>
+        <h1>Proprietário</h1>
+        <p class="subtitle">Manage your surveys and questionnaires</p>
+      </div>
 
-      <div *ngIf="active === 'proprietario'">
-        <h1 class="title">Dados do Proprietário</h1>
+      <div class="actions">
 
-        <p class="description">
-          Esta seção reúne os dados essenciais para início do preenchimento.
-          Mantenha as informações claras e atualizadas para garantir a
-          continuidade
-          do processo.
-        </p>
+      </div>
+    </div>
 
-        <!-- FORMULÁRIO -->
-        <form class="form">
+    <div class="header-title">
+      <!-- ABAS -->
+      <div class="tabs">
+        <button class="tab" [class.active]="abaAtiva === 'ativo'" (click)="trocarAba('ativo')">Ativo</button>
+        <button class="tab" [class.activeIn]="abaAtiva === 'inativo'" (click)="trocarAba('inativo')">Inativo</button>
+      </div>
 
-          <!-- Nome -->
-          <div class="form-group">
-            <label>Nome do proprietário <span class="required">*</span></label>
-            <input type="text" placeholder="Qual é o nome completo?"
-              [(ngModel)]="model.Nome" name="nome">
-          </div>
-
-          <!-- CPF -->
-          <div class="form-group">
-            <label>CPF</label>
-            <input
-              type="text"
-              placeholder="000.000.000-00"
-              [(ngModel)]="model.Documento"
-              name="cpf"
-              maxlength="14"
-              (input)="onCPFInput($event)"
-              (keydown)="bloquearNaoNumeros($event)">
-          </div>
-
-          <!-- Status -->
-          <div class="form-group">
-            <label>Status</label>
-
-            <select [(ngModel)]="model.Status" name="status">
-              <option value="1">Ativo</option>
-              <option value="2">Inativo</option>
-            </select>
-          </div>
-        </form>
-
-        <!-- AÇÕES -->
-        <div class="actions">
-          <button class="btn-cancel" (click)="cancelar()">Cancelar
-            cadastro</button>
-          <button disabled class="btn-submit" (click)="salvar()">Criar
-            Cadastro</button>
+      <!-- BUSCA + FILTROS -->
+      <div class="filters">
+        <div class="search-box">
+          <span class="search-icon">
+            <div class="searchIps"></div>
+          </span>
+          <input type="text" placeholder="Pesquise aqui..." [(ngModel)]="pesquisa" (input)="onPesquisar()" />
+          <span class="shortcut"></span>
         </div>
       </div>
 
-      <div *ngIf="active === 'contato'">
+      <div style="display: flex; justify-content: center; align-items: center;">
+        <!-- <button class="btn-select">Todos <span class="arrow">▾</span></button> -->
+        <button (click)="changeCadastro(true)" class="btn-new">Novo Proprietário
+          <span class="plus">+</span></button>
+      </div>
+    </div>
 
-        <!-- TÍTULO -->
-        <h1 class="title">Contato do Profissional</h1>
+    <!-- TABELA -->
+    <div class="table-card">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Ações</th>
+            <th>Nome / Email</th>
+            <th>Posição</th>
+            <th>Email</th>
+          </tr>
+        </thead>
 
-        <p class="description">
-          Esta seção reúne os dados essenciais para início do preenchimento.
-          Mantenha as informações claras e atualizadas para garantir a
-          continuidade do processo.
-        </p>
+        <tbody>
+          <tr *ngFor="let p of pagedList">
+            <td class="col-actions">
+              <button class="icon-btn">
+                <div class="btn-shop" (click)="changeAssPosto(true,p.Cod)"></div>
+              </button>
+              <button class="icon-btn">
+                <div class="btn-edit" (click)="ProprietarioConsultarPeloID(p.Cod)"></div>
+              </button>
+              <button class="icon-btn">
+                <div class="btn-block"></div>
+              </button>
+            </td>
 
-        <!-- FORMULÁRIO -->
-        <form class="form">
+            <td class="col-name">{{ p.Nome }}</td>
 
-          <!-- CELULAR -->
-          <div class="form-group">
-            <label>Celular (WhatsApp) <span class="required">*</span></label>
-            <input
-              type="text"
-              placeholder="(00) 00000-0000"
-              (input)="onTelefoneInput($event)"
-              maxlength="15"
-              [(ngModel)]="model.Telefone"
-              name="celular">
-          </div>
+            <td>
+              <span class="tag">{{ p.Funcao }}</span>
+            </td>
 
-          <!-- EMAIL -->
-          <div class="form-group">
-            <label>Email <span class="required">*</span></label>
-            <input
-              type="email"
-              placeholder="email@example.com"
-              [(ngModel)]="model.Email"
-              name="email">
-          </div>
+            <td class="col-email">{{ p.Email }}</td>
+          </tr>
 
-        </form>
+          <tr *ngIf="pagedList.length === 0">
+            <td colspan="4" class="empty">Nenhum registro encontrado.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-        <!-- AÇÕES -->
-        <div class="actions">
-          <button class="btn-cancel" (click)="cancelar()">Cancelar
-            cadastro</button>
-          <button disabled class="btn-submit" (click)="salvar()">Criar
-            Cadastro</button>
-        </div>
+    <!-- PAGINAÇÃO -->
+    <div class="pagination">
+      <button class="nav-btn" (click)="prevPage()" [disabled]="currentPage === 1">‹ Retornar</button>
 
+      <div class="pages">
+        <button *ngFor="let pg of pages" (click)="goToPage(pg)" [class.active]="pg === currentPage">
+          {{ pg }}
+        </button>
       </div>
 
-      <div *ngIf="active === 'upload'">
-        <h1 class="title">Upload do Contato</h1>
-        <p class="description">
-          Esta seção reúne os dados essenciais para início do preenchimento.
-          Mantenha as informações claras e atualizadas para garantir a
-          continuidade do processo.
-        </p>
+      <button class="nav-btn" (click)="nextPage()" [disabled]="currentPage === totalPages">Avançar ›</button>
+    </div>
 
-        <form class="form">
-          <div class="card">
+  </div>
 
-            <div class="card-header">
-              <h2>Importar Contrato</h2>
-              <span>Arquivos permitidos: PDF</span>
+  <!-- CADASTRO -->
+
+  <div class="page-container" *ngIf="activeCadastro && !activeAssPosto">
+
+    <div class="header-title">
+      <div>
+        <h1>Cadastro do Posto de Gasolina</h1>
+        <p class="subtitle">Preencha os campos necessários para o cadastro do
+          posto de gasolina</p>
+      </div>
+
+      <div class="actions">
+
+      </div>
+    </div>
+
+    <div class="page-wrapper">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <h2 class="sidebar-title">Configurações</h2>
+        <nav class="menu">
+          <div class="menu-item" [class.active]="active === 'proprietario'" (click)="active = 'proprietario'">
+            Dados do Proprietário
+          </div>
+          <div class="menu-item" [class.active]="active === 'contato'" (click)="active = 'contato'">
+            Contato
+          </div>
+          <div class="menu-item" [class.active]="active === 'upload'" (click)="active = 'upload'">
+            Upload Contrato
+          </div>
+        </nav>
+
+      </aside>
+
+      <!-- CONTEÚDO -->
+
+      <div class="content">
+
+        <div *ngIf="active === 'proprietario'">
+          <h1 class="title">Dados do Proprietário</h1>
+
+          <p class="description">
+            Esta seção reúne os dados essenciais para início do preenchimento.
+            Mantenha as informações claras e atualizadas para garantir a
+            continuidade
+            do processo.
+          </p>
+
+          <!-- FORMULÁRIO -->
+          <form class="form">
+
+            <!-- Nome -->
+            <div class="form-group">
+              <label>Nome do proprietário <span class="required">*</span></label>
+              <input type="text" placeholder="Qual é o nome completo?" [(ngModel)]="model.Nome" name="nome">
             </div>
 
-            <!-- <div class="upload-box">
+            <!-- CPF -->
+            <div class="form-group">
+              <label>CPF</label>
+              <input type="text" placeholder="000.000.000-00" [(ngModel)]="model.Documento" name="cpf" maxlength="14"
+                (input)="onCPFInput($event)" (keydown)="bloquearNaoNumeros($event)">
+            </div>
+
+            <!-- Status -->
+            <div class="form-group">
+              <label>Status</label>
+
+              <select [(ngModel)]="model.Status" name="status">
+                <option value="1">Ativo</option>
+                <option value="2">Inativo</option>
+              </select>
+            </div>
+          </form>
+
+          <!-- AÇÕES -->
+          <div class="actions">
+            <button class="btn-cancel" (click)="cancelar()">Cancelar
+              cadastro</button>
+            <button disabled class="btn-submit" (click)="salvar()">Criar
+              Cadastro</button>
+          </div>
+        </div>
+
+        <div *ngIf="active === 'contato'">
+
+          <!-- TÍTULO -->
+          <h1 class="title">Contato do Profissional</h1>
+
+          <p class="description">
+            Esta seção reúne os dados essenciais para início do preenchimento.
+            Mantenha as informações claras e atualizadas para garantir a
+            continuidade do processo.
+          </p>
+
+          <!-- FORMULÁRIO -->
+          <form class="form">
+
+            <!-- CELULAR -->
+            <div class="form-group">
+              <label>Celular (WhatsApp) <span class="required">*</span></label>
+              <input type="text" placeholder="(00) 00000-0000" (input)="onTelefoneInput($event)" maxlength="15"
+                [(ngModel)]="model.Telefone" name="celular">
+            </div>
+
+            <!-- EMAIL -->
+            <div class="form-group">
+              <label>Email <span class="required">*</span></label>
+              <input type="email" placeholder="email@example.com" [(ngModel)]="model.Email" name="email">
+            </div>
+
+          </form>
+
+          <!-- AÇÕES -->
+          <div class="actions">
+            <button class="btn-cancel" (click)="cancelar()">Cancelar
+              cadastro</button>
+            <button disabled class="btn-submit" (click)="salvar()">Criar
+              Cadastro</button>
+          </div>
+
+        </div>
+
+        <div *ngIf="active === 'upload'">
+          <h1 class="title">Upload do Contato</h1>
+          <p class="description">
+            Esta seção reúne os dados essenciais para início do preenchimento.
+            Mantenha as informações claras e atualizadas para garantir a
+            continuidade do processo.
+          </p>
+
+          <form class="form">
+            <div class="card">
+
+              <div class="card-header">
+                <h2>Importar Contrato</h2>
+                <span>Arquivos permitidos: PDF</span>
+              </div>
+
+              <!-- <div class="upload-box">
               <div class="upload-inner">
 
                 <div class="upload-icon">
@@ -293,340 +275,317 @@
               </div>
             </div> -->
 
-            <div>
-              <ngx-file-drop [multiple]="false"
-                dropZoneLabel="Drop files here"
-                (onFileDrop)="dropped($event)"
-                (onFileOver)="fileOver($event)"
-                (onFileLeave)="fileLeave($event)">
+              <div>
+                <ngx-file-drop [multiple]="false" dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)"
+                  (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
 
-                <ng-template ngx-file-drop-content-tmp
-                  let-openFileSelector="openFileSelector">
+                  <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
 
-                  <!-- ÁREA INICIAL (SEM ARQUIVOS) -->
-                  <div class="upload-area-custom" (click)="openFileSelector()"
-                    *ngIf="files.length == 0">
+                    <!-- ÁREA INICIAL (SEM ARQUIVOS) -->
+                    <div class="upload-area-custom" (click)="openFileSelector()" *ngIf="files.length == 0">
 
-                    <img
-                      class="upload-icon-custom">
+                      <img class="upload-icon-custom">
 
-                    <p class="upload-main-text">Arraste ou clique para fazer o
-                      upload</p>
+                      <p class="upload-main-text">Arraste ou clique para fazer o
+                        upload</p>
 
-                    <div class="upload-divider">OU</div>
-                    <br>
-                    <button class="upload-select-btn">
-                      Clique para
-                      selecionar</button>
+                      <div class="upload-divider">OU</div>
+                      <br>
+                      <button class="upload-select-btn">
+                        Clique para
+                        selecionar</button>
 
-                  </div>
+                    </div>
 
-                  <!-- LISTA DE ARQUIVOS -->
-                  <div class="upload-table" *ngIf="files.length > 0">
-                    <div class="div-arq-2"
-                      *ngFor="let item of files; let i = index">
-                      <div class="div-arq">
-                        <div>
-                          <img class="pdf-ico" alt>
-                        </div>
-                        <div class="div-name-arquivo">
-                          <div class="titulo-name-arq">{{ item.name }}</div>
-                        </div>
-                        <!-- <div class="div-close-arq" (click)="closeArq(i)">
+                    <!-- LISTA DE ARQUIVOS -->
+                    <div class="upload-table" *ngIf="files.length > 0">
+                      <div class="div-arq-2" *ngFor="let item of files; let i = index">
+                        <div class="div-arq">
+                          <div>
+                            <img class="pdf-ico" alt>
+                          </div>
+                          <div class="div-name-arquivo">
+                            <div class="titulo-name-arq">{{ item.name }}</div>
+                          </div>
+                          <!-- <div class="div-close-arq" (click)="closeArq(i)">
                           <img src="../../../assets/icones/fechar-circulo.png"
                             style="width: 14px; height: 14px; cursor: pointer;">
                           
                         </div> -->
-                        <div style="display: flex; gap: 6px;">
-                          <div class="baixar_arquivo" *ngIf="model.Cod > 0"
-                            (click)="baixarArquivo(model.Cod)"></div>
+                          <div style="display: flex; gap: 6px;">
+                            <div class="baixar_arquivo" *ngIf="model.Cod > 0" (click)="baixarArquivo(model.Cod)"></div>
 
-                          <div class="closeIco" (click)="closeArq(i)">
+                            <div class="closeIco" (click)="closeArq(i)">
+                            </div>
+
                           </div>
 
                         </div>
-
                       </div>
                     </div>
-                  </div>
 
-                </ng-template>
-              </ngx-file-drop>
+                  </ng-template>
+                </ngx-file-drop>
+              </div>
+
             </div>
-
+          </form>
+          <div class="actions">
+            <button class="btn-cancel" (click)="cancelar()">Cancelar
+              cadastro</button>
+            <button class="btn-submit" (click)="salvar()">Criar Cadastro</button>
           </div>
-        </form>
-        <div class="actions">
-          <button class="btn-cancel" (click)="cancelar()">Cancelar
-            cadastro</button>
-          <button class="btn-submit" (click)="salvar()">Criar Cadastro</button>
         </div>
       </div>
+
     </div>
 
   </div>
 
-</div>
+  <!-- ASSOSCIAÇÃO DE POSTOS -->
 
-<!-- ASSOSCIAÇÃO DE POSTOS -->
+  <div class="page-container" *ngIf="activeAssPosto">
 
-<div class="page-container" *ngIf="activeAssPosto">
-
-  <div class="header-title">
-    <div>
-      <h1>Associação do Posto</h1>
-      <p class="subtitle">Cadastre os dados do Proprietário, Gerente ou do
-        Entrevistador</p>
-    </div>
-
-    <div class="actions">
-
-    </div>
-  </div>
-
-  <div class="page-wrapper">
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-      <h2 class="sidebar-title">Configurações</h2>
-      <nav class="menu">
-        <div class="menu-item"
-          [class.active]="activePosto === 'postos'"
-          (click)="activePosto = 'postos'">
-          Dados do Posto
-        </div>
-        <div class="menu-item"
-          [class.active]="activePosto === 'servicos'"
-          (click)="activePosto = 'servicos'">
-          Serviços Disponíveis
-        </div>
-        <div class="menu-item"
-          [class.active]="activePosto === 'funcionarios'"
-          (click)="activePosto = 'funcionarios'">
-          Funcionários
-        </div>
-      </nav>
-
-    </aside>
-
-    <!-- CONTEÚDO -->
-
-    <div class="content">
-
-      <div *ngIf="activePosto === 'postos'">
-        <h1 class="title">Dados do Posto</h1>
-
-        <p class="description">
-          Esta seção reúne os dados essenciais para início do preenchimento.
-          Mantenha as informações claras e atualizadas para
-          garantir a continuidade do processo.
-        </p>
-
-        <!-- FORMULÁRIO -->
-        <form class="form">
-
-          <div class="form-group">
-            <label>Cargo</label>
-            <select [(ngModel)]="modelPosto.Cargo" name="cargo">
-              <option disabled selected>Buscar posto</option>
-              <option *ngFor="let item of cargos" [value]="item">{{ item
-                }}</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label>Bandeira</label>
-            <input type="text" [(ngModel)]="modelPosto.Bandeira" name="bandeira"
-              disabled>
-          </div>
-
-          <div class="form-group">
-            <label>Razão Social</label>
-            <input type="text" [(ngModel)]="modelPosto.RazaoSocial"
-              name="razaosocial" disabled>
-          </div>
-
-          <div class="form-group">
-            <label>Nome Fantasia</label>
-            <input type="text" [(ngModel)]="modelPosto.NomeFantasia"
-              name="nomefantasia" disabled>
-          </div>
-
-          <div class="form-group">
-            <label>Endereço</label>
-            <input type="text" [(ngModel)]="modelPosto.Endereco" name="endereco"
-              disabled>
-          </div>
-
-          <div class="form-group">
-            <label>Complemento</label>
-            <input type="text" [(ngModel)]="modelPosto.Complemento"
-              name="complemento" disabled>
-          </div>
-
-          <div class="form-group">
-            <label>CEP</label>
-            <input type="text" [(ngModel)]="modelPosto.CEP" name="cep" disabled>
-          </div>
-
-          <div class="form-group">
-            <label>Bairro</label>
-            <input type="text" [(ngModel)]="modelPosto.Bairro" name="bairro"
-              disabled>
-          </div>
-
-          <div class="form-group">
-            <label>Cidade</label>
-            <input type="text" [(ngModel)]="modelPosto.Cidade" name="cidade"
-              disabled>
-          </div>
-
-          <div class="form-group">
-            <label>Estado</label>
-            <input type="text" [(ngModel)]="modelPosto.Estado" name="estado"
-              disabled>
-          </div>
-
-        </form>
-
-        <!-- AÇÕES -->
-        <div class="actions">
-          <button class="btn-cancel" (click)="cancelar()">Cancelar
-            cadastro</button>
-          <button disabled class="btn-submit" (click)="salvar()">Criar
-            Cadastro</button>
-        </div>
+    <div class="header-title">
+      <div>
+        <h1>Associação do Posto</h1>
+        <p class="subtitle">Cadastre os dados do Proprietário, Gerente ou do
+          Entrevistador</p>
       </div>
 
-      <div *ngIf="activePosto === 'servicos'">
+      <div class="actions">
 
-        <h1 class="title">Serviços disponíveis</h1>
-        <p class="description">
-          Habilite os serviços disponíveis no seu posto.
-        </p>
+      </div>
+    </div>
 
-        <div class="servico-bloco"
-          *ngFor="let categoria of servicosDisponiveis">
+    <div class="page-wrapper">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <h2 class="sidebar-title">Configurações</h2>
+        <nav class="menu">
+          <div class="menu-item" [class.active]="activePosto === 'postos'" (click)="activePosto = 'postos'">
+            Dados do Posto
+          </div>
+          <div class="menu-item" [class.active]="activePosto === 'servicos'" (click)="activePosto = 'servicos'">
+            Serviços Disponíveis
+          </div>
+          <div class="menu-item" [class.active]="activePosto === 'funcionarios'" (click)="activePosto = 'funcionarios'">
+            Funcionários
+          </div>
+        </nav>
 
-          <div class="servico-options">
-            <div>
-              <h2 class="servico-titulo">{{ categoria.titulo }}</h2>
-              <p class="servico-descricao">{{ categoria.descricao }}</p>
+      </aside>
+
+      <!-- CONTEÚDO -->
+
+      <div class="content">
+
+        <div *ngIf="activePosto === 'postos'">
+          <h1 class="title">Dados do Posto</h1>
+
+          <p class="description">
+            Esta seção reúne os dados essenciais para início do preenchimento.
+            Mantenha as informações claras e atualizadas para
+            garantir a continuidade do processo.
+          </p>
+
+          <!-- FORMULÁRIO -->
+          <form class="form">
+
+            <div class="form-group">
+              <label>Cargo</label>
+              <select [(ngModel)]="modelPosto.Cargo" name="cargo">
+                <option disabled selected>Buscar posto</option>
+                <option *ngFor="let item of cargos" [value]="item">{{ item
+                  }}</option>
+              </select>
             </div>
 
-            <div class="servico-opcoes">
-              <div class="servico-item" *ngFor="let opcao of categoria.opcoes">
-                <label class="switch">
-                  <input type="checkbox" [(ngModel)]="opcao.ativo">
-                  <span class="slider"></span>
-                </label>
+            <div class="form-group">
+              <label>Bandeira</label>
+              <input type="text" [(ngModel)]="modelPosto.Bandeira" name="bandeira" disabled>
+            </div>
 
-                <span class="servico-nome">{{ opcao.nome }}</span>
+            <div class="form-group">
+              <label>Razão Social</label>
+              <input type="text" [(ngModel)]="modelPosto.RazaoSocial" name="razaosocial" disabled>
+            </div>
+
+            <div class="form-group">
+              <label>Nome Fantasia</label>
+              <input type="text" [(ngModel)]="modelPosto.NomeFantasia" name="nomefantasia" disabled>
+            </div>
+
+            <div class="form-group">
+              <label>Endereço</label>
+              <input type="text" [(ngModel)]="modelPosto.Endereco" name="endereco" disabled>
+            </div>
+
+            <div class="form-group">
+              <label>Complemento</label>
+              <input type="text" [(ngModel)]="modelPosto.Complemento" name="complemento" disabled>
+            </div>
+
+            <div class="form-group">
+              <label>CEP</label>
+              <input type="text" [(ngModel)]="modelPosto.CEP" name="cep" disabled>
+            </div>
+
+            <div class="form-group">
+              <label>Bairro</label>
+              <input type="text" [(ngModel)]="modelPosto.Bairro" name="bairro" disabled>
+            </div>
+
+            <div class="form-group">
+              <label>Cidade</label>
+              <input type="text" [(ngModel)]="modelPosto.Cidade" name="cidade" disabled>
+            </div>
+
+            <div class="form-group">
+              <label>Estado</label>
+              <input type="text" [(ngModel)]="modelPosto.Estado" name="estado" disabled>
+            </div>
+
+          </form>
+
+          <!-- AÇÕES -->
+          <div class="actions">
+            <button class="btn-cancel" (click)="cancelar()">Cancelar
+              cadastro</button>
+            <button disabled class="btn-submit" (click)="salvar()">Criar
+              Cadastro</button>
+          </div>
+        </div>
+
+        <div *ngIf="activePosto === 'servicos'">
+
+          <h1 class="title">Serviços disponíveis</h1>
+          <p class="description">
+            Habilite os serviços disponíveis no seu posto.
+          </p>
+
+          <div class="servico-bloco" *ngFor="let categoria of servicosDisponiveis">
+
+            <div class="servico-options">
+              <div>
+                <h2 class="servico-titulo">{{ categoria.titulo }}</h2>
+                <p class="servico-descricao">{{ categoria.descricao }}</p>
+              </div>
+
+              <div class="servico-opcoes">
+                <div class="servico-item" *ngFor="let opcao of categoria.opcoes">
+                  <label class="switch">
+                    <input type="checkbox" [(ngModel)]="opcao.ativo">
+                    <span class="slider"></span>
+                  </label>
+
+                  <span class="servico-nome">{{ opcao.nome }}</span>
+                </div>
               </div>
             </div>
+
+            <hr />
+
           </div>
 
-          <hr />
-
-        </div>
-
-        <!-- AÇÕES -->
-        <div class="actions">
-          <button class="btn-cancel" (click)="cancelar()">Cancelar
-            cadastro</button>
-          <button disabled class="btn-submit" (click)="salvar()">Criar
-            Cadastro</button>
-        </div>
-
-      </div>
-
-      <div *ngIf="activePosto === 'funcionarios'">
-
-        <h1 class="title">Associar funcionário</h1>
-        <p class="description">
-          Nesta seção, você pode associar funcionários existentes ao posto de
-          gasolina.
-        </p>
-
-        <br>
-        <div
-          style="display: flex; justify-content: space-between; align-items: center;">
-          <div>
-            <h2 class="title">Adicione funcionários</h2>
-            <p class="description">
-              Adicione na lista abaixo os funcionários que trabalham neste posto
-            </p>
-          </div>
-
-          <div
-            style="display: flex; justify-content: end; align-items: center;">
-            <!-- <button class="btn-select">Todos <span class="arrow">▾</span></button> -->
-            <button (click)="changeCadastro(true)" class="btn-new">Adicionar
-              funcionário</button>
+          <!-- AÇÕES -->
+          <div class="actions">
+            <button class="btn-cancel" (click)="cancelar()">Cancelar
+              cadastro</button>
+            <button disabled class="btn-submit" (click)="salvar()">Criar
+              Cadastro</button>
           </div>
 
         </div>
 
-        <!-- TABELA -->
-        <div class="table-card">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Ações</th>
-                <th>Nome / Email</th>
-                <th>Posição</th>
-                <th>Email</th>
-              </tr>
-            </thead>
+        <div *ngIf="activePosto === 'funcionarios'">
 
-            <tbody>
-              <tr *ngFor="let p of pagedList">
-                <td class="col-actions">
-                  <button class="icon-btn"><div class="btn-shop"
-                      (click)="changeAssPosto(true,p.Cod)"></div></button>
-                  <button class="icon-btn"><div class="btn-edit"
-                      (click)="ProprietarioConsultarPeloID(p.Cod)"></div></button>
-                  <button class="icon-btn"><div
-                      class="btn-block"></div></button>
-                </td>
+          <h1 class="title">Associar funcionário</h1>
+          <p class="description">
+            Nesta seção, você pode associar funcionários existentes ao posto de
+            gasolina.
+          </p>
 
-                <td class="col-name">{{ p.Nome }}</td>
+          <br>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <h2 class="title">Adicione funcionários</h2>
+              <p class="description">
+                Adicione na lista abaixo os funcionários que trabalham neste posto
+              </p>
+            </div>
 
-                <td>
-                  <span class="tag">{{ p.Funcao }}</span>
-                </td>
+            <div style="display: flex; justify-content: end; align-items: center;">
+              <!-- <button class="btn-select">Todos <span class="arrow">▾</span></button> -->
+              <button (click)="changeCadastro(true)" class="btn-new">Adicionar
+                funcionário</button>
+            </div>
 
-                <td class="col-email">{{ p.Email }}</td>
-              </tr>
-
-              <tr *ngIf="pagedList.length === 0">
-                <td colspan="4" class="empty">Nenhum registro encontrado.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- PAGINAÇÃO -->
-        <div class="pagination">
-          <button class="nav-btn" (click)="prevPage()"
-            [disabled]="currentPage === 1">‹ Retornar</button>
-
-          <div class="pages">
-            <button *ngFor="let pg of pages" (click)="goToPage(pg)"
-              [class.active]="pg === currentPage">
-              {{ pg }}
-            </button>
           </div>
 
-          <button class="nav-btn" (click)="nextPage()"
-            [disabled]="currentPage === totalPages">Avançar ›</button>
-        </div>
+          <!-- TABELA -->
+          <div class="table-card">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Ações</th>
+                  <th>Nome / Email</th>
+                  <th>Posição</th>
+                  <th>Email</th>
+                </tr>
+              </thead>
 
-        <!-- AÇÕES -->
-        <div class="actions">
-          <button class="btn-cancel" (click)="cancelar()">Cancelar
-            cadastro</button>
-          <button disabled class="btn-submit" (click)="salvar()">Criar
-            Cadastro</button>
+              <tbody>
+                <tr *ngFor="let p of pagedList">
+                  <td class="col-actions">
+                    <button class="icon-btn">
+                      <div class="btn-shop" (click)="changeAssPosto(true,p.Cod)"></div>
+                    </button>
+                    <button class="icon-btn">
+                      <div class="btn-edit" (click)="ProprietarioConsultarPeloID(p.Cod)"></div>
+                    </button>
+                    <button class="icon-btn">
+                      <div class="btn-block"></div>
+                    </button>
+                  </td>
+
+                  <td class="col-name">{{ p.Nome }}</td>
+
+                  <td>
+                    <span class="tag">{{ p.Funcao }}</span>
+                  </td>
+
+                  <td class="col-email">{{ p.Email }}</td>
+                </tr>
+
+                <tr *ngIf="pagedList.length === 0">
+                  <td colspan="4" class="empty">Nenhum registro encontrado.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- PAGINAÇÃO -->
+          <div class="pagination">
+            <button class="nav-btn" (click)="prevPage()" [disabled]="currentPage === 1">‹ Retornar</button>
+
+            <div class="pages">
+              <button *ngFor="let pg of pages" (click)="goToPage(pg)" [class.active]="pg === currentPage">
+                {{ pg }}
+              </button>
+            </div>
+
+            <button class="nav-btn" (click)="nextPage()" [disabled]="currentPage === totalPages">Avançar ›</button>
+          </div>
+
+          <!-- AÇÕES -->
+          <div class="actions">
+            <button class="btn-cancel" (click)="cancelar()">Cancelar
+              cadastro</button>
+            <button disabled class="btn-submit" (click)="salvar()">Criar
+              Cadastro</button>
+          </div>
+
         </div>
 
       </div>
@@ -634,5 +593,4 @@
     </div>
 
   </div>
-
 </div>

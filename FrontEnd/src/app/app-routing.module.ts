@@ -25,7 +25,13 @@ const routes: Routes = [
   , {
     path: 'home',
     loadChildren: () => import('./pages/menu-home/menu-home.module').then(m => m.MenuHomeModule),
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
+  }
+
+   , {
+    path: 'proprietario',
+    loadChildren: () => import('./pages/cad-proprietario/cad-proprietario.module').then(m => m.CadProprietarioModule),
+    // canActivate: [AuthGuard],
   }
   , {
     path: 'dashboard-one',
