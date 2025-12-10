@@ -1,0 +1,92 @@
+:host {
+  display: block;
+}
+
+.ipsos-wrapper-pesquisa {
+  width: 100%;
+  max-width: 980px;
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 24px;
+  align-items: center;
+  position: relative;
+
+  .right-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .right-image img {
+    max-width: 380px;
+    width: 100%;
+    height: auto;
+  }
+
+  .left {
+    z-index: 2;
+  }
+
+  .logo {
+    width: 56px;
+    height: auto;
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    margin: 0 0 12px 0;
+    font-size: 34px;
+    line-height: 1.05;
+    color: #0b2b4a;
+    font-weight: 700;
+  }
+
+  h1 span {
+    display: block;
+    color: #1a3a66;
+  }
+
+  .lead {
+    margin: 0 0 12px 0;
+    color: #6b7280;
+    font-weight: 600;
+  }
+
+  p {
+    margin: 8px 0;
+    color: #6b7280;
+    max-width: 520px;
+  }
+
+  .small {
+    font-size: 13px;
+    opacity: 0.9;
+  }
+
+  .cta {
+    margin-top: 18px;
+    padding: 12px 22px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    background: #1f59ff;
+    color: #fff;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.06);
+  }
+
+  @media (max-width: 900px) {
+    .card {
+      grid-template-columns: 1fr;
+    }
+
+    h1 {
+      font-size: 28px;
+    }
+
+    .right-image img {
+      max-width: 320px;
+    }
+  }
+}
