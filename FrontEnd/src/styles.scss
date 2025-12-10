@@ -1257,6 +1257,7 @@ input::placeholder {
   background: #fff;
   transition: 0.2s;
   width: 100%;
+  margin-top: 110px;
 }
 
 /* ícone da pasta */
@@ -1452,9 +1453,8 @@ ngx-file-drop.drop-over .upload-area-custom {
 
   .div-arq-2 {
     width: 30%;
-    height: 140px;
-    margin-right: 8px;
-    margin: auto;
+ 
+    padding: 8px;
   }
 
   .div-arq {
@@ -1463,12 +1463,19 @@ ngx-file-drop.drop-over .upload-area-custom {
     box-sizing: border-box;
     border-radius: 3px;
     width: 100%;
-    height: 48px;
+
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    padding: 4px;
-    margin-top: 34px;
+
+    // margin-top: 34px;
+
+    height: 104;
+    gap: 24px;
+
+    opacity: 1;
+    border-radius: 12px;
+    padding: 24px;
 
     .div-close-arq {
       background: #ffffff;
@@ -1706,4 +1713,16 @@ hr {
   border: none;
   border-bottom: 1px solid #e5e5e5;
   margin-top: 30px;
+}
+
+.ngx-file-drop__drop-zone {
+  height: 220px !important;
+  border: 0px dashed #4a90e2 !important;
+  border-radius: 12px;
+
+  text-align: center;
+  cursor: pointer;
+  background: #fff;
+  transition: 0.2s;
+  width: 100% !important;
 }
