@@ -16,7 +16,9 @@
   font-family: "Gotham Rounded";
   font-style: normal;
   font-weight: 700;
-  src: local("Gotham Rounded"), local("GothamRounded-Bold"),
+  src:
+    local("Gotham Rounded"),
+    local("GothamRounded-Bold"),
     url("/assets/font/GothamRoundedBold_21016.ttf") format("truetype");
 }
 
@@ -77,7 +79,6 @@ body {
 
 /////////////////////////////
 
-
 :host {
   display: block;
   font-family: "Poppins", sans-serif;
@@ -106,14 +107,6 @@ body {
   .logo {
   }
 }
-
-
-
-
-
-
-
-
 
 .menu-wrapper {
   position: relative;
@@ -169,7 +162,7 @@ body {
   width: 240px;
   background: white;
   border-radius: 12px;
-  box-shadow: 0px 4px 16px rgba(0,0,0,0.12);
+  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.12);
   padding: 16px 0;
   z-index: 999;
 }
@@ -187,7 +180,6 @@ body {
 .dropdown-item:hover {
   background: #f5f5f5;
 }
-
 
 //   .top-links {
 //     display: flex;
@@ -212,7 +204,6 @@ body {
 //     letter-spacing: 0%;
 //   }
 
-  
 // }
 
 // .btn-primary {
@@ -237,14 +228,14 @@ body {
 // }
 
 .user-area .avatar {
-    display: inline-block;
-    background: #ddd;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    text-align: center;
-    line-height: 36px;
-  }
+  display: inline-block;
+  background: #ddd;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 36px;
+}
 
 /* ---------------- NAVBAR ---------------- */
 .topbar {
@@ -285,8 +276,6 @@ body {
   color: #4d4d4d;
   cursor: pointer;
 }
-
-
 
 .avatar {
   width: 36px;
@@ -531,6 +520,13 @@ body {
   height: 30px;
 }
 
+.check-desblock {
+  background-image: url(./assets/icones/check-desblock.svg) !important;
+  background-repeat: no-repeat !important;
+  width: 30px;
+  height: 30px;
+}
+
 .btn-edit {
   background-image: url(./assets/icones/btn-edit.svg) !important;
   background-repeat: no-repeat !important;
@@ -566,7 +562,6 @@ body {
   width: 30px;
   height: 38px;
 }
-
 
 .baixar_arquivo {
   background-image: url(./assets/icones/baixar_arquivo.svg) !important;
@@ -711,6 +706,9 @@ body {
   align-items: center;
   font-weight: 400;
   font-size: 14px;
+  border: 0px solid;
+  background: transparent;
+  padding: 12px;
 }
 
 .btn-primary {
@@ -1470,6 +1468,7 @@ ngx-file-drop.drop-over .upload-area-custom {
     flex-direction: row;
     justify-content: flex-start;
     padding: 4px;
+    margin-top: 34px;
 
     .div-close-arq {
       background: #ffffff;

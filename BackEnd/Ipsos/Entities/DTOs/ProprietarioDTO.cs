@@ -16,6 +16,9 @@ namespace Entities.DTOs
         public string DescricaoStatus { get; set; }
 
         public string Funcao { get; set; }
+
+        public string Documento { get; set; }
+        public string Telefone { get; set; }
         public string Email { get; set; }
     }
 

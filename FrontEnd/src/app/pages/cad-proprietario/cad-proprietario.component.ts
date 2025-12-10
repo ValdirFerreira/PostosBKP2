@@ -37,9 +37,6 @@ export class CadProprietarioComponent implements OnInit {
   ) { }
 
 
-
-
-
   // estado da tela
   abaAtiva: 'ativo' | 'inativo' = 'ativo';
   pesquisa: string = '';
@@ -171,11 +168,13 @@ export class CadProprietarioComponent implements OnInit {
         let item = res[0];
         let mapModel = new ProprietarioCadastrarRequest();
         mapModel.Cod = item.Cod;
-        mapModel.Documento = "000"
+
         mapModel.Email = item.Email;
         mapModel.Nome = item.Nome;
         mapModel.Status = item.CodStatus;
-        mapModel.Telefone = "0000;"
+
+        mapModel.Documento = this.validCPF(item.Documento);
+        mapModel.Telefone = this.validTelefone(item.Telefone);
 
         this.model = mapModel;
 
@@ -206,6 +205,46 @@ export class CadProprietarioComponent implements OnInit {
   }
 
 
+  validCPF(valor: string): string {
+    let v = this.limparMascara(valor);
+
+    if (v.length <= 11) {
+      // CPF -> 000.000.000-00
+      return v
+        .replace(/^(\d{3})(\d)/, "$1.$2")
+        .replace(/^(\d{3})\.(\d{3})(\d)/, "$1.$2.$3")
+        .replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d)/, "$1.$2.$3-$4");
+    } else {
+      // CNPJ -> 00.000.000/0000-00
+      return v
+        .replace(/^(\d{2})(\d)/, "$1.$2")
+        .replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3")
+        .replace(/^(\d{2})\.(\d{3})\.(\d{3})(\d)/, "$1.$2.$3/$4")
+        .replace(/^(\d{2})\.(\d{3})\.(\d{3})\/(\d{4})(\d)/, "$1.$2.$3/$4-$5");
+    }
+  }
+
+  validTelefone(valor: string): string {
+    let v = this.limparMascara(valor);
+
+    if (v.length <= 10) {
+      // fixo -> (00) 0000-0000
+      return v
+        .replace(/^(\d{2})(\d)/, "($1) $2")
+        .replace(/^(\(\d{2}\)\s)(\d{4})(\d)/, "$1$2-$3");
+    } else {
+      // celular -> (00) 00000-0000
+      return v
+        .replace(/^(\d{2})(\d)/, "($1) $2")
+        .replace(/^(\(\d{2}\)\s)(\d{5})(\d)/, "$1$2-$3");
+    }
+  }
+
+  private limparMascara(valor: string | null | undefined): string {
+    if (!valor) return '';
+    return valor.replace(/\D/g, ''); // remove tudo que não é número
+  }
+
   base64ToFile(base64: string, fileName: string, contentType?: string): File {
     // Remove prefixo "data:xxx;base64,"
     const arr = base64.split(',');
@@ -227,7 +266,6 @@ export class CadProprietarioComponent implements OnInit {
 
     return new File([byteArray], fileName, { type: contentType || 'application/octet-stream' });
   }
-
 
   baixarArquivo(cod: number) {
 
@@ -299,9 +337,9 @@ export class CadProprietarioComponent implements OnInit {
     }
 
     // Documento
-    if (!model.Documento || model.Documento.trim() === "") {
-      mensagensErro.push("O campo Documento é obrigatório.");
-    }
+    // if (!model.Documento || model.Documento.trim() === "") {
+    //   mensagensErro.push("O campo Documento é obrigatório.");
+    // }
 
     // Status (se for número e obrigatório)
     if (model.Status === null || model.Status === undefined) {
@@ -316,6 +354,11 @@ export class CadProprietarioComponent implements OnInit {
     // Email
     if (!model.Email || model.Email.trim() === "") {
       mensagensErro.push("O campo Email é obrigatório.");
+    }
+
+
+    if (!this.files || this.files.length <= 0) {
+      mensagensErro.push("O contrato é obrigatório.");
     }
 
     // 👉 Se houver erros, abrir popup de erro
@@ -421,6 +464,8 @@ export class CadProprietarioComponent implements OnInit {
 
     // Aplica a máscara
     this.model.Documento = this.formatarCPF(valor);
+
+    return this.model.Documento;
   }
 
   formatarCPF(valor: string): string {
@@ -457,6 +502,8 @@ export class CadProprietarioComponent implements OnInit {
 
     this.model.Telefone = value;
     event.target.value = value;
+
+    return value;
   }
 
   onEmailInput(event: any) {
@@ -655,6 +702,109 @@ export class CadProprietarioComponent implements OnInit {
 
     });
   }
+
+
+
+  OpenModalDesativarProprietario(id: number) {
+    const dialogRef = this.dialog.open(DialogDynamicComponent);
+    dialogRef.componentInstance.typeDialog = 2;
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("RESULTADO RECEBIDO:", result);
+      if (result?.inativar) {
+
+           let model = new ProprietarioCadastrarRequest();
+
+        model.Cod = id;
+        model.Status = 2; // Inativa  
+
+        this.service.cadastrarProprietario(model).subscribe({
+          next: (res) => {
+            debugger
+
+            if (res.Cod == 0) {
+              const mensagensErro: string[] = [];
+              mensagensErro.push(res.Info)
+              this.OpenModalErro(mensagensErro);
+            }
+            else {
+
+              window.location.reload();
+
+              // debugger
+              // const dialogRef = this.dialog.open(DialogDynamicComponent);
+
+              // dialogRef.componentInstance.typeDialog = 1;
+              // dialogRef.afterClosed().subscribe(result => {
+              //   console.log("RESULTADO RECEBIDO:", result);
+
+
+
+              //   // window.location.reload();
+              //   console.log("Proprietário cadastrado com sucesso! Novo ID:", res.Cod);
+
+              // });
+            }
+          },
+          error: (err) => {
+            console.error("Erro ao cadastrar proprietário:", err);
+          }
+        });
+      }
+    });
+
+  }
+
+
+  OpenModalReativarProprietario(id: number) {
+    const dialogRef = this.dialog.open(DialogDynamicComponent);
+    dialogRef.componentInstance.typeDialog = 3;
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("RESULTADO RECEBIDO:", result);
+      if (result?.inativar) {
+
+        let model = new ProprietarioCadastrarRequest();
+
+        model.Cod = id;
+        model.Status = 1; // Ativa 
+
+        this.service.cadastrarProprietario(model).subscribe({
+          next: (res) => {
+            debugger
+
+            if (res.Cod == 0) {
+              const mensagensErro: string[] = [];
+              mensagensErro.push(res.Info)
+              this.OpenModalErro(mensagensErro);
+            }
+            else {
+
+              window.location.reload();
+
+              // debugger
+              // const dialogRef = this.dialog.open(DialogDynamicComponent);
+
+              // dialogRef.componentInstance.typeDialog = 1;
+              // dialogRef.afterClosed().subscribe(result => {
+              //   console.log("RESULTADO RECEBIDO:", result);
+
+
+
+              //   // window.location.reload();
+              //   console.log("Proprietário cadastrado com sucesso! Novo ID:", res.Cod);
+
+              // });
+            }
+          },
+          error: (err) => {
+            console.error("Erro ao cadastrar proprietário:", err);
+          }
+        });
+
+      }
+    });
+
+  }
+
 
 
 

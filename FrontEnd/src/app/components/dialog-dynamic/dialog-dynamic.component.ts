@@ -51,8 +51,16 @@ export class DialogDynamicComponent implements OnInit {
     closeDialog() {
         // this.dialogRef.close(this.confirmation ? this.sairCadastroProprietario() : undefined);
 
-          this.dialogRef.close({ cancel: true, data: "algum valor" });
+        this.dialogRef.close({ cancel: true, data: "algum valor" });
     }
+
+
+    closeDialogInativar() {
+        // this.dialogRef.close(this.confirmation ? this.sairCadastroProprietario() : undefined);
+
+        this.dialogRef.close({ inativar: true, data: "algum valor" });
+    }
+
 
 
     retornCancel: boolean = false;

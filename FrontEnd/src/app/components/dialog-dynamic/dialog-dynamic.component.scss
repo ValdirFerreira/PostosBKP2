@@ -5,7 +5,7 @@
     border-radius: 20px;
 
     width: 610px;
-    height: 163px;
+    min-height: 163px;
     border-radius: 12px;
     padding: 24px;
     opacity: 1;
@@ -37,7 +37,7 @@
 }
 
 .left-area {
-    width: 110px;
+    width: 96px;
     display: flex;
     align-items: start;
     justify-content: start;
@@ -102,16 +102,14 @@
     display: flex;
     justify-content: flex-end;
     gap: 25px;
-   
 }
-
 
 .buttons-ok {
     padding-top: 40px;
     display: flex;
     justify-content: center;
-     position: relative;
-    right:  40px;
+    position: relative;
+    right: 40px;
 }
 
 .btn-text {
@@ -137,15 +135,13 @@
     opacity: 0.9;
 }
 
+.base-popup-info {
+  
+    margin-top: 20px;
+}
+
 /* Wrapper exclusivo da opção 10 */
 .popup-wrapper-10 {
-    .base-popup-info {
-        padding: 20px;
-        display: flex;
-        align-items: flex-start;
-        justify-content: center;
-    }
-
     width: 460px;
     display: flex;
     justify-content: center;
@@ -201,4 +197,13 @@
         line-height: 21px;
         letter-spacing: 0%;
     }
+}
+
+
+
+.icon-circle-thunder {
+  background-image: url(../../../assets/icones/thunder-icone.svg) !important;
+  background-repeat: no-repeat !important;
+  width: 58px;
+  height: 58px;
 }

@@ -9,6 +9,7 @@ using System.Data;
 using System;
 using System.Linq;
 using DataAccess.FilesConfig;
+using System.Text.RegularExpressions;
 
 namespace DataAccess.DashBoardTwo
 {
@@ -107,9 +108,10 @@ namespace DataAccess.DashBoardTwo
                     {
                         var parametros = new DynamicParameters();
                         parametros.Add("@ParamNome", req.Nome);
-                        parametros.Add("@ParamDocumento", req.Documento);
+                        parametros.Add("@ParamDocumento", Regex.Replace(req.Documento ?? "", "[^0-9]", ""));
                         parametros.Add("@ParamStatus", req.Status);
-                        parametros.Add("@ParamTelefone", req.Telefone);
+                        parametros.Add("@ParamTelefone",
+            Regex.Replace(req.Telefone ?? "", "[^0-9]", ""));
                         parametros.Add("@ParamEmail", req.Email);
 
                         novoId = conexaoBD.ExecuteScalar<int>(
@@ -124,17 +126,20 @@ namespace DataAccess.DashBoardTwo
                         var parametros = new DynamicParameters();
                         parametros.Add("@ParamCod", req.Cod);
                         parametros.Add("@ParamNome", req.Nome);
-                        parametros.Add("@ParamDocumento", req.Documento);
+                        parametros.Add("@ParamDocumento", Regex.Replace(req.Documento ?? "", "[^0-9]", ""));
                         parametros.Add("@ParamCodStatus", req.Status);
-                        parametros.Add("@ParamTelefone", req.Telefone);
+                        parametros.Add("@ParamTelefone",
+             Regex.Replace(req.Telefone ?? "", "[^0-9]", ""));
                         parametros.Add("@ParamEmail", req.Email);
 
-                        novoId = conexaoBD.ExecuteScalar<int>(
-                            "prProprietarioAtualizar",
-                            parametros,
-                            commandType: CommandType.StoredProcedure,
-                            commandTimeout: 300
-                        );
+                        conexaoBD.ExecuteScalar<int>(
+                              "prProprietarioAtualizar",
+                              parametros,
+                              commandType: CommandType.StoredProcedure,
+                              commandTimeout: 300
+                          );
+
+                        novoId = req.Cod;
                     }
                 }
             }
@@ -188,14 +193,14 @@ namespace DataAccess.DashBoardTwo
             try
             {
                 SaveFiles saveFiles = new SaveFiles();
-               return saveFiles.RecuperaArquivo(req.Cod);
+                return saveFiles.RecuperaArquivo(req.Cod);
             }
             catch (Exception ex)
             {
-              return null;
+                return null;
             }
 
-        
+
         }
 
     }

@@ -45,7 +45,12 @@ export class PainelPostosService {
   }
 
 
-
+  ProprietarioAtualizarStatus(model: ProprietarioCadastrarRequest) {
+    return this.httpClient.post<ResponseCad>(
+      `${this.baseUrl}/PainelPostos/ProprietarioAtualizarStatus`,
+      model
+    );
+  }
 
 
   cadastrarProprietario(model: ProprietarioCadastrarRequest) {

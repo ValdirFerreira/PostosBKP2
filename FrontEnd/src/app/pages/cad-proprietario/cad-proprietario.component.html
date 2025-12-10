@@ -2,7 +2,6 @@
 
 <app-navbar></app-navbar>
 
-
 <!-- CONTAINER -->
 <div class="page-container" *ngIf="!activeCadastro && !activeAssPosto">
 
@@ -44,15 +43,6 @@
           class="plus">+</span></button>
     </div>
 
-    <div style="display: flex; justify-content: center; align-items: center;">
-      <!-- <button class="btn-select">Todos <span class="arrow">▾</span></button> -->
-      <button (click)="changeAssPosto(true,1)" class="btn-new">TestPostos
-        <span
-          class="plus">+</span></button>
-    </div>
-
-
-
   </div>
 
   <!-- TABELA -->
@@ -70,11 +60,16 @@
       <tbody>
         <tr *ngFor="let p of pagedList">
           <td class="col-actions">
-            <button class="icon-btn"><div class="btn-shop"
+            <button  *ngIf="p.CodStatus == 1" class="icon-btn"><div class="btn-shop"
                 (click)="changeAssPosto(true,p.Cod)"></div></button>
-            <button class="icon-btn"><div class="btn-edit"
+            <button *ngIf="p.CodStatus == 1" class="icon-btn"><div class="btn-edit"
                 (click)="ProprietarioConsultarPeloID(p.Cod)"></div></button>
-            <button class="icon-btn"><div class="btn-block"></div></button>
+            <button *ngIf="p.CodStatus == 1" class="icon-btn"><div
+                class="btn-block"
+                (click)="OpenModalDesativarProprietario(p.Cod)"></div></button>
+            <button *ngIf="p.CodStatus == 2" class="icon-btn"><div
+                class="check-desblock"
+                (click)="OpenModalReativarProprietario(p.Cod)"></div></button>
           </td>
 
           <td class="col-name">{{ p.Nome }}</td>
@@ -366,4 +361,4 @@
 
 <!-- ASSOSCIAÇÃO DE POSTOS -->
 
-<cad-postos *ngIf="activeAssPosto"></cad-postos>
+<!-- <cad-postos *ngIf="activeAssPosto"></cad-postos> -->
