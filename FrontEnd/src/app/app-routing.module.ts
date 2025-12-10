@@ -33,6 +33,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/cad-proprietario/cad-proprietario.module').then(m => m.CadProprietarioModule),
     // canActivate: [AuthGuard],
   }
+    , {
+    path: 'entrevistador',
+    loadChildren: () => import('./pages/cad-entrevistador/cad-entrevistador.module').then(m => m.CadEntrevistadorModule),
+    // canActivate: [AuthGuard],
+  }
   , {
     path: 'dashboard-one',
     loadChildren: () => import('./pages/dashboard-one/dashboard-one.module').then(m => m.DashboardOneModule),

@@ -1,10 +1,11 @@
 <div class="popup-wrapper" *ngIf="typeDialog == 0">
   <div class="left-area">
-    <div class="icon-circle">
+    <!-- <div class="icon-circle">
       <div class="icon-inner">
         <span>!</span>
       </div>
-    </div>
+    </div> -->
+    <div class="alert-war"></div>
   </div>
 
   <div class="right-area">
@@ -43,12 +44,10 @@
   </div>
 </div>
 
-
-
 <div class="popup-wrapper" *ngIf="typeDialog == 2">
   <div class="left-area">
     <div class="icon-circle-thunder">
-      
+
     </div>
   </div>
 
@@ -60,17 +59,18 @@
     </p>
 
     <div class="buttons">
-      <button (click)="closeDialog()" class="btn-text">Não, manter ativo</button>
-      <button class="btn-primary-p"  (click)="closeDialogInativar()">Inativar proprietário</button>
+      <button (click)="closeDialog()" class="btn-text">Não, manter
+        ativo</button>
+      <button class="btn-primary-p" (click)="closeDialogInativar()">Inativar
+        proprietário</button>
     </div>
   </div>
 </div>
 
-
 <div class="popup-wrapper" *ngIf="typeDialog == 3">
   <div class="left-area">
     <div class="icon-circle-thunder">
-      
+
     </div>
   </div>
 
@@ -78,24 +78,26 @@
     <h2 class="title">Deseja reativar este Proprietário?</h2>
 
     <p class="subtitle">
-    Se prosseguir, poderá todos os dados inseridos não gravados.
+      Se prosseguir, poderá todos os dados inseridos não gravados.
     </p>
 
     <div class="buttons">
-      <button (click)="closeDialog()" class="btn-text">Não, manter inativo</button>
-      <button class="btn-primary-p"  (click)="closeDialogInativar()">Reativar proprietário</button>
+      <button (click)="closeDialog()" class="btn-text">Não, manter
+        inativo</button>
+      <button class="btn-primary-p" (click)="closeDialogInativar()">Reativar
+        proprietário</button>
     </div>
   </div>
 </div>
 
-
 <div class="popup-wrapper" *ngIf="typeDialog == 999">
   <div class="left-area">
-    <div class="icon-circle">
+    <!-- <div class="icon-circle">
       <div class="icon-inner">
         <span>!</span>
       </div>
-    </div>
+    </div> -->
+    <div class="alert-war"></div>
   </div>
 
   <div class="right-area">

@@ -149,7 +149,7 @@ menus: MenuItem[] = [
       {
         Id: 22,
         Nome: 'Cadastrar Entrevistador',
-        Url: '/cadastro-entrevistador',
+        Url: '/entrevistador',
         Ordem: 2
       }
     ]

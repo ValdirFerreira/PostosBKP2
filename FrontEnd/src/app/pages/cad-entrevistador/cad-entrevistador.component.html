@@ -1,0 +1,232 @@
+
+
+<app-navbar></app-navbar>
+
+<!-- CONTAINER -->
+<div class="page-container" *ngIf="!activeCadastro && !activeAssPosto">
+
+  <!-- TÍTULO + AÇÕES -->
+  <div class="header-title">
+    <div>
+      <h1>Entrevistadores</h1>
+      <p class="subtitle">Manage your surveys and questionnaires</p>
+    </div>
+
+    <div class="actions">
+
+    </div>
+  </div>
+
+  <div class="header-title">
+    <!-- ABAS -->
+    <div class="tabs">
+      <button class="tab" [class.active]="abaAtiva === 'ativo'"
+        (click)="trocarAba('ativo')">Ativo</button>
+      <button class="tab" [class.activeIn]="abaAtiva === 'inativo'"
+        (click)="trocarAba('inativo')">Inativo</button>
+    </div>
+
+    <!-- BUSCA + FILTROS -->
+    <div class="filters">
+      <div class="search-box">
+        <span class="search-icon"><div class="searchIps"></div></span>
+        <input type="text" placeholder="Pesquise aqui..." [(ngModel)]="pesquisa"
+          (input)="onPesquisar()" />
+        <span class="shortcut"></span>
+      </div>
+    </div>
+
+    <div style="display: flex; justify-content: center; align-items: center;">
+      <!-- <button class="btn-select">Todos <span class="arrow">▾</span></button> -->
+      <button (click)="changeCadastro(true)" class="btn-new">Novo Proprietário
+        <span
+          class="plus">+</span></button>
+    </div>
+
+  </div>
+
+  <!-- TABELA -->
+  <div class="table-card">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Ações</th>
+          <th>Nome / Email</th>
+          <th>Posição</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let p of pagedList">
+          <td class="col-actions">
+            <button  *ngIf="p.CodStatus == 1" class="icon-btn"><div class="btn-shop"
+                (click)="changeAssPosto(true,p.Cod)"></div></button>
+            <button *ngIf="p.CodStatus == 1" class="icon-btn"><div class="btn-edit"
+                (click)="ProprietarioConsultarPeloID(p.Cod)"></div></button>
+            <button *ngIf="p.CodStatus == 1" class="icon-btn"><div
+                class="btn-block"
+                (click)="OpenModalDesativarProprietario(p.Cod)"></div></button>
+            <button *ngIf="p.CodStatus == 2" class="icon-btn"><div
+                class="check-desblock"
+                (click)="OpenModalReativarProprietario(p.Cod)"></div></button>
+          </td>
+
+          <td class="col-name">{{ p.Nome }}</td>
+
+          <td>
+            <span class="tag">{{ p.Funcao }}</span>
+          </td>
+
+          <td class="col-email">{{ p.Email }}</td>
+        </tr>
+
+        <tr *ngIf="pagedList.length === 0">
+          <td colspan="4" class="empty">Nenhum registro encontrado.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- PAGINAÇÃO -->
+  <div class="pagination">
+    <button class="nav-btn" (click)="prevPage()"
+      [disabled]="currentPage === 1">‹ Retornar</button>
+
+    <div class="pages">
+      <button *ngFor="let pg of pages" (click)="goToPage(pg)"
+        [class.active]="pg === currentPage">
+        {{ pg }}
+      </button>
+    </div>
+
+    <button class="nav-btn" (click)="nextPage()"
+      [disabled]="currentPage === totalPages">Avançar ›</button>
+  </div>
+
+</div>
+
+<!-- CADASTRO -->
+
+<div class="page-container" *ngIf="activeCadastro && !activeAssPosto">
+
+  <div class="header-title">
+    <div>
+      <h1>Cadastro do Entrevistador</h1>
+      <p class="subtitle">Cadastre os dados do Proprietário, Gerente ou do Entrevistador</p>
+    </div>
+
+    <div class="actions">
+
+    </div>
+  </div>
+
+  <div class="page-wrapper">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <h2 class="sidebar-title">Configurações</h2>
+      <nav class="menu">
+        <div class="menu-item"
+          [class.active]="active === 'proprietario'"
+          (click)="active = 'proprietario'">
+          Dados do Intrevistador
+        </div>
+        <div class="menu-item"
+          [class.active]="active === 'contato'"
+          (click)="active = 'contato'">
+          Contato
+        </div>
+        
+      </nav>
+
+    </aside>
+
+    <!-- CONTEÚDO -->
+
+    <div class="content">
+
+      <div *ngIf="active === 'proprietario'">
+        <h1 class="title">Dados do Entrevistador</h1>
+
+        <p class="description">
+          Esta seção reúne os dados essenciais para início do preenchimento. Mantenha as informações claras e atualizadas para 
+          garantir a continuidade do processo.
+        </p>
+
+        <!-- FORMULÁRIO -->
+        <form class="form">
+
+          <!-- Nome -->
+          <div class="form-group">
+            <label>Nome do Intrevistador <span class="required">*</span></label>
+            <input type="text" placeholder="Qual é o nome completo?"
+              [(ngModel)]="model.Nome" name="nome">
+          </div>
+
+         
+          <!-- Status -->
+          <div class="form-group">
+            <label>Status</label>
+
+            <select [(ngModel)]="model.Status" name="status">
+              <option value="1">Ativo</option>
+              <option value="2">Inativo</option>
+            </select>
+          </div>
+        </form>
+
+        <!-- AÇÕES -->
+        <div class="actions">
+          <button class="btn-cancel" (click)="cancelar()">Cancelar
+            cadastro</button>
+          <button disabled class="btn-submit" (click)="salvar()">Criar
+            Cadastro</button>
+        </div>
+      </div>
+
+      <div *ngIf="active === 'contato'">
+
+        <!-- TÍTULO -->
+        <h1 class="title">Contato do Profissional</h1>
+
+        <p class="description">
+          Esta seção reúne os dados essenciais para início do preenchimento.
+          Mantenha as informações claras e atualizadas para garantir a
+          continuidade do processo.
+        </p>
+
+        <!-- FORMULÁRIO -->
+        <form class="form">
+
+         
+          <!-- EMAIL -->
+          <div class="form-group">
+            <label>Email <span class="required">*</span></label>
+            <input
+              type="email"
+              placeholder="email@example.com"
+              [(ngModel)]="model.Email"
+              name="email">
+          </div>
+
+        </form>
+
+        <!-- AÇÕES -->
+        <div class="actions">
+          <button class="btn-cancel" (click)="cancelar()">Cancelar
+            cadastro</button>
+          <button disabled class="btn-submit" (click)="salvar()">Criar
+            Cadastro</button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ASSOSCIAÇÃO DE POSTOS -->
+
+<!-- <cad-postos *ngIf="activeAssPosto"></cad-postos> -->

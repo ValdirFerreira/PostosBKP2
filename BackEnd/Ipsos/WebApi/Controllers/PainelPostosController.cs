@@ -105,6 +105,35 @@ namespace WebApi.Controllers
 
 
         [HttpPost]
+        [Route("ProprietarioAtualizarStatus")]
+        public HttpResponseMessage ProprietarioAtualizarStatus([FromBody] ProprietarioCadastrarRequest model)
+        {
+            var response = new Response();
+
+            try
+            {
+                var result = _context.AtualizarStatusProprietario(model.Cod, model.Status);
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (SqlException ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    "Sistema" + ex.Message
+                );
+
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Error = $"Bad request - ({ex.Message})";
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+
+
+        [HttpPost]
         [Route("ProprietarioFileCadastrar")]
         public HttpResponseMessage ProprietarioFileCadastrar([FromBody] FilePostos model)
         {

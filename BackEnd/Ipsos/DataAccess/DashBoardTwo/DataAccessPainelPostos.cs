@@ -168,6 +168,51 @@ namespace DataAccess.DashBoardTwo
             return response;
         }
 
+        public ResponseCad AtualizarStatusProprietario(int codProprietario, int novoStatus)
+        {
+            var response = new ResponseCad();
+
+            try
+            {
+                using (SqlConnection conexaoBD = new SqlConnection(Conexao.strConexao))
+                {
+                    string sql = @"
+                UPDATE tblProprietarios
+                SET CodStatus = @Status
+                WHERE CodProprietario = @Cod";
+
+                    var parametros = new DynamicParameters();
+                    parametros.Add("@Status", novoStatus);
+                    parametros.Add("@Cod", codProprietario);
+
+                    int linhasAfetadas = conexaoBD.Execute(sql, parametros);
+
+                    if (linhasAfetadas > 0)
+                        response.Cod = codProprietario;
+                    else
+                        response.Info = "Nenhum registro encontrado para atualizar.";
+                }
+            }
+            catch (Exception ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    ex.ToString()
+                );
+
+                if (ex is SqlException sqlEx)
+                {
+                    response.Info = SqlErrorTranslator.Translate(sqlEx);
+                }
+                else
+                {
+                    response.Info = "Ocorreu um erro inesperado. Tente novamente.";
+                }
+            }
+
+            return response;
+        }
 
 
         public bool ProprietarioFileCadastrar(FilePostos req)
