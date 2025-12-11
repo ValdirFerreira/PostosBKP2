@@ -10,8 +10,21 @@ namespace Entities.Filtros
     {
         public int IdItem { get; set; }
         public string DescItem { get; set; }
-        public int Tipo { get; set; }
-        public string CorItem { get; set; }
-        public int Ordem { get; set; }
     }
+
+
+    public class ParamFiltroPostos
+    {
+        public string ParamTextoBuscado { get; set; }
+    }
+
+
+    public class ParamFiltro
+    {
+        public int ParamCodIdioma { get; set; }
+    }
+
+
+
+
 }

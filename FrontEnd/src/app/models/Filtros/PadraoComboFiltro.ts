@@ -1,4 +1,12 @@
 export class PadraoComboFiltro {
-    CodItem: number;
+    IdItem: number;
     DescItem: string;
 }
+
+export class ParamFiltroPostos {
+    ParamTextoBuscado: string;
+}
+export class ParamFiltro {
+    ParamCodIdioma: number;
+}
+

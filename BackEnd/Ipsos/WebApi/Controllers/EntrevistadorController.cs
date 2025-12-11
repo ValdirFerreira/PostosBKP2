@@ -100,6 +100,144 @@ namespace WebApi.Controllers
         }
 
 
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        [HttpPost]
+        [Route("CadastrarEntrevistador")]
+        public HttpResponseMessage CadastrarEntrevistador([FromBody] EntrevistadorCadastrarRequest model)
+        {
+            var response = new Response();
+
+            try
+            {
+                var result = _context.CadastrarEntrevistador(model);
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (SqlException ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    "Sistema" + ex.Message
+                );
+
+                response.StatusCode = 500;
+                response.Error = $"Bad request - ({ex.Message})";
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+
+        [HttpPost]
+        [Route("AtualizarEntrevistador")]
+        public HttpResponseMessage AtualizarEntrevistador([FromBody] EntrevistadorAtualizarRequest model)
+        {
+            var response = new Response();
+
+            try
+            {
+                var result = _context.AtualizarEntrevistador(model);
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (SqlException ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    "Sistema" + ex.Message
+                );
+
+                response.StatusCode = 500;
+                response.Error = $"Bad request - ({ex.Message})";
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+
+        [HttpGet]
+        [Route("ConsultarEntrevistadores")]
+        public HttpResponseMessage ConsultarEntrevistadores(int codIdioma)
+        {
+            var response = new Response();
+
+            try
+            {
+                var result = _context.ConsultarEntrevistadores(codIdioma);
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (SqlException ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    "Sistema" + ex.Message
+                );
+
+                response.StatusCode = 500;
+                response.Error = $"Bad request - ({ex.Message})";
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+
+        [HttpGet]
+        [Route("ConsultarEntrevistadorPeloID")]
+        public HttpResponseMessage ConsultarEntrevistadorPeloID(int cod)
+        {
+            var response = new Response();
+
+            try
+            {
+                var result = _context.ConsultarEntrevistadorPeloID(cod);
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (SqlException ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    "Sistema" + ex.Message
+                );
+
+                response.StatusCode = 500;
+                response.Error = $"Bad request - ({ex.Message})";
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+
+        [HttpDelete]
+        [Route("ExcluirEntrevistador")]
+        public HttpResponseMessage ExcluirEntrevistador(int cod)
+        {
+            var response = new Response();
+
+            try
+            {
+                var result = _context.ExcluirEntrevistador(cod);
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (SqlException ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    "Sistema" + ex.Message
+                );
+
+                response.StatusCode = 500;
+                response.Error = $"Bad request - ({ex.Message})";
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+
 
     }
 }

@@ -172,6 +172,160 @@ namespace DataAccess.DashBoardTwo
 
 
 
+        public ResponseCad CadastrarEntrevistador(EntrevistadorCadastrarRequest req)
+        {
+            var response = new ResponseCad();
+            int novoId = 0;
+
+            try
+            {
+                using (SqlConnection conexaoBD = new SqlConnection(Conexao.strConexao))
+                {
+                    var parametros = new DynamicParameters();
+
+                    parametros.Add("@ParamNome", req.ParamNome);
+                    parametros.Add("@ParamEmail", req.ParamEmail);
+                    parametros.Add("@ParamTelefone", req.ParamTelefone);
+                    parametros.Add("@ParamDocumento", req.ParamDocumento);
+                    parametros.Add("@ParamCodStatus", req.ParamCodStatus);
+
+                    novoId = conexaoBD.ExecuteScalar<int>(
+                        "prEntrevistadorCadastrar",
+                        parametros,
+                        commandType: CommandType.StoredProcedure,
+                        commandTimeout: 300
+                    );
+                }
+
+                response.Cod = novoId;
+            }
+            catch (Exception ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    ex.ToString()
+                );
+
+                response.Cod = 0;
+            }
+
+            return response;
+        }
+
+        public ResponseCad AtualizarEntrevistador(EntrevistadorAtualizarRequest req)
+        {
+            var response = new ResponseCad();
+
+            try
+            {
+                using (SqlConnection conexaoBD = new SqlConnection(Conexao.strConexao))
+                {
+                    var parametros = new DynamicParameters();
+
+                    parametros.Add("@ParamCod", req.ParamCod);
+                    parametros.Add("@ParamNome", req.ParamNome);
+                    parametros.Add("@ParamEmail", req.ParamEmail);
+                    parametros.Add("@ParamTelefone", req.ParamTelefone);
+                    parametros.Add("@ParamDocumento", req.ParamDocumento);
+                    parametros.Add("@ParamCodStatus", req.ParamCodStatus);
+
+                    conexaoBD.Execute(
+                        "prEntrevistadorAtualizar",
+                        parametros,
+                        commandType: CommandType.StoredProcedure,
+                        commandTimeout: 300
+                    );
+                }
+
+                response.Cod = 1;
+            }
+            catch (Exception ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    ex.ToString()
+                );
+
+                response.Cod = 0;
+            }
+
+            return response;
+        }
+
+        public ResponseCad ExcluirEntrevistador(int cod)
+        {
+            var response = new ResponseCad();
+
+            try
+            {
+                using (SqlConnection conexaoBD = new SqlConnection(Conexao.strConexao))
+                {
+                    var parametros = new DynamicParameters();
+                    parametros.Add("@ParamCod", cod);
+
+                    conexaoBD.Execute(
+                        "prEntrevistadorExcluir",
+                        parametros,
+                        commandType: CommandType.StoredProcedure,
+                        commandTimeout: 300
+                    );
+                }
+
+                response.Cod = 1;
+            }
+            catch (Exception ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    ex.ToString()
+                );
+
+                response.Cod = 0;
+            }
+
+            return response;
+        }
+
+
+        public List<EntrevistadorDTO> ConsultarEntrevistadores(int codIdioma)
+        {
+            using (SqlConnection conexaoBD = new SqlConnection(Conexao.strConexao))
+            {
+                var parametros = new DynamicParameters();
+                parametros.Add("@ParamCodIdioma", codIdioma);
+
+                var lista = conexaoBD.Query<EntrevistadorDTO>(
+                    "prEntrevistadorConsultar",
+                    parametros,
+                    commandType: CommandType.StoredProcedure,
+                    commandTimeout: 300
+                ).ToList();
+
+                return lista;
+            }
+        }
+
+        public EntrevistadorDTO ConsultarEntrevistadorPeloID(int cod)
+        {
+            using (SqlConnection conexaoBD = new SqlConnection(Conexao.strConexao))
+            {
+                var parametros = new DynamicParameters();
+                parametros.Add("@ParamCod", cod);
+
+                var result = conexaoBD.QueryFirstOrDefault<EntrevistadorDTO>(
+                    "prEntrevistadorConsultarPeloID",
+                    parametros,
+                    commandType: CommandType.StoredProcedure,
+                    commandTimeout: 300
+                );
+
+                return result;
+            }
+        }
+
 
     }
 }

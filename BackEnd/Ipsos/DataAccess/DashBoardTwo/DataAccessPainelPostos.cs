@@ -10,6 +10,7 @@ using System;
 using System.Linq;
 using DataAccess.FilesConfig;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace DataAccess.DashBoardTwo
 {
@@ -285,6 +286,386 @@ namespace DataAccess.DashBoardTwo
 
             return resultado;
         }
+
+        public ResponseCad CadastrarFuncionario(PostoFuncionarioCadastrarRequest req)
+        {
+            var response = new ResponseCad();
+            int novoId = 0;
+
+            try
+            {
+                using (SqlConnection conexaoBD = new SqlConnection(Conexao.strConexao))
+                {
+                    var parametros = new DynamicParameters();
+
+                    parametros.Add("@ParamCodPosto", req.ParamCodPosto);
+                    parametros.Add("@ParamCodFuncionarioFuncao", req.ParamCodFuncionarioFuncao);
+                    parametros.Add("@ParamCodStatus", req.ParamCodStatus);
+                    parametros.Add("@ParamNome", req.ParamNome?.Trim());
+                    parametros.Add("@ParamEmail", req.ParamEmail?.Trim());
+
+                    novoId = conexaoBD.ExecuteScalar<int>(
+                        "prPostoFuncionarioCadastrar",
+                        parametros,
+                        commandType: CommandType.StoredProcedure,
+                        commandTimeout: 300
+                    );
+                }
+
+                response.Cod = novoId;
+            }
+            catch (Exception ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    ex.ToString()
+                );
+
+                response.Cod = 0;
+
+            }
+
+            return response;
+        }
+
+        public ResponseCad AtualizarFuncionario(PostoFuncionarioCadastrarRequest req)
+        {
+            var response = new ResponseCad();
+
+            try
+            {
+                using (SqlConnection conexaoBD = new SqlConnection(Conexao.strConexao))
+                {
+                    var parametros = new DynamicParameters();
+
+                    // ID obrigatório
+                    parametros.Add("@ParamCod", req.ParamCodFuncionarioFuncao);
+
+                    // Somente serão atualizados se vierem preenchidos > 0 ou não nulos
+                    parametros.Add("@ParamCodFuncionarioFuncao", req.ParamCodFuncionarioFuncao);
+
+                    parametros.Add("@ParamCodStatus",
+                        req.ParamCodStatus);
+
+                    parametros.Add("@ParamNome",
+                        string.IsNullOrWhiteSpace(req.ParamNome) ? null : req.ParamNome.Trim());
+
+                    parametros.Add("@ParamEmail",
+                        string.IsNullOrWhiteSpace(req.ParamEmail) ? null : req.ParamEmail.Trim());
+
+                    conexaoBD.Execute(
+                        "prPostoFuncionarioAtualizar",
+                        parametros,
+                        commandType: CommandType.StoredProcedure,
+                        commandTimeout: 300
+                    );
+                }
+
+                response.Cod = req.ParamCodFuncionarioFuncao; // sucesso
+            }
+            catch (Exception ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    ex.ToString()
+                );
+
+                response.Cod = 0; // erro
+            }
+
+            return response;
+        }
+
+        public List<PostoFuncionarioConsultarResponse> ConsultarFuncionarios(int codPosto, int codIdioma)
+        {
+            var lista = new List<PostoFuncionarioConsultarResponse>();
+
+            try
+            {
+                using (SqlConnection conexaoBD = new SqlConnection(Conexao.strConexao))
+                {
+                    var parametros = new DynamicParameters();
+
+                    parametros.Add("@ParamCodPosto", codPosto);
+                    parametros.Add("@ParamCodIdioma", codIdioma);
+
+                    var result = conexaoBD.Query<PostoFuncionarioConsultarResponse>(
+                        "prPostoFuncionarioConsultar",
+                        parametros,
+                        commandType: CommandType.StoredProcedure,
+                        commandTimeout: 300
+                    );
+
+                    lista = result.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    ex.ToString()
+                );
+            }
+
+            return lista;
+        }
+
+        public PostoFuncionarioConsultarResponse ConsultarFuncionarioPeloID(int cod, int codIdioma)
+        {
+            var retorno = new PostoFuncionarioConsultarResponse();
+
+            try
+            {
+                using (SqlConnection conexaoBD = new SqlConnection(Conexao.strConexao))
+                {
+                    var parametros = new DynamicParameters();
+
+                    parametros.Add("@ParamCod", cod);
+                    parametros.Add("@ParamCodIdioma", codIdioma);
+
+                    retorno = conexaoBD.QueryFirstOrDefault<PostoFuncionarioConsultarResponse>(
+                        "prPostoFuncionarioConsultarPeloID",
+                        parametros,
+                        commandType: CommandType.StoredProcedure,
+                        commandTimeout: 300
+                    );
+                }
+            }
+            catch (Exception ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    ex.ToString()
+                );
+            }
+
+            return retorno;
+        }
+
+        public ResponseCad ExcluirFuncionario(int cod)
+        {
+            var response = new ResponseCad();
+
+            try
+            {
+                using (SqlConnection conexaoBD = new SqlConnection(Conexao.strConexao))
+                {
+                    var parametros = new DynamicParameters();
+
+                    parametros.Add("@ParamCod", cod);
+
+                    conexaoBD.Execute(
+                        "prPostoFuncionarioExcluir",
+                        parametros,
+                        commandType: CommandType.StoredProcedure,
+                        commandTimeout: 300
+                    );
+                }
+
+                response.Cod = 1; // sucesso
+            }
+            catch (Exception ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    ex.ToString()
+                );
+
+                response.Cod = 0; // erro
+            }
+
+            return response;
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///
+
+        public ResponseCad CadastrarAssociacao(PostoAssociacaoCadastrarRequest req)
+        {
+            var response = new ResponseCad();
+            int novoId = 0;
+
+            try
+            {
+                using (SqlConnection conexaoBD = new SqlConnection(Conexao.strConexao))
+                {
+                    var parametros = new DynamicParameters();
+
+                    parametros.Add("@ParamCodProprietario", req.ParamCodProprietario);
+                    parametros.Add("@ParamCodPosto", req.ParamCodPosto);
+
+                    novoId = conexaoBD.ExecuteScalar<int>(
+                        "prAssociacaoPostoCadastrar",
+                        parametros,
+                        commandType: CommandType.StoredProcedure,
+                        commandTimeout: 300
+                    );
+                }
+
+                response.Cod = novoId;
+            }
+            catch (Exception ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    ex.ToString()
+                );
+
+                response.Cod = 0;
+            }
+
+            return response;
+        }
+
+
+        public ResponseCad AtualizarAssociacao(PostoAssociacaoAtualizarRequest req)
+        {
+            var response = new ResponseCad();
+
+            try
+            {
+                using (SqlConnection conexaoBD = new SqlConnection(Conexao.strConexao))
+                {
+                    var parametros = new DynamicParameters();
+
+                    parametros.Add("@ParamCod", req.ParamCod);
+                    parametros.Add("@ParamCodProprietario", req.ParamCodProprietario);
+                    parametros.Add("@ParamCodPosto", req.ParamCodPosto);
+                    parametros.Add("@ParamCodStatus", req.ParamCodStatus);
+
+                    conexaoBD.Execute(
+                        "prAssociacaoPostoAtualizar",
+                        parametros,
+                        commandType: CommandType.StoredProcedure,
+                        commandTimeout: 300
+                    );
+                }
+
+                response.Cod = 1;
+            }
+            catch (Exception ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    ex.ToString()
+                );
+
+                response.Cod = 0;
+            }
+
+            return response;
+        }
+
+        public ResponseCad ExcluirAssociacao(int cod)
+        {
+            var response = new ResponseCad();
+
+            try
+            {
+                using (SqlConnection conexaoBD = new SqlConnection(Conexao.strConexao))
+                {
+                    var parametros = new DynamicParameters();
+                    parametros.Add("@ParamCod", cod);
+
+                    conexaoBD.Execute(
+                        "prAssociacaoPostoExcluir",
+                        parametros,
+                        commandType: CommandType.StoredProcedure,
+                        commandTimeout: 300
+                    );
+                }
+
+                response.Cod = 1;
+            }
+            catch (Exception ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    ex.ToString()
+                );
+
+                response.Cod = 0;
+            }
+
+            return response;
+        }
+
+
+        public List<AssociacaoPostoConsultarResponse> ConsultarAssociacoes(int codIdioma)
+        {
+            var lista = new List<AssociacaoPostoConsultarResponse>();
+
+            try
+            {
+                using (SqlConnection conexaoBD = new SqlConnection(Conexao.strConexao))
+                {
+                    var parametros = new DynamicParameters();
+                    parametros.Add("@ParamCodIdioma", codIdioma);
+
+                    var result = conexaoBD.Query<AssociacaoPostoConsultarResponse>(
+                        "prAssociacaoPostoConsultar",
+                        parametros,
+                        commandType: CommandType.StoredProcedure,
+                        commandTimeout: 300
+                    );
+
+                    lista = result.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    ex.ToString()
+                );
+            }
+
+            return lista;
+        }
+
+
+        public AssociacaoPostoConsultarPeloIDResponse ConsultarAssociacaoPeloID(int cod)
+        {
+            var retorno = new AssociacaoPostoConsultarPeloIDResponse();
+
+            try
+            {
+                using (SqlConnection conexaoBD = new SqlConnection(Conexao.strConexao))
+                {
+                    var parametros = new DynamicParameters();
+                    parametros.Add("@ParamCod", cod);
+
+                    retorno = conexaoBD.QueryFirstOrDefault<AssociacaoPostoConsultarPeloIDResponse>(
+                        "prAssociacaoPostoConsultarPeloID",
+                        parametros,
+                        commandType: CommandType.StoredProcedure,
+                        commandTimeout: 300
+                    );
+                }
+            }
+            catch (Exception ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    ex.ToString()
+                );
+            }
+
+            return retorno;
+        }
+
+
 
     }
 }

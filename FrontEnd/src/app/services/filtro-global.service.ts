@@ -10,6 +10,7 @@ import {
 import { ParamGeralFiltro } from './param-filtro';
 import { Session } from '../pages/home/guards/session';
 import moment from 'moment';
+import { ParamFiltro, ParamFiltroPostos } from '../models/Filtros/PadraoComboFiltro';
 
 @Injectable({
   providedIn: 'root',
@@ -213,7 +214,7 @@ export class FiltroGlobalService {
   }
 
   FiltroBVC() {
-    
+
     var filtro = this.carregaParametrosFiltro();
 
     if (this.ModelTarget && this.ModelTarget.IdItem > 0) {
@@ -243,4 +244,45 @@ export class FiltroGlobalService {
       null
     );
   }
+
+
+
+
+
+  /////////////////////////////////////////////////////////////////////////////////
+
+
+  FiltroStatus(filtro: ParamFiltro) {
+    return this.httpClient.post<Array<PadraoComboFiltro>>(
+      `${this.baseUrl}/filtros/FiltroStatus/`,
+      filtro
+    );
+  }
+
+
+  FiltroPostos(filtro: ParamFiltroPostos) {
+    return this.httpClient.post<Array<PadraoComboFiltro>>(
+      `${this.baseUrl}/filtros/FiltroPostos/`,
+      filtro
+    );
+  }
+
+
+  FiltroFuncionarioFuncoes(filtro: ParamFiltro) {
+    return this.httpClient.post<Array<PadraoComboFiltro>>(
+      `${this.baseUrl}/filtros/FiltroFuncionarioFuncoes/`,
+      filtro
+    );
+  }
+
+  FiltroTipoPessoa(filtro: ParamFiltro) {
+    return this.httpClient.post<Array<PadraoComboFiltro>>(
+      `${this.baseUrl}/filtros/FiltroTipoPessoa/`,
+      filtro
+    );
+  }
+
+
+
+
 }

@@ -52,10 +52,90 @@ namespace WebApi.Controllers
             }
         }
 
-   
+
+        [HttpPost]
+        [Route("FiltroStatus")]
+        public HttpResponseMessage FiltroStatus(ParamFiltro filtro)
+        {
+            var response = new Response();
+
+            try
+            {
+                var dados = _context.FiltroStatus(filtro);
+                return Request.CreateResponse(HttpStatusCode.OK, dados);
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Error = $"Bad request - ({ex.Message})";
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
 
 
-        
+        [HttpPost]
+        [Route("FiltroPostos")]
+        public HttpResponseMessage FiltroPostos(ParamFiltroPostos filtro)
+        {
+            var response = new Response();
+
+            try
+            {
+                var dados = _context.FiltroPostos(filtro);
+                return Request.CreateResponse(HttpStatusCode.OK, dados);
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Error = $"Bad request - ({ex.Message})";
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [HttpPost]
+        [Route("FiltroFuncionarioFuncoes")]
+        public HttpResponseMessage FiltroFuncionarioFuncoes(ParamFiltro filtro)
+        {
+            var response = new Response();
+
+            try
+            {
+                var dados = _context.FiltroFuncionarioFuncoes(filtro);
+                return Request.CreateResponse(HttpStatusCode.OK, dados);
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Error = $"Bad request - ({ex.Message})";
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [HttpPost]
+        [Route("FiltroTipoPessoa")]
+        public HttpResponseMessage FiltroTipoPessoa(ParamFiltro filtro)
+        {
+            var response = new Response();
+
+            try
+            {
+                var dados = _context.FiltroTipoPessoa(filtro);
+                return Request.CreateResponse(HttpStatusCode.OK, dados);
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Error = $"Bad request - ({ex.Message})";
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+
+
 
 
     }

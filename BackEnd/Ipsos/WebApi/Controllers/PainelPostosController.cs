@@ -189,7 +189,7 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [Route("FuncionariosConsultar")]
-        public HttpResponseMessage FuncionariosConsultar([FromBody] Postos model  )
+        public HttpResponseMessage FuncionariosConsultar([FromBody] Postos model)
         {
 
             var response = new Response();
@@ -209,6 +209,259 @@ namespace WebApi.Controllers
             }
         }
 
+
+        [HttpPost]
+        [Route("CadastrarFuncionario")]
+        public HttpResponseMessage CadastrarFuncionario([FromBody] PostoFuncionarioCadastrarRequest model)
+        {
+            var response = new Response();
+
+            try
+            {
+                // chama o método no service/context
+                var result = _context.CadastrarFuncionario(model);
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (SqlException ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    "Sistema" + ex.Message
+                );
+
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Error = $"Bad request - ({ex.Message})";
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+
+        [HttpPost]
+        [Route("AtualizarFuncionario")]
+        public HttpResponseMessage AtualizarFuncionario([FromBody] PostoFuncionarioCadastrarRequest model)
+        {
+            var response = new Response();
+
+            try
+            {
+                // chama o método no service/context
+                var result = _context.AtualizarFuncionario(model);
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (SqlException ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    "Sistema" + ex.Message
+                );
+
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Error = $"Bad request - ({ex.Message})";
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+
+
+        [HttpGet]
+        [Route("ConsultarFuncionarios")]
+        public HttpResponseMessage ConsultarFuncionarios(int codPosto, int codIdioma)
+        {
+            var response = new Response();
+
+            try
+            {
+                // chama o método no service/context
+                var result = _context.ConsultarFuncionarios(codPosto, codIdioma);
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (SqlException ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    "Sistema" + ex.Message
+                );
+
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Error = $"Bad request - ({ex.Message})";
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+
+        [HttpGet]
+        [Route("ConsultarFuncionarioPeloID")]
+        public HttpResponseMessage ConsultarFuncionarioPeloID(int cod, int codIdioma)
+        {
+            var response = new Response();
+
+            try
+            {
+                var result = _context.ConsultarFuncionarioPeloID(cod, codIdioma);
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (SqlException ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    "Sistema" + ex.Message
+                );
+
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Error = $"Bad request - ({ex.Message})";
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [HttpDelete]
+        [Route("ExcluirFuncionario")]
+        public HttpResponseMessage ExcluirFuncionario(int cod)
+        {
+            var response = new Response();
+
+            try
+            {
+                var result = _context.ExcluirFuncionario(cod);
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (SqlException ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    "Sistema" + ex.Message
+                );
+
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Error = $"Bad request - ({ex.Message})";
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        [HttpPost]
+        [Route("CadastrarAssociacao")]
+        public HttpResponseMessage CadastrarAssociacao([FromBody] PostoAssociacaoCadastrarRequest model)
+        {
+            var response = new Response();
+
+            try
+            {
+                var result = _context.CadastrarAssociacao(model);
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (SqlException ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    "Sistema" + ex.Message
+                );
+
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Error = $"Bad request - ({ex.Message})";
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [HttpPost]
+        [Route("AtualizarAssociacao")]
+        public HttpResponseMessage AtualizarAssociacao([FromBody] PostoAssociacaoAtualizarRequest model)
+        {
+            var response = new Response();
+
+            try
+            {
+                var result = _context.AtualizarAssociacao(model);
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (SqlException ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    "Sistema" + ex.Message
+                );
+
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Error = $"Bad request - ({ex.Message})";
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [HttpDelete]
+        [Route("ExcluirAssociacao")]
+        public HttpResponseMessage ExcluirAssociacao(int cod)
+        {
+            var response = new Response();
+
+            try
+            {
+                var result = _context.ExcluirAssociacao(cod);
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (SqlException ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    "Sistema" + ex.Message
+                );
+
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Error = $"Bad request - ({ex.Message})";
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [HttpGet]
+        [Route("ConsultarAssociacaoPeloID")]
+        public HttpResponseMessage ConsultarAssociacaoPeloID(int cod)
+        {
+            var response = new Response();
+
+            try
+            {
+                var result = _context.ConsultarAssociacaoPeloID(cod);
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (SqlException ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    "Sistema" + ex.Message
+                );
+
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Error = $"Bad request - ({ex.Message})";
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
 
 
     }
