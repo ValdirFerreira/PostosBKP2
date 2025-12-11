@@ -71,10 +71,6 @@ namespace WebApi.Controllers
         }
 
 
-
-
-
-
         [HttpPost]
         [Route("ProprietarioCadastrar")]
         public HttpResponseMessage ProprietarioCadastrar([FromBody] ProprietarioCadastrarRequest model)
@@ -103,7 +99,6 @@ namespace WebApi.Controllers
             }
         }
 
-
         [HttpPost]
         [Route("ProprietarioAtualizarStatus")]
         public HttpResponseMessage ProprietarioAtualizarStatus([FromBody] ProprietarioCadastrarRequest model)
@@ -130,8 +125,6 @@ namespace WebApi.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
-
-
 
         [HttpPost]
         [Route("ProprietarioFileCadastrar")]
@@ -162,8 +155,6 @@ namespace WebApi.Controllers
         }
 
 
-          
-
         [HttpPost]
         [Route("RecuperaArquivo")]
         public HttpResponseMessage RecuperaArquivo([FromBody] FilePostos model)
@@ -192,8 +183,31 @@ namespace WebApi.Controllers
             }
         }
 
-        
 
+        ////////////////////////////////////////////////////////////
+        ///
+
+        [HttpPost]
+        [Route("FuncionariosConsultar")]
+        public HttpResponseMessage FuncionariosConsultar([FromBody] Postos model  )
+        {
+
+            var response = new Response();
+            try
+            {
+                var list = _context.FuncionariosConsultar(model.CodIdioma);
+
+                return Request.CreateResponse(HttpStatusCode.OK, list);
+
+            }
+            catch (SqlException ex)
+            {
+                LogText.Instance.Error(this.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, "Sistema" + ex.Message);
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Error = $"Bad request - ({ex.Message})";
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
 
 
 

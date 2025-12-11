@@ -28,5 +28,15 @@ namespace Entities.DTOs
 
         public string FileExension { get; set; }
     }
-   
+
+
+    public class Postos
+    {
+        public int Cod { get; set; }
+
+        public int CodIdioma { get; set; }
+
+
+    }
+
 }

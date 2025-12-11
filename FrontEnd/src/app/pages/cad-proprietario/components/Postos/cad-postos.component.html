@@ -17,13 +17,16 @@
     <aside class="sidebar">
       <h2 class="sidebar-title">Configurações</h2>
       <nav class="menu">
-        <div class="menu-item" [class.active]="activePosto === 'postos'" (click)="activePosto = 'postos'">
+        <div class="menu-item" [class.active]="activePosto === 'postos'"
+          (click)="activePosto = 'postos'">
           Dados do Posto
         </div>
-        <div class="menu-item" [class.active]="activePosto === 'servicos'" (click)="activePosto = 'servicos'">
+        <div class="menu-item" [class.active]="activePosto === 'servicos'"
+          (click)="activePosto = 'servicos'">
           Serviços Disponíveis
         </div>
-        <div class="menu-item" [class.active]="activePosto === 'funcionarios'" (click)="activePosto = 'funcionarios'">
+        <div class="menu-item" [class.active]="activePosto === 'funcionarios'"
+          (click)="activePosto = 'funcionarios'">
           Funcionários
         </div>
       </nav>
@@ -47,7 +50,7 @@
         <form class="form">
 
           <div class="form-group">
-            <label>Cargo</label>
+            <label>Postos</label>
             <select [(ngModel)]="modelPosto.Cargo" name="cargo">
               <option disabled selected>Buscar posto</option>
               <option *ngFor="let item of cargos" [value]="item">{{ item
@@ -57,27 +60,32 @@
 
           <div class="form-group">
             <label>Bandeira</label>
-            <input type="text" [(ngModel)]="modelPosto.Bandeira" name="bandeira" disabled>
+            <input type="text" [(ngModel)]="modelPosto.Bandeira" name="bandeira"
+              disabled>
           </div>
 
           <div class="form-group">
             <label>Razão Social</label>
-            <input type="text" [(ngModel)]="modelPosto.RazaoSocial" name="razaosocial" disabled>
+            <input type="text" [(ngModel)]="modelPosto.RazaoSocial"
+              name="razaosocial" disabled>
           </div>
 
           <div class="form-group">
             <label>Nome Fantasia</label>
-            <input type="text" [(ngModel)]="modelPosto.NomeFantasia" name="nomefantasia" disabled>
+            <input type="text" [(ngModel)]="modelPosto.NomeFantasia"
+              name="nomefantasia" disabled>
           </div>
 
           <div class="form-group">
             <label>Endereço</label>
-            <input type="text" [(ngModel)]="modelPosto.Endereco" name="endereco" disabled>
+            <input type="text" [(ngModel)]="modelPosto.Endereco" name="endereco"
+              disabled>
           </div>
 
           <div class="form-group">
             <label>Complemento</label>
-            <input type="text" [(ngModel)]="modelPosto.Complemento" name="complemento" disabled>
+            <input type="text" [(ngModel)]="modelPosto.Complemento"
+              name="complemento" disabled>
           </div>
 
           <div class="form-group">
@@ -87,17 +95,20 @@
 
           <div class="form-group">
             <label>Bairro</label>
-            <input type="text" [(ngModel)]="modelPosto.Bairro" name="bairro" disabled>
+            <input type="text" [(ngModel)]="modelPosto.Bairro" name="bairro"
+              disabled>
           </div>
 
           <div class="form-group">
             <label>Cidade</label>
-            <input type="text" [(ngModel)]="modelPosto.Cidade" name="cidade" disabled>
+            <input type="text" [(ngModel)]="modelPosto.Cidade" name="cidade"
+              disabled>
           </div>
 
           <div class="form-group">
             <label>Estado</label>
-            <input type="text" [(ngModel)]="modelPosto.Estado" name="estado" disabled>
+            <input type="text" [(ngModel)]="modelPosto.Estado" name="estado"
+              disabled>
           </div>
 
         </form>
@@ -106,7 +117,7 @@
         <div class="actions">
           <button class="btn-cancel" (click)="cancelar()">Cancelar
             cadastro</button>
-          <button disabled class="btn-submit" (click)="salvar()">Criar
+          <button disabled class="btn-submit" >Criar
             Cadastro</button>
         </div>
       </div>
@@ -118,7 +129,8 @@
           Habilite os serviços disponíveis no seu posto.
         </p>
 
-        <div class="servico-bloco" *ngFor="let categoria of servicosDisponiveis">
+        <div class="servico-bloco"
+          *ngFor="let categoria of servicosDisponiveis">
 
           <div class="servico-options">
             <div>
@@ -146,7 +158,7 @@
         <div class="actions">
           <button class="btn-cancel" (click)="cancelar()">Cancelar
             cadastro</button>
-          <button disabled class="btn-submit" (click)="salvar()">Criar
+          <button disabled class="btn-submit">Criar
             Cadastro</button>
         </div>
 
@@ -161,7 +173,8 @@
         </p>
 
         <br>
-        <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div
+          style="display: flex; justify-content: space-between; align-items: center;">
           <div>
             <h2 class="title">Adicione funcionários</h2>
             <p class="description">
@@ -169,9 +182,11 @@
             </p>
           </div>
 
-          <div style="display: flex; justify-content: end; align-items: center;">
+          <div
+            style="display: flex; justify-content: end; align-items: center;">
             <!-- <button class="btn-select">Todos <span class="arrow">▾</span></button> -->
-            <button (click)="changeCadFuncionario(true)" class="btn-new">Adicionar
+            <button (click)="changeCadFuncionario(true)"
+              class="btn-new">Adicionar
               funcionário</button>
           </div>
 
@@ -182,26 +197,16 @@
           <table class="table">
             <thead>
               <tr>
-                <th>Ações</th>
+
                 <th>Nome / Email</th>
-                <th>Posição</th>
-                <th>Email</th>
+                <th>Função</th>
+                <th>Ações</th>
               </tr>
             </thead>
 
             <tbody>
               <tr *ngFor="let p of pagedList">
-                <td class="col-actions">
-                  <button class="icon-btn">
-                    <div class="btn-shop" (click)="changeAssPosto(true,p.Cod)"></div>
-                  </button>
-                  <button class="icon-btn">
-                    <div class="btn-edit" (click)="ProprietarioConsultarPeloID(p.Cod)"></div>
-                  </button>
-                  <button class="icon-btn">
-                    <div class="btn-block"></div>
-                  </button>
-                </td>
+                
 
                 <td class="col-name">{{ p.Nome }}</td>
 
@@ -209,7 +214,22 @@
                   <span class="tag">{{ p.Funcao }}</span>
                 </td>
 
-                <td class="col-email">{{ p.Email }}</td>
+
+                 <td class="col-actions">
+                  <!-- <button class="icon-btn">
+                    <div class="btn-shop"
+                      (click)="changeAssPosto(true,p.Cod)"></div>
+                  </button>
+                  <button class="icon-btn">
+                    <div class="btn-edit"
+                      (click)="ProprietarioConsultarPeloID(p.Cod)"></div>
+                  </button>-->
+                  <button class="icon-btn">
+                    <div class="btn-lixeira" (click)="changeDelete(p.Email)"></div>
+                  </button> 
+                </td>
+
+                
               </tr>
 
               <tr *ngIf="pagedList.length === 0">
@@ -221,22 +241,25 @@
 
         <!-- PAGINAÇÃO -->
         <div class="pagination">
-          <button class="nav-btn" (click)="prevPage()" [disabled]="currentPage === 1">‹ Retornar</button>
+          <button class="nav-btn" (click)="prevPage()"
+            [disabled]="currentPage === 1">‹ Retornar</button>
 
           <div class="pages">
-            <button *ngFor="let pg of pages" (click)="goToPage(pg)" [class.active]="pg === currentPage">
+            <button *ngFor="let pg of pages" (click)="goToPage(pg)"
+              [class.active]="pg === currentPage">
               {{ pg }}
             </button>
           </div>
 
-          <button class="nav-btn" (click)="nextPage()" [disabled]="currentPage === totalPages">Avançar ›</button>
+          <button class="nav-btn" (click)="nextPage()"
+            [disabled]="currentPage === totalPages">Avançar ›</button>
         </div>
 
         <!-- AÇÕES -->
         <div class="actions">
           <button class="btn-cancel" (click)="cancelar()">Cancelar
             cadastro</button>
-          <button disabled class="btn-submit" (click)="salvar()">Criar
+          <button class="btn-submit" (click)="salvarPosto()">Criar
             Cadastro</button>
         </div>
 
@@ -248,14 +271,13 @@
 
 </div>
 
-
-
 <div class="page-container" *ngIf="cadFuncionarioActive">
 
   <div class="header-title">
     <div>
       <h1>Cadastro do Funcionário</h1>
-      <p class="subtitle">Cadastre os dados do Proprietário, Gerente ou do Entrevistador</p>
+      <p class="subtitle">Cadastre os dados do Proprietário, Gerente ou do
+        Entrevistador</p>
     </div>
 
     <div class="actions">
@@ -272,7 +294,8 @@
           (click)="activeCadFuncionario = 'dados'">
           Dados do Funcionário
         </div>
-        <div class="menu-item" [class.active]="activeCadFuncionario === 'contato'"
+        <div class="menu-item"
+          [class.active]="activeCadFuncionario === 'contato'"
           (click)="activeCadFuncionario = 'contato'">
           Contato
         </div>
@@ -290,44 +313,43 @@
 
         <p class="description">
           Esta seção reúne os dados essenciais para início do preenchimento.
-          Mantenha as informações claras e atualizadas para garantir a continuidade do processo.
+          Mantenha as informações claras e atualizadas para garantir a
+          continuidade do processo.
         </p>
 
         <!-- FORMULÁRIO -->
         <form class="form">
 
-
-
-
           <div class="form-group">
             <label>Nome do Funcionário *</label>
-            <input type="text" [(ngModel)]="modelPosto.RazaoSocial" name="razaosocial" disabled>
+            <input type="text" [(ngModel)]="model.Nome"
+              name="razaosocial" >
           </div>
 
           <div class="form-group">
             <label>Função</label>
-            <input type="text" [(ngModel)]="modelPosto.NomeFantasia" name="nomefantasia" disabled>
+            <input type="text" [(ngModel)]="model.Funcao"
+              name="nomefantasia" >
           </div>
 
           <!-- Status -->
           <div class="form-group">
             <label>Status</label>
 
-            <select [(ngModel)]="model.Status" name="status">
+            <select [(ngModel)]="model.CodStatus" name="status">
               <option value="1">Ativo</option>
               <option value="2">Inativo</option>
             </select>
           </div>
 
-
-
         </form>
 
         <!-- AÇÕES -->
         <div class="actions">
-          <button class="btn-cancel" (click)="cancelarDadastroFuncionario()">Cancelar
+          <button class="btn-cancel"
+            (click)="cancelarDadastroFuncionario()">Cancelar
             cadastro</button>
-          <button disabled class="btn-submit" (click)="salvar()">Criar
+          <button disabled class="btn-submit">Criar
             Cadastro</button>
         </div>
       </div>
@@ -336,7 +358,8 @@
         <h1 class="title">Dados de Contato</h1>
 
         <p class="description">
-          Esta seção reúne os dados essenciais para início do preenchimento. Mantenha as informações claras e
+          Esta seção reúne os dados essenciais para início do preenchimento.
+          Mantenha as informações claras e
           atualizadas para
           garantir a continuidade do processo.
         </p>
@@ -346,16 +369,18 @@
           <!-- EMAIL -->
           <div class="form-group">
             <label>Email <span class="required">*</span></label>
-            <input type="email" placeholder="email@example.com" [(ngModel)]="model.Email" name="email">
+            <input type="email" placeholder="email@example.com"
+              [(ngModel)]="model.Email" name="email">
           </div>
 
         </form>
 
         <!-- AÇÕES -->
         <div class="actions">
-          <button class="btn-cancel" (click)="cancelarDadastroFuncionario()">Cancelar
+          <button class="btn-cancel"
+            (click)="cancelarDadastroFuncionario()">Cancelar
             cadastro</button>
-          <button disabled class="btn-submit" (click)="salvar()">Criar
+          <button class="btn-submit" (click)="salvarFuncionario()">Criar
             Cadastro</button>
         </div>
       </div>

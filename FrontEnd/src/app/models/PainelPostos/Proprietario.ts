@@ -10,3 +10,12 @@ export class Proprietario {
 }
 
 
+
+export class Postos {
+  Cod: number;
+  CodIdioma: number;
+}
+
+
+
+

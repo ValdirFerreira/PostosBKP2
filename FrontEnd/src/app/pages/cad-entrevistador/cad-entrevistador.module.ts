@@ -20,7 +20,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SidebarPortaisModule } from 'src/app/components/sidebar-portais/sidebar-portais.module';
 import { FormsModule } from '@angular/forms';
 import { NgxFileDropModule } from 'ngx-file-drop';
-import { CadPostosModule } from './components/Postos/cad-postos.module';
+
 
 
 
@@ -44,7 +44,7 @@ import { CadPostosModule } from './components/Postos/cad-postos.module';
     TranslateModule,
     FormsModule,
     NgxFileDropModule,
-    CadPostosModule
+ 
 
   ]
 })

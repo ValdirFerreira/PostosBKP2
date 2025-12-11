@@ -90,6 +90,56 @@
   </div>
 </div>
 
+<div class="popup-wrapper" *ngIf="typeDialog == 4">
+  <div class="left-area">
+    <!-- <div class="icon-circle">
+      <div class="icon-inner">
+        <span>!</span>
+      </div>
+    </div> -->
+    <div class="alert-war"></div>
+  </div>
+
+  <div class="right-area">
+    <h2 class="title">Deseja desassociar funcionário?</h2>
+
+    <p class="subtitle">
+      Se prosseguir, poderá todos os dados inseridos não gravados.
+    </p>
+
+    <div class="buttons">
+      <button (click)="closeDialogConfirm()" class="btn-text">Sim, quero
+        desassociá-lo</button>
+      <button class="btn-primary-p" mat-dialog-close>Não, manter
+        funcionário</button>
+    </div>
+  </div>
+</div>
+
+<div class="popup-wrapper" *ngIf="typeDialog == 5">
+  <div class="left-area">
+    <!-- <div class="icon-circle">
+      <div class="icon-inner">
+        <span>!</span>
+      </div>
+    </div> -->
+    <div class="alert-war"></div>
+  </div>
+
+  <div class="right-area">
+    <h2 class="title">Este e-mail já está sendo utilizado por outro
+      funcionário.</h2>
+
+    <p class="subtitle">
+      Ok para prosseguir.
+    </p>
+
+    <div class="buttons">
+      <button class="btn-primary-p" mat-dialog-close>Ok</button>
+    </div>
+  </div>
+</div>
+
 <div class="popup-wrapper" *ngIf="typeDialog == 999">
   <div class="left-area">
     <!-- <div class="icon-circle">

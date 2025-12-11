@@ -39,6 +39,11 @@ const routes: Routes = [
     // canActivate: [AuthGuard],
   }
   , {
+    path: 'pesquisav',
+    loadChildren: () => import('./pages/pesquisa/pesquisa.module').then(m => m.PesquisaModule),
+    // canActivate: [AuthGuard],
+  }
+  , {
     path: 'dashboard-one',
     loadChildren: () => import('./pages/dashboard-one/dashboard-one.module').then(m => m.DashboardOneModule),
     canActivate: [AuthGuard],

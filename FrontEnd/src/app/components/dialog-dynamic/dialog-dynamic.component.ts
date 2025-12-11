@@ -62,6 +62,13 @@ export class DialogDynamicComponent implements OnInit {
     }
 
 
+    closeDialogConfirm() {
+        // this.dialogRef.close(this.confirmation ? this.sairCadastroProprietario() : undefined);
+
+        this.dialogRef.close({ ok: true, data: "algum valor" });
+    }
+
+
 
     retornCancel: boolean = false;
     sairCadastroProprietario() {

@@ -248,5 +248,43 @@ namespace DataAccess.DashBoardTwo
 
         }
 
+
+
+        ////////////////////////////////////////////////////////////////////////
+        //// FUNCIONARIOS / POSTOS
+        ////////////////////////////////////////////////////////////////////////
+
+        public List<ProprietarioDTO> FuncionariosConsultar(int codIdioma)
+        {
+            var resultado = new List<ProprietarioDTO>();
+
+            try
+            {
+                //using (SqlConnection conexaoBD = new SqlConnection(Conexao.strConexao))
+                //{
+                //    var parametros = new DynamicParameters();
+                //    parametros.Add("@ParamCodIdioma", codIdioma);
+
+                //    resultado = conexaoBD
+                //        .Query<ProprietarioDTO>(
+                //            "prProprietarioConsultar",
+                //            parametros,
+                //            commandType: CommandType.StoredProcedure,
+                //            commandTimeout: 300
+                //        ).ToList();
+                //}
+            }
+            catch (Exception ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    $"[ProprietarioConsultar] {ex.Message}"
+                );
+            }
+
+            return resultado;
+        }
+
     }
 }

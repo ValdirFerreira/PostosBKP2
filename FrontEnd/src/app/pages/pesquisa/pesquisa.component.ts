@@ -50,5 +50,68 @@ export class PesquisaComponent implements OnInit {
     console.log('Iniciar pesquisa');
   }
 
+  pesquisa: boolean = false;
+
+  ativarPesquisa(value: boolean) {
+    this.pesquisa = value;
+  }
+
+  step: number = 1;
+  totalSteps: number = 4;
+
+  options: string[] = [
+    'Todos os dias',
+    'Algumas vezes por semana',
+    'Uma vez por semana',
+    'Poucas vezes no mês',
+    'Raramente'
+  ];
+
+  selectedOption: string | null = null;
+
+  // Selecionar opção
+  onSelect(option: string) {
+    this.selectedOption = option;
+  }
+
+scaleQuestions = [
+    { title: 'Qualidade do atendimento da equipe', name: 'atendimento' },
+    { title: 'Qualidade do combustível', name: 'combustivel' },
+    { title: 'Limpeza e organização deste posto', name: 'limpeza' },
+    { title: 'Segurança deste posto', name: 'seguranca' },
+    { title: 'Você recomendaria este posto?', name: 'recomendacao' }
+  ];
+
+  firstRow = [1, 2, 3, 4, 5];
+  secondRow = [6, 7, 8, 9, 10];
+
+  answers: { [key: string]: number } = {};
+
+  selectValue(key: string, value: number) {
+    this.answers[key] = value;
+    console.log(this.answers);
+  }
+
+
+  // Voltar uma etapa
+  goBack() {
+    if (this.step > 1) {
+      this.step--;
+    }
+  }
+
+  // Avançar etapa
+  goNext() {
+    if (this.step < this.totalSteps) {
+      this.step++;
+    }
+  }
+
+  // Fechar popup ou componente
+  close() {
+    console.log('Fechar questionário');
+    // implemente aqui: fechar modal, navegar, etc
+  }
+
 
 }

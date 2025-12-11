@@ -3,7 +3,7 @@
 <app-navbar></app-navbar>
 
 <!-- CONTAINER -->
-<div class="page-container" *ngIf="!activeCadastro && !activeAssPosto">
+<div class="page-container" *ngIf="!activeCadastro && !activeEntrevistador">
 
   <!-- TÍTULO + AÇÕES -->
   <div class="header-title">
@@ -38,7 +38,7 @@
 
     <div style="display: flex; justify-content: center; align-items: center;">
       <!-- <button class="btn-select">Todos <span class="arrow">▾</span></button> -->
-      <button (click)="changeCadastro(true)" class="btn-new">Novo Proprietário
+      <button (click)="changeCadastro(true)" class="btn-new">Novo Entrevistador
         <span
           class="plus">+</span></button>
     </div>
@@ -60,8 +60,8 @@
       <tbody>
         <tr *ngFor="let p of pagedList">
           <td class="col-actions">
-            <button  *ngIf="p.CodStatus == 1" class="icon-btn"><div class="btn-shop"
-                (click)="changeAssPosto(true,p.Cod)"></div></button>
+            <!-- <button  *ngIf="p.CodStatus == 1" class="icon-btn"><div class="btn-shop"
+                (click)="changeAssPosto(true,p.Cod)"></div></button> -->
             <button *ngIf="p.CodStatus == 1" class="icon-btn"><div class="btn-edit"
                 (click)="ProprietarioConsultarPeloID(p.Cod)"></div></button>
             <button *ngIf="p.CodStatus == 1" class="icon-btn"><div
@@ -108,7 +108,7 @@
 
 <!-- CADASTRO -->
 
-<div class="page-container" *ngIf="activeCadastro && !activeAssPosto">
+<div class="page-container" *ngIf="activeCadastro && !activeEntrevistador">
 
   <div class="header-title">
     <div>
@@ -227,6 +227,4 @@
 
 </div>
 
-<!-- ASSOSCIAÇÃO DE POSTOS -->
 
-<!-- <cad-postos *ngIf="activeAssPosto"></cad-postos> -->

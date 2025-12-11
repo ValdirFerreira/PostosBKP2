@@ -6,7 +6,6 @@ import { MenuService } from 'src/app/services/menu.service';
 import { DownloadArquivoService } from 'src/app/services/download-arquivo.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
 import { TranslateService } from '@ngx-translate/core';
-import { PainelPostosService } from 'src/app/services/painel-postos.service';
 import { Proprietario } from 'src/app/models/PainelPostos/Proprietario';
 import { ProprietarioCadastrarRequest } from 'src/app/models/PainelPostos/ProprietarioCadastrarRequest';
 import { NgxFileDropEntry } from 'ngx-file-drop';
@@ -15,6 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PostoModel, ServicoCategoria } from 'src/app/models/PainelPostos/PostoModel';
 import { DownloadService } from 'src/app/services/download.service';
 import { FilePostos } from 'src/app/models/PainelPostos/FilePostos';
+import { EntrevistadorService } from 'src/app/services/entrevistador.service';
 
 
 
@@ -31,7 +31,7 @@ export class CadEntrevistadorComponent implements OnInit {
     public menuService: MenuService,
     private translate: TranslateService,
     public filtroService: FiltroGlobalService, private downloadArquivoService: DownloadArquivoService,
-    public service: PainelPostosService,
+    public service: EntrevistadorService,
     public dialog: MatDialog,
     public downloadService: DownloadService,
   ) { }
@@ -163,7 +163,7 @@ export class CadEntrevistadorComponent implements OnInit {
   ///////////////////////////////////////////////////////////////////////////////////
   ProprietarioConsultarPeloID(ID) {
     this.active == 'proprietario';
-    this.service.ProprietarioConsultarPeloID(ID).subscribe({
+    this.service.EntrevistadorConsultarPeloID(ID).subscribe({
       next: (res) => {
         let item = res[0];
         let mapModel = new ProprietarioCadastrarRequest();
@@ -258,7 +258,43 @@ export class CadEntrevistadorComponent implements OnInit {
 
   salvar() {
     console.log('Dados enviados:', this.model);
-    this.salvarProprietario();
+    const model = this.model;
+
+
+    if (!this.validarCamposObrigatorios()) {
+      return; // interrompe fluxo
+    }
+
+    this.service.cadastrarEntrevistador(model).subscribe({
+      next: (res) => {
+        debugger
+
+        if (res.Cod == 0) {
+          const mensagensErro: string[] = [];
+          mensagensErro.push(res.Info)
+          this.OpenModalErro(mensagensErro);
+        }
+        else {
+
+          debugger
+          const dialogRef = this.dialog.open(DialogDynamicComponent);
+
+          dialogRef.componentInstance.typeDialog = 1;
+          dialogRef.afterClosed().subscribe(result => {
+            console.log("RESULTADO RECEBIDO:", result);
+
+
+
+            // window.location.reload();
+            console.log("Proprietário cadastrado com sucesso! Novo ID:", res.Cod);
+
+          });
+        }
+      },
+      error: (err) => {
+        console.error("Erro ao cadastrar proprietário:", err);
+      }
+    });
   }
 
 
@@ -285,9 +321,9 @@ export class CadEntrevistadorComponent implements OnInit {
     }
 
     // Telefone
-    if (!model.Telefone || model.Telefone.trim() === "") {
-      mensagensErro.push("O campo Telefone é obrigatório.");
-    }
+    // if (!model.Telefone || model.Telefone.trim() === "") {
+    //   mensagensErro.push("O campo Telefone é obrigatório.");
+    // }
 
     // Email
     if (!model.Email || model.Email.trim() === "") {
@@ -295,9 +331,7 @@ export class CadEntrevistadorComponent implements OnInit {
     }
 
 
-    if (!this.files || this.files.length <= 0) {
-      mensagensErro.push("O contrato é obrigatório.");
-    }
+
 
     // 👉 Se houver erros, abrir popup de erro
     if (mensagensErro.length > 0) {
@@ -308,86 +342,7 @@ export class CadEntrevistadorComponent implements OnInit {
     return true; // tudo OK
   }
 
-  salvarProprietario() {
-    const model = this.model;
 
-
-    if (!this.validarCamposObrigatorios()) {
-      return; // interrompe fluxo
-    }
-
-    this.service.cadastrarProprietario(model).subscribe({
-      next: (res) => {
-        debugger
-
-        if (res.Cod == 0) {
-          const mensagensErro: string[] = [];
-          mensagensErro.push(res.Info)
-          this.OpenModalErro(mensagensErro);
-        }
-        else {
-
-          debugger
-          const dialogRef = this.dialog.open(DialogDynamicComponent);
-
-          dialogRef.componentInstance.typeDialog = 1;
-          dialogRef.afterClosed().subscribe(result => {
-            console.log("RESULTADO RECEBIDO:", result);
-
-            this.salveFile(res.Cod);
-
-            // window.location.reload();
-            console.log("Proprietário cadastrado com sucesso! Novo ID:", res.Cod);
-
-          });
-        }
-      },
-      error: (err) => {
-        console.error("Erro ao cadastrar proprietário:", err);
-      }
-    });
-  }
-
-  salveFile(Cod: number) {
-    debugger
-    if (this.files.length > 0) {
-
-      let selectedFile = this.files[0];
-
-      var fileSend = new FilePostos();
-
-      this.downloadService.convertFileToBase64(selectedFile).then((base64String) => {
-
-        fileSend.FileBase64 = base64String;
-        fileSend.NomeArquivo = selectedFile.name;
-        fileSend.Cod = Cod;
-
-
-
-        this.service.cadastrarFileProprietario(fileSend).subscribe({
-          next: (res) => {
-            debugger
-            if (!res) {
-              const mensagensErro: string[] = [];
-              mensagensErro.push("Erro no salvamente do arquivo!")
-              this.OpenModalErro(mensagensErro);
-            }
-            else {
-              window.location.reload();
-            }
-
-          },
-          error: (err) => {
-            console.error("Erro ao cadastrar proprietário:", err);
-          }
-        });
-
-      })
-
-    }
-
-
-  }
 
   onCPFInput(event: any) {
     let valor = event.target.value;
@@ -487,136 +442,6 @@ export class CadEntrevistadorComponent implements OnInit {
     }
   }
 
-
-  //////////////////////////////////////////////
-  // files
-  //////////////////////////////////////////////
-
-
-  descricaoEvidencia: string;
-  public files: File[] = [];
-  filevalid: boolean = false;
-  erro: boolean = false;
-  liberaSelecaoLinhas: boolean;
-
-  imagemArq(extArq: any): string {
-    let extensao = extArq.name.toString().split('.').pop();
-
-    // Caminho das imagens dentro da pasta 'publish'
-    const basePath = './icones/';
-
-    switch (extensao) {
-      case 'txt':
-        return `${basePath}txt-icon.png`;
-      case 'xlsx':
-        return `${basePath}icon-excel.png`;
-      case 'xls':
-        return `${basePath}xls.png`;
-      case 'pdf':
-        return `${basePath}pdf-icon.png`;
-      case 'ppt':
-        return `${basePath}ppt-icon.png`;
-      case 'docx':
-      //return// `${basePath}word-icon.png`;
-      default:
-        return `${basePath}arq-padrao-icon.png`;
-    }
-  }
-
-  closeArq(indexArq: any) {
-    //console.log(indexArq, 'arquivo a ser excluido');
-    //console.log(this.files, 'Arquivos na lista')
-    this.files.splice(indexArq, 1);
-    //console.log(this.files, 'Arquivos na lista após remoção')
-    this.descricaoEvidencia = "";
-  }
-
-  public fileOver(event: Event) {
-    //console.log(event);
-  }
-
-  public fileLeave(event: Event) {
-    //console.log(event);
-  }
-
-  isFileAllowed(fileName: string) {
-    return true;
-    // let isFileAllowed = false;
-    // let allowedFiles;
-
-    // allowedFiles = ['.doc', '.docx', '.ppt', '.pptx', '.pdf', '.xlsx', '.xls', '.xlsm'];
-
-    // const regex = /(?:\.([^.]+))?$/;
-    // const extension = regex.exec(fileName);
-    // if (undefined !== extension && null !== extension) {
-    //   for (const ext of allowedFiles) {
-    //     if (ext === extension[0]) {
-    //       isFileAllowed = true;
-    //     }
-    //   }
-    // }
-    // return isFileAllowed;
-  }
-
-  public dropped(files: NgxFileDropEntry[]) {
-
-    this.erro = false;
-    var onlyOneFileVideo = true;
-
-    if (this.files.length > 0 || files.length > 1) {
-      this.filevalid = true;
-      return;
-    }
-
-    this.filevalid = false;
-
-    for (const droppedFile of files) {
-
-      if (droppedFile.fileEntry.isFile && this.isFileAllowed(droppedFile.fileEntry.name)) {
-        const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
-        fileEntry.file((file: File) => {
-
-          //console.log(droppedFile.relativePath, file);
-          this.files.push(file);
-
-          this.checkTypeFile(file.name);
-
-          this.descricaoEvidencia = file.name;
-
-          // this.limitaNome(file.name);
-
-        });
-      } else {
-        // It was a directory (empty directories are added, otherwise only files)
-        const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
-
-      }
-
-    }
-  }
-
-  checkTypeFile(name: string) {
-
-    this.liberaSelecaoLinhas = true;
-    // this.liberaSelecaoLinhas = false;
-
-    // let extensao = name.toString().split('.').pop();
-    // switch (extensao) {
-    //   case 'xlsx':
-    //   case 'xls':
-    //   case 'xlsm':
-    //     this.liberaSelecaoLinhas = true;
-    //     break;
-    //   // case 'doc':
-    //   // case 'docx':
-    //   //   return 2;
-
-    //   default:
-    //     this.liberaSelecaoLinhas = false;
-    //     break;
-    // }
-  }
-
   OpenModalCancelar() {
     const dialogRef = this.dialog.open(DialogDynamicComponent);
     dialogRef.componentInstance.typeDialog = 0;
@@ -641,8 +466,6 @@ export class CadEntrevistadorComponent implements OnInit {
     });
   }
 
-
-
   OpenModalDesativarProprietario(id: number) {
     const dialogRef = this.dialog.open(DialogDynamicComponent);
     dialogRef.componentInstance.typeDialog = 2;
@@ -650,12 +473,12 @@ export class CadEntrevistadorComponent implements OnInit {
       console.log("RESULTADO RECEBIDO:", result);
       if (result?.inativar) {
 
-           let model = new ProprietarioCadastrarRequest();
+        let model = new ProprietarioCadastrarRequest();
 
         model.Cod = id;
         model.Status = 2; // Inativa  
 
-        this.service.cadastrarProprietario(model).subscribe({
+        this.service.cadastrarEntrevistador(model).subscribe({
           next: (res) => {
             debugger
 
@@ -691,7 +514,6 @@ export class CadEntrevistadorComponent implements OnInit {
     });
 
   }
-
 
   OpenModalReativarProprietario(id: number) {
     const dialogRef = this.dialog.open(DialogDynamicComponent);
@@ -705,7 +527,7 @@ export class CadEntrevistadorComponent implements OnInit {
         model.Cod = id;
         model.Status = 1; // Ativa 
 
-        this.service.cadastrarProprietario(model).subscribe({
+        this.service.cadastrarEntrevistador(model).subscribe({
           next: (res) => {
             debugger
 
@@ -744,11 +566,8 @@ export class CadEntrevistadorComponent implements OnInit {
   }
 
 
-
-
-
   ///////////////////////////////////////////////////////////
-  //ASSOCIAÇÃO DE POSTOS
+  //Cadastro
   ///////////////////////////////////////////////////////////
   modelPosto = new PostoModel();
   activePosto: string = 'postos';
@@ -762,50 +581,12 @@ export class CadEntrevistadorComponent implements OnInit {
     "Coordenador"
   ];
 
-  activeAssPosto: boolean = false;
+  activeEntrevistador: boolean = false;
 
   changeAssPosto(value: boolean, cod: any) {
-
-    this.activeAssPosto = value
+    this.activeEntrevistador = value
     this.activeCadastro = false;
   }
 
-
-  /////////////////////////////////////////////////////
-  // SERVICOS
-  /////////////////////////////////////////////////////
-
-
-
-
-  public servicosDisponiveis: ServicoCategoria[] = [
-    {
-      titulo: "Abastecimento",
-      descricao: "Lorem ipsum dolor sit amet consectetur morbi a consectetur senectus metus nunc sapien.",
-      opcoes: [
-        { nome: "Abastecimento", ativo: true },
-        { nome: "Bomba de ar", ativo: false },
-        { nome: "Gôndolas de fluidos", ativo: false }
-      ]
-    },
-    {
-      titulo: "Serviços adicionais",
-      descricao: "Lorem ipsum dolor sit amet consectetur morbi a consectetur senectus metus nunc sapien.",
-      opcoes: [
-        { nome: "Troca de óleo", ativo: true },
-        { nome: "Mecânica automotiva", ativo: false },
-        { nome: "Lavagem", ativo: false }
-      ]
-    },
-    {
-      titulo: "Lojas e estabelecimentos",
-      descricao: "Lorem ipsum dolor sit amet consectetur morbi a consectetur senectus metus nunc sapien.",
-      opcoes: [
-        { nome: "Conveniência", ativo: true },
-        { nome: "Restaurante", ativo: true },
-        { nome: "Lojas", ativo: true }
-      ]
-    }
-  ];
 
 }

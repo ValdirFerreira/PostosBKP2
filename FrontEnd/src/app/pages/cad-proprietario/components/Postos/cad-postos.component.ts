@@ -37,8 +37,6 @@ export class CadPostosComponent implements OnInit {
   ) { }
 
 
-
-
   // estado da tela
   abaAtiva: 'ativo' | 'inativo' = 'ativo';
   pesquisa: string = '';
@@ -56,25 +54,27 @@ export class CadPostosComponent implements OnInit {
 
   // retorna a lista filtrada por aba (ativo/inativo), pesquisa e filtro adicional
   get filteredList(): Proprietario[] {
-    const abaFiltro = this.abaAtiva === 'ativo' ? 1 : 2;
-    const q = this.pesquisa.trim().toLowerCase();
+    // const abaFiltro = this.abaAtiva === 'ativo' ? 1 : 2;
+    // const q = this.pesquisa.trim().toLowerCase();
 
-    let list = this.allData.filter(x => x.CodStatus === abaFiltro);
+    // let list = this.allData.filter(x => x.CodStatus === abaFiltro);
 
-    if (this.filtroSelecionado !== 'Todos') {
-      // exemplo: caso queira filtrar por posição ou outro critério
-      list = list.filter(x => x.Funcao === this.filtroSelecionado);
-    }
+    // if (this.filtroSelecionado !== 'Todos') {
+    //   // exemplo: caso queira filtrar por posição ou outro critério
+    //   list = list.filter(x => x.Funcao === this.filtroSelecionado);
+    // }
 
-    if (q) {
-      list = list.filter(x =>
-        x.Nome.toLowerCase().includes(q) ||
-        x.Funcao.toLowerCase().includes(q) ||
-        x.Email.toLowerCase().includes(q)
-      );
-    }
+    // if (q) {
+    //   list = list.filter(x =>
+    //     x.Nome.toLowerCase().includes(q) ||
+    //     x.Funcao.toLowerCase().includes(q) ||
+    //     x.Email.toLowerCase().includes(q)
+    //   );
+    // }
 
-    return list;
+    // return list;
+
+    return this.allData;
   }
 
   // lista paginada presente na tela
@@ -127,16 +127,13 @@ export class CadPostosComponent implements OnInit {
     }
   }
 
-
-
   allData: Array<Proprietario> = [];
 
   // utilitário para resetar paginação quando lista muda
   private resetPagination() {
-    this.service.consultarProprietarios(1).subscribe({
+    this.service.consultarFuncionarios(1).subscribe({
       next: (res) => {
         this.allData = res;
-
       }
     });
 
@@ -159,94 +156,30 @@ export class CadPostosComponent implements OnInit {
     // abrir detalhes
   }
 
-
   ///////////////////////////////////////////////////////////////////////////////////
   // Edição 
   ///////////////////////////////////////////////////////////////////////////////////
   ProprietarioConsultarPeloID(ID) {
-    this.active == 'proprietario';
-    this.service.ProprietarioConsultarPeloID(ID).subscribe({
-      next: (res) => {
-        let item = res[0];
-        let mapModel = new ProprietarioCadastrarRequest();
-        mapModel.Cod = item.Cod;
-        mapModel.Documento = "000"
-        mapModel.Email = item.Email;
-        mapModel.Nome = item.Nome;
-        mapModel.Status = item.CodStatus;
-        mapModel.Telefone = "0000;"
+    // this.active == 'proprietario';
+    // this.service.ProprietarioConsultarPeloID(ID).subscribe({
+    //   next: (res) => {
+    //     let item = res[0];
+    //     let mapModel = new ProprietarioCadastrarRequest();
+    //     mapModel.Cod = item.Cod;
+    //     mapModel.Documento = "000"
+    //     mapModel.Email = item.Email;
+    //     mapModel.Nome = item.Nome;
+    //     mapModel.Status = item.CodStatus;
+    //     mapModel.Telefone = "0000;"
 
-        this.model = mapModel;
-
-        var fileSend = new FilePostos();
-
-        fileSend.Cod = item.Cod;
-        fileSend.FileBase64 = "carregar";
-        fileSend.NomeArquivo = "Contrato";
-
-        this.service.RecuperaArquivo(fileSend).subscribe({
-          next: (res) => {
-            debugger
-
-            var file = this.base64ToFile(res.FileBase64, "Contrato");
-            this.files.push(file);
-
-          },
-          error: (err) => {
-            console.error("Erro file proprietário:", err);
-          }
-        });
+    //     this.model = mapModel;
 
 
 
-        this.activeCadastro = true;
-      }
-    });
-  }
 
-
-  base64ToFile(base64: string, fileName: string, contentType?: string): File {
-    // Remove prefixo "data:xxx;base64,"
-    const arr = base64.split(',');
-    const base64String = arr.length > 1 ? arr[1] : arr[0];
-
-    // Descobre o MIME type se não enviado
-    if (!contentType && arr[0].includes("data:")) {
-      contentType = arr[0].split(':')[1].split(';')[0];
-    }
-
-    const byteCharacters = atob(base64String);
-    const byteNumbers = new Array(byteCharacters.length);
-
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
-    }
-
-    const byteArray = new Uint8Array(byteNumbers);
-
-    return new File([byteArray], fileName, { type: contentType || 'application/octet-stream' });
-  }
-
-
-  baixarArquivo(cod: number) {
-
-    var fileSend = new FilePostos();
-
-    fileSend.Cod = cod;
-    fileSend.FileBase64 = "carregar";
-    fileSend.NomeArquivo = "Contrato";
-
-    this.service.RecuperaArquivo(fileSend).subscribe({
-      next: (res) => {
-        debugger
-
-        return this.downloadService.downloadFileFromBase64(res.FileBase64, "Contrato.PDF");
-
-      },
-      error: (err) => {
-        console.error("Erro file proprietário:", err);
-      }
-    });
+    //     this.activeCadastro = true;
+    //   }
+    // });
   }
 
   ///////////////////////////////////////////////////////////////////////////////////
@@ -260,7 +193,6 @@ export class CadPostosComponent implements OnInit {
     this.activeCadastro = value
   }
 
-
   form = {
     nomeFantasia: '',
     razaoSocial: '',
@@ -272,140 +204,57 @@ export class CadPostosComponent implements OnInit {
     this.activeCadastro = false;
   }
 
-  model = new ProprietarioCadastrarRequest();
+  model = new Proprietario();
 
   cancelar() {
     console.log('Cadastro cancelado');
     this.OpenModalCancelar();
   }
 
-  salvar() {
-    console.log('Dados enviados:', this.model);
-    this.salvarProprietario();
+  salvarPosto() {
+
+    this.modelPosto; // dados Posto
+    this.servicosDisponiveis; // Serviços
+    this.allData; // funcionarios
+
+    // console.log('Dados enviados:', this.model);
+    // const model = this.model;
+    // if (!this.validarCamposObrigatorios()) {
+    //   return; // interrompe fluxo
+    // }
+
+    // this.service.cadastrarProprietario(model).subscribe({
+    //   next: (res) => {
+    //     debugger
+
+    //     if (res.Cod == 0) {
+    //       const mensagensErro: string[] = [];
+    //       mensagensErro.push(res.Info)
+    //       this.OpenModalErro(mensagensErro);
+    //     }
+    //     else {
+
+    //       debugger
+    //       const dialogRef = this.dialog.open(DialogDynamicComponent);
+
+    //       dialogRef.componentInstance.typeDialog = 1;
+    //       dialogRef.afterClosed().subscribe(result => {
+    //         console.log("RESULTADO RECEBIDO:", result);
+
+    //         // window.location.reload();
+    //         console.log("Proprietário cadastrado com sucesso! Novo ID:", res.Cod);
+
+    //       });
+    //     }
+    //   },
+    //   error: (err) => {
+    //     console.error("Erro ao cadastrar proprietário:", err);
+    //   }
+    // });
   }
 
 
-  active: string = 'proprietario';
 
-
-  validarCamposObrigatorios() {
-    const mensagensErro: string[] = [];
-    const model = this.model;
-
-    // Nome
-    if (!model.Nome || model.Nome.trim() === "") {
-      mensagensErro.push("O campo Nome é obrigatório.");
-    }
-
-    // Documento
-    if (!model.Documento || model.Documento.trim() === "") {
-      mensagensErro.push("O campo Documento é obrigatório.");
-    }
-
-    // Status (se for número e obrigatório)
-    if (model.Status === null || model.Status === undefined) {
-      mensagensErro.push("O campo Status é obrigatório.");
-    }
-
-    // Telefone
-    if (!model.Telefone || model.Telefone.trim() === "") {
-      mensagensErro.push("O campo Telefone é obrigatório.");
-    }
-
-    // Email
-    if (!model.Email || model.Email.trim() === "") {
-      mensagensErro.push("O campo Email é obrigatório.");
-    }
-
-    // 👉 Se houver erros, abrir popup de erro
-    if (mensagensErro.length > 0) {
-      this.OpenModalErro(mensagensErro);
-      return false;
-    }
-
-    return true; // tudo OK
-  }
-
-  salvarProprietario() {
-    const model = this.model;
-
-
-    if (!this.validarCamposObrigatorios()) {
-      return; // interrompe fluxo
-    }
-
-    this.service.cadastrarProprietario(model).subscribe({
-      next: (res) => {
-        debugger
-
-        if (res.Cod == 0) {
-          const mensagensErro: string[] = [];
-          mensagensErro.push(res.Info)
-          this.OpenModalErro(mensagensErro);
-        }
-        else {
-
-          debugger
-          const dialogRef = this.dialog.open(DialogDynamicComponent);
-
-          dialogRef.componentInstance.typeDialog = 1;
-          dialogRef.afterClosed().subscribe(result => {
-            console.log("RESULTADO RECEBIDO:", result);
-
-            this.salveFile(res.Cod);
-
-            // window.location.reload();
-            console.log("Proprietário cadastrado com sucesso! Novo ID:", res.Cod);
-
-          });
-        }
-      },
-      error: (err) => {
-        console.error("Erro ao cadastrar proprietário:", err);
-      }
-    });
-  }
-
-  salveFile(Cod: number) {
-    debugger
-    if (this.files.length > 0) {
-
-      let selectedFile = this.files[0];
-
-      var fileSend = new FilePostos();
-
-      this.downloadService.convertFileToBase64(selectedFile).then((base64String) => {
-
-        fileSend.FileBase64 = base64String;
-        fileSend.NomeArquivo = selectedFile.name;
-        fileSend.Cod = Cod;
-
-
-
-        this.service.cadastrarFileProprietario(fileSend).subscribe({
-          next: (res) => {
-            debugger
-            if (!res) {
-              const mensagensErro: string[] = [];
-              mensagensErro.push("Erro no salvamente do arquivo!")
-              this.OpenModalErro(mensagensErro);
-            }
-            else {
-              window.location.reload();
-            }
-
-          },
-          error: (err) => {
-            console.error("Erro ao cadastrar proprietário:", err);
-          }
-        });
-
-      })
-
-    }
-
-
-  }
 
   onCPFInput(event: any) {
     let valor = event.target.value;
@@ -501,136 +350,6 @@ export class CadPostosComponent implements OnInit {
     }
   }
 
-
-  //////////////////////////////////////////////
-  // files
-  //////////////////////////////////////////////
-
-
-  descricaoEvidencia: string;
-  public files: File[] = [];
-  filevalid: boolean = false;
-  erro: boolean = false;
-  liberaSelecaoLinhas: boolean;
-
-  imagemArq(extArq: any): string {
-    let extensao = extArq.name.toString().split('.').pop();
-
-    // Caminho das imagens dentro da pasta 'publish'
-    const basePath = './icones/';
-
-    switch (extensao) {
-      case 'txt':
-        return `${basePath}txt-icon.png`;
-      case 'xlsx':
-        return `${basePath}icon-excel.png`;
-      case 'xls':
-        return `${basePath}xls.png`;
-      case 'pdf':
-        return `${basePath}pdf-icon.png`;
-      case 'ppt':
-        return `${basePath}ppt-icon.png`;
-      case 'docx':
-      //return// `${basePath}word-icon.png`;
-      default:
-        return `${basePath}arq-padrao-icon.png`;
-    }
-  }
-
-  closeArq(indexArq: any) {
-    //console.log(indexArq, 'arquivo a ser excluido');
-    //console.log(this.files, 'Arquivos na lista')
-    this.files.splice(indexArq, 1);
-    //console.log(this.files, 'Arquivos na lista após remoção')
-    this.descricaoEvidencia = "";
-  }
-
-  public fileOver(event: Event) {
-    //console.log(event);
-  }
-
-  public fileLeave(event: Event) {
-    //console.log(event);
-  }
-
-  isFileAllowed(fileName: string) {
-    return true;
-    // let isFileAllowed = false;
-    // let allowedFiles;
-
-    // allowedFiles = ['.doc', '.docx', '.ppt', '.pptx', '.pdf', '.xlsx', '.xls', '.xlsm'];
-
-    // const regex = /(?:\.([^.]+))?$/;
-    // const extension = regex.exec(fileName);
-    // if (undefined !== extension && null !== extension) {
-    //   for (const ext of allowedFiles) {
-    //     if (ext === extension[0]) {
-    //       isFileAllowed = true;
-    //     }
-    //   }
-    // }
-    // return isFileAllowed;
-  }
-
-  public dropped(files: NgxFileDropEntry[]) {
-
-    this.erro = false;
-    var onlyOneFileVideo = true;
-
-    if (this.files.length > 0 || files.length > 1) {
-      this.filevalid = true;
-      return;
-    }
-
-    this.filevalid = false;
-
-    for (const droppedFile of files) {
-
-      if (droppedFile.fileEntry.isFile && this.isFileAllowed(droppedFile.fileEntry.name)) {
-        const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
-        fileEntry.file((file: File) => {
-
-          //console.log(droppedFile.relativePath, file);
-          this.files.push(file);
-
-          this.checkTypeFile(file.name);
-
-          this.descricaoEvidencia = file.name;
-
-          // this.limitaNome(file.name);
-
-        });
-      } else {
-        // It was a directory (empty directories are added, otherwise only files)
-        const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
-
-      }
-
-    }
-  }
-
-  checkTypeFile(name: string) {
-
-    this.liberaSelecaoLinhas = true;
-    // this.liberaSelecaoLinhas = false;
-
-    // let extensao = name.toString().split('.').pop();
-    // switch (extensao) {
-    //   case 'xlsx':
-    //   case 'xls':
-    //   case 'xlsm':
-    //     this.liberaSelecaoLinhas = true;
-    //     break;
-    //   // case 'doc':
-    //   // case 'docx':
-    //   //   return 2;
-
-    //   default:
-    //     this.liberaSelecaoLinhas = false;
-    //     break;
-    // }
-  }
-
   OpenModalCancelar() {
     const dialogRef = this.dialog.open(DialogDynamicComponent);
     dialogRef.componentInstance.typeDialog = 0;
@@ -654,8 +373,6 @@ export class CadPostosComponent implements OnInit {
 
     });
   }
-
-
 
 
   ///////////////////////////////////////////////////////////
@@ -682,12 +399,10 @@ export class CadPostosComponent implements OnInit {
   }
 
 
+
   /////////////////////////////////////////////////////
   // SERVICOS
   /////////////////////////////////////////////////////
-
-
-
 
   public servicosDisponiveis: ServicoCategoria[] = [
     {
@@ -719,23 +434,136 @@ export class CadPostosComponent implements OnInit {
     }
   ];
 
+  ////////////////////////////////////////////
+  //CADASTRO FUNCIONARIOS
+
+  activeCadFuncionario: string = 'dados';
+
+  cadFuncionarioActive: boolean = false;
+
+  changeCadFuncionario(value: boolean) {
+    this.cadFuncionarioActive = value;
+  }
+
+  cancelarDadastroFuncionario() {
+    this.changeCadFuncionario(false)
+  }
+
+  salvarFuncionario() {
+
+    debugger
+    if (!this.validarCamposObrigatorios()) {
+      return; // interrompe fluxo
+    }
+
+    debugger
+    const req = this.model;
 
 
-////////////////////////////////////////////
-//Cadastro Funcionario
 
- activeCadFuncionario: string = 'dados';
+    let contem = this.allData.filter(x => x.Email === req.Email);
 
-cadFuncionarioActive:boolean= false;
+    if (contem.length > 0) {
+      const dialogRef = this.dialog.open(DialogDynamicComponent);
+      dialogRef.componentInstance.typeDialog = 5;
+      dialogRef.afterClosed().subscribe(result => {
+        console.log("RESULTADO RECEBIDO:", result);
 
-changeCadFuncionario(value:boolean)
-{
-  this.cadFuncionarioActive = value;
-}
+      });
+    }
+    else {
 
+      debugger
+      const novo: Proprietario = {
+        Cod: this.allData.length + 1,
+        Nome: req.Nome,
+        Documento: req.Documento,
+        CodStatus: req.CodStatus,
+        DescricaoStatus: this.getDescricaoStatus(req.CodStatus), // opcional
+        Funcao: req.Funcao ? req.Funcao : "Não Informado",
+        Telefone: req.Telefone,
+        Email: req.Email
+      };
+      debugger
+      this.allData.push(novo);
+      this.currentPage = 1;
 
- cancelarDadastroFuncionario() {
-  this.changeCadFuncionario(false)
+      this.activeCadFuncionario = 'dados';
+
+      this.changeCadFuncionario(false)
+
+      this.model = new Proprietario();
+    }
+
+  }
+
+  changeDelete(email: any) {
+
+    const dialogRef = this.dialog.open(DialogDynamicComponent);
+    dialogRef.componentInstance.typeDialog = 4;
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("RESULTADO RECEBIDO:", result);
+
+      if (result?.ok) {
+
+        this.allData = this.allData.filter(x => x.Email !== email);
+
+        //  const index = this.allData.findIndex(x => x.Email === email);
+
+        //   if (index !== -1) {
+        //     this.allData.splice(index, 1);
+        //   }
+      }
+    });
+
+  }
+
+  getDescricaoStatus(status: number): string {
+    switch (status) {
+      case 1: return 'Ativo';
+      case 2: return 'Inativo';
+      default: return 'Não informado';
+    }
+  }
+
+  active: string = 'proprietario';
+
+  validarCamposObrigatorios() {
+    const mensagensErro: string[] = [];
+    const model = this.model;
+
+    // Nome
+    if (!model.Nome || model.Nome.trim() === "") {
+      mensagensErro.push("O campo Nome é obrigatório.");
+    }
+
+    // // Documento
+    // if (!model.Documento || model.Documento.trim() === "") {
+    //   mensagensErro.push("O campo Documento é obrigatório.");
+    // }
+
+    // Status (se for número e obrigatório)
+    if (model.CodStatus === null || model.CodStatus === undefined) {
+      mensagensErro.push("O campo Status é obrigatório.");
+    }
+
+    // // Telefone
+    // if (!model.Telefone || model.Telefone.trim() === "") {
+    //   mensagensErro.push("O campo Telefone é obrigatório.");
+    // }
+
+    // Email
+    if (!model.Email || model.Email.trim() === "") {
+      mensagensErro.push("O campo Email é obrigatório.");
+    }
+
+    // 👉 Se houver erros, abrir popup de erro
+    if (mensagensErro.length > 0) {
+      this.OpenModalErro(mensagensErro);
+      return false;
+    }
+
+    return true; // tudo OK
   }
 
 }

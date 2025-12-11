@@ -11,7 +11,7 @@ import { FilePostos } from '../models/PainelPostos/FilePostos';
 @Injectable({
   providedIn: 'root'
 })
-export class PainelPostosService {
+export class EntrevistadorService {
 
   constructor(public httpClient: HttpClient,
     public httpClient2: HttpClient,
@@ -24,12 +24,12 @@ export class PainelPostosService {
 
   consultarProprietarios(codIdioma: number) {
     return this.httpClient.post<Array<Proprietario>>(
-      `${this.baseUrl}/PainelPostos/ProprietarioConsultar`,
+      `${this.baseUrl}/Entrevistador/EntrevistadorConsultar`,
       codIdioma
     );
   }
 
-  ProprietarioConsultarPeloID(cod: number) {
+  EntrevistadorConsultarPeloID(cod: number) {
 
     let codIdioma = 1;
 
@@ -39,55 +39,20 @@ export class PainelPostosService {
     };
 
     return this.httpClient.post<Array<Proprietario>>(
-      `${this.baseUrl}/PainelPostos/ProprietarioConsultarPeloID`,
+      `${this.baseUrl}/Entrevistador/EntrevistadorConsultarPeloID`,
       body
     );
   }
 
 
-  ProprietarioAtualizarStatus(model: ProprietarioCadastrarRequest) {
+  cadastrarEntrevistador(model: ProprietarioCadastrarRequest) {
     return this.httpClient.post<ResponseCad>(
-      `${this.baseUrl}/PainelPostos/ProprietarioAtualizarStatus`,
+      `${this.baseUrl}/Entrevistador/EntrevistadorCadastrar`,
       model
     );
   }
 
-
-  cadastrarProprietario(model: ProprietarioCadastrarRequest) {
-    return this.httpClient.post<ResponseCad>(
-      `${this.baseUrl}/PainelPostos/ProprietarioCadastrar`,
-      model
-    );
-  }
-
-  cadastrarFileProprietario(model: FilePostos) {
-    return this.httpClient.post<boolean>(
-      `${this.baseUrl}/PainelPostos/ProprietarioFileCadastrar`,
-      model
-    );
-  }
-
-  RecuperaArquivo(model: FilePostos) {
-    return this.httpClient.post<FilePostos>(
-      `${this.baseUrl}/PainelPostos/RecuperaArquivo`,
-      model
-    );
-  }
-
-  ///////////////////////////////////////////////////////////////
-  // Parte Postos
-  consultarFuncionarios(cod: number) {
-
-    var model = new Postos();
-    model.CodIdioma = 1;
-    model.Cod = cod;
-
-    return this.httpClient.post<Array<Proprietario>>(
-      `${this.baseUrl}/PainelPostos/FuncionariosConsultar`,
-      model
-    );
-  }
-
+ 
 
 
 
