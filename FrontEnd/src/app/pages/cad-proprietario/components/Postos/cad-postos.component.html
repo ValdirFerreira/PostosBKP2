@@ -1,4 +1,12 @@
-<div class="page-container" *ngIf="!cadFuncionarioActive">
+
+
+
+<list-postos [IdProprietario]="IdProprietario"  [NomeProprietario]="NomeProprietario" *ngIf="activeListPostos" (close)="closeListPost($event)"
+(IdEdit)="editarPosto($event)"
+></list-postos>
+
+
+<div class="page-container" *ngIf="!cadFuncionarioActive && !activeListPostos">
 
   <div class="header-title">
     <div>
@@ -21,11 +29,11 @@
           (click)="activePosto = 'postos'">
           Dados do Posto
         </div>
-        <div class="menu-item" [class.active]="activePosto === 'servicos'"
+        <div *ngIf="postoModel.IdItem > 0" class="menu-item" [class.active]="activePosto === 'servicos'" 
           (click)="activePosto = 'servicos'">
           Serviços Disponíveis
         </div>
-        <div class="menu-item" [class.active]="activePosto === 'funcionarios'"
+        <div  *ngIf="postoModel.IdItem > 0" class="menu-item" [class.active]="activePosto  === 'funcionarios'"
           (click)="activePosto = 'funcionarios'">
           Funcionários
         </div>
@@ -51,11 +59,9 @@
 
           <div class="form-group">
             <label>Postos</label>
-            <select [(ngModel)]="modelPosto.Cargo" name="cargo">
-              <option disabled selected>Buscar posto</option>
-              <option *ngFor="let item of cargos" [value]="item">{{ item
-                }}</option>
-            </select>
+            <ng-select placeholder="Postos" id="tipoAtivoModel" class="selectFiltroGlobal" bindLabel="DescItem"
+            [items]="listaPostos" [searchable]="true" [clearable]="false"
+            [(ngModel)]="postoModel" [multiple]="false" (change)="SelectPosto()"></ng-select>
           </div>
 
           <div class="form-group">
@@ -271,7 +277,7 @@
 
 </div>
 
-<div class="page-container" *ngIf="cadFuncionarioActive">
+<div class="page-container" *ngIf="cadFuncionarioActive && !activeListPostos">
 
   <div class="header-title">
     <div>

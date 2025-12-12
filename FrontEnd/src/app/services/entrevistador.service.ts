@@ -52,9 +52,17 @@ export class EntrevistadorService {
     );
   }
 
- 
-
-
+ExcluirEntrevistador(cod: number) {
+  return this.httpClient.delete<Response>(
+    `${this.baseUrl}/Entrevistador/ExcluirEntrevistador`,
+    {
+      body: cod
+    }
+  );
+}
 
 
 }
+
+
+

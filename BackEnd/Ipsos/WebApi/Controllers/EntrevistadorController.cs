@@ -213,7 +213,7 @@ namespace WebApi.Controllers
 
         [HttpDelete]
         [Route("ExcluirEntrevistador")]
-        public HttpResponseMessage ExcluirEntrevistador(int cod)
+        public HttpResponseMessage ExcluirEntrevistador([FromBody]  int cod)
         {
             var response = new Response();
 

@@ -1,0 +1,110 @@
+<!-- CONTAINER -->
+<div class="page-container">
+
+  <!-- TÍTULO + AÇÕES -->
+  <div class="header-title">
+    <div>
+      <h1>{{NomeProprietario}}</h1>
+      <p class="subtitle">Manage your surveys and questionnaires</p>
+    </div>
+
+    <div class="actions">
+
+    </div>
+  </div>
+
+  <div class="header-title">
+    <!-- ABAS -->
+    <div class="tabs">
+      <button class="tab" [class.active]="abaAtiva === 'ativo'"
+        (click)="trocarAba('ativo')">Ativo</button>
+      <button class="tab" [class.activeIn]="abaAtiva === 'inativo'"
+        (click)="trocarAba('inativo')">Inativo</button>
+    </div>
+
+    <!-- BUSCA + FILTROS -->
+    <div class="filters">
+      <div class="search-box">
+        <span class="search-icon"><div class="searchIps"></div></span>
+        <input type="text" placeholder="Pesquise aqui..." [(ngModel)]="pesquisa"
+          (input)="onPesquisar()" />
+        <span class="shortcut"></span>
+      </div>
+    </div>
+
+    <div style="display: flex; justify-content: center; align-items: center;">
+      <!-- <button class="btn-select">Todos <span class="arrow">▾</span></button> -->
+      <button (click)="fechar()" class="btn-new">Novo Posto
+        <span
+          class="plus">+</span></button>
+    </div>
+
+  </div>
+
+  <!-- TABELA -->
+  <div class="table-card">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Ações</th>
+          <th>Nome do Posto / Proprietário</th>
+          <th>Bandeira</th>
+          <th>Quantidade de Funcionários</th>
+          <th>Endereço</th>
+
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let p of pagedList">
+          <td class="col-actions">
+            <button class="icon-btn"><div
+                class="btn-shop"></div></button>
+            <button (click)="editar(p)" class="icon-btn"><div
+                class="btn-edit"></div></button>
+            <button class="icon-btn"><div
+                class="btn-block"></div></button>
+            <!-- <button  class="icon-btn"><div
+                class="check-desblock"></div></button> -->
+          </td>
+
+          <td class="col-name">{{ p.RazaoSocial }}</td>
+
+          <td>
+            <span class="tag">{{ p.Bandeira }}</span>
+          </td>
+
+          <td class="col-email">{{ p.QuantidadeFuncionarios }}</td>
+          <td class="col-email">{{ p.Endereco }}</td>
+        </tr>
+
+        <tr *ngIf="pagedList.length === 0">
+          <td colspan="4" class="empty">Nenhum registro encontrado.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- PAGINAÇÃO -->
+  <div class="pagination">
+    <button class="nav-btn" (click)="prevPage()"
+      [disabled]="currentPage === 1">‹ Retornar</button>
+
+    <div class="pages">
+      <button *ngFor="let pg of pages" (click)="goToPage(pg)"
+        [class.active]="pg === currentPage">
+        {{ pg }}
+      </button>
+    </div>
+
+    <button class="nav-btn" (click)="nextPage()"
+      [disabled]="currentPage === totalPages">Avançar ›</button>
+  </div>
+
+  <div class="actions">
+    <button class="btn-cancel" (click)="cancelar()">Cancelar
+      </button>
+
+  </div>
+
+</div>

@@ -187,27 +187,27 @@ namespace WebApi.Controllers
         ////////////////////////////////////////////////////////////
         ///
 
-        [HttpPost]
-        [Route("FuncionariosConsultar")]
-        public HttpResponseMessage FuncionariosConsultar([FromBody] Postos model)
-        {
+        //[HttpPost]
+        //[Route("FuncionariosConsultar")]
+        //public HttpResponseMessage FuncionariosConsultar([FromBody] Postos model)
+        //{
 
-            var response = new Response();
-            try
-            {
-                var list = _context.FuncionariosConsultar(model.CodIdioma);
+        //    var response = new Response();
+        //    try
+        //    {
+        //        var list = _context.FuncionariosConsultar(model.CodIdioma);
 
-                return Request.CreateResponse(HttpStatusCode.OK, list);
+        //        return Request.CreateResponse(HttpStatusCode.OK, list);
 
-            }
-            catch (SqlException ex)
-            {
-                LogText.Instance.Error(this.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, "Sistema" + ex.Message);
-                response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                response.Error = $"Bad request - ({ex.Message})";
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
-            }
-        }
+        //    }
+        //    catch (SqlException ex)
+        //    {
+        //        LogText.Instance.Error(this.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, "Sistema" + ex.Message);
+        //        response.StatusCode = (int)HttpStatusCode.InternalServerError;
+        //        response.Error = $"Bad request - ({ex.Message})";
+        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+        //    }
+        //}
 
 
         [HttpPost]
@@ -269,16 +269,16 @@ namespace WebApi.Controllers
 
 
 
-        [HttpGet]
-        [Route("ConsultarFuncionarios")]
-        public HttpResponseMessage ConsultarFuncionarios(int codPosto, int codIdioma)
-        {
+        [HttpPost]
+        [Route("ConsultarFuncionariosDap")]
+        public HttpResponseMessage ConsultarFuncionariosDap([FromBody] Postos model)
+        { 
             var response = new Response();
 
             try
             {
                 // chama o método no service/context
-                var result = _context.ConsultarFuncionarios(codPosto, codIdioma);
+                var result = _context.ConsultarFuncionariosDap(model.Cod, model.CodIdioma);
 
                 return Request.CreateResponse(HttpStatusCode.OK, result);
             }
@@ -445,6 +445,34 @@ namespace WebApi.Controllers
             try
             {
                 var result = _context.ConsultarAssociacaoPeloID(cod);
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (SqlException ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    "Sistema" + ex.Message
+                );
+
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Error = $"Bad request - ({ex.Message})";
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+
+        [HttpGet]
+        [Route("ConsultarAssociacoes")]
+        public HttpResponseMessage ConsultarAssociacoes(int codIdioma)
+        {
+            var response = new Response();
+
+            try
+            {
+                var result = _context.ConsultarAssociacoes(codIdioma);
 
                 return Request.CreateResponse(HttpStatusCode.OK, result);
             }

@@ -265,6 +265,9 @@ export class CadEntrevistadorComponent implements OnInit {
       return; // interrompe fluxo
     }
 
+    model.Documento = ""
+    model.Telefone = ""
+
     this.service.cadastrarEntrevistador(model).subscribe({
       next: (res) => {
         debugger
@@ -285,7 +288,7 @@ export class CadEntrevistadorComponent implements OnInit {
 
 
 
-            // window.location.reload();
+            window.location.reload();
             console.log("Proprietário cadastrado com sucesso! Novo ID:", res.Cod);
 
           });
@@ -468,7 +471,7 @@ export class CadEntrevistadorComponent implements OnInit {
 
   OpenModalDesativarProprietario(id: number) {
     const dialogRef = this.dialog.open(DialogDynamicComponent);
-    dialogRef.componentInstance.typeDialog = 2;
+    dialogRef.componentInstance.typeDialog = 6;
     dialogRef.afterClosed().subscribe(result => {
       console.log("RESULTADO RECEBIDO:", result);
       if (result?.inativar) {
@@ -478,33 +481,11 @@ export class CadEntrevistadorComponent implements OnInit {
         model.Cod = id;
         model.Status = 2; // Inativa  
 
-        this.service.cadastrarEntrevistador(model).subscribe({
+        this.service.ExcluirEntrevistador(id).subscribe({
           next: (res) => {
             debugger
 
-            if (res.Cod == 0) {
-              const mensagensErro: string[] = [];
-              mensagensErro.push(res.Info)
-              this.OpenModalErro(mensagensErro);
-            }
-            else {
-
-              window.location.reload();
-
-              // debugger
-              // const dialogRef = this.dialog.open(DialogDynamicComponent);
-
-              // dialogRef.componentInstance.typeDialog = 1;
-              // dialogRef.afterClosed().subscribe(result => {
-              //   console.log("RESULTADO RECEBIDO:", result);
-
-
-
-              //   // window.location.reload();
-              //   console.log("Proprietário cadastrado com sucesso! Novo ID:", res.Cod);
-
-              // });
-            }
+            window.location.reload();
           },
           error: (err) => {
             console.error("Erro ao cadastrar proprietário:", err);

@@ -140,6 +140,29 @@
   </div>
 </div>
 
+<div class="popup-wrapper" *ngIf="typeDialog == 6">
+  <div class="left-area">
+    <div class="icon-circle-thunder">
+
+    </div>
+  </div>
+
+  <div class="right-area">
+    <h2 class="title">Deseja excluir?</h2>
+
+    <p class="subtitle">
+      Se prosseguir, o registro será deletado. Deseja prosseguir?
+    </p>
+
+    <div class="buttons">
+      <button (click)="closeDialog()" class="btn-text">Não, manter
+        </button>
+      <button class="btn-primary-p" (click)="closeDialogInativar()">deletar
+        </button>
+    </div>
+  </div>
+</div>
+
 <div class="popup-wrapper" *ngIf="typeDialog == 999">
   <div class="left-area">
     <!-- <div class="icon-circle">

@@ -30,19 +30,22 @@ namespace DataAccess.DashBoardTwo
 
             try
             {
-                //using (SqlConnection conexaoBD = new SqlConnection(Conexao.strConexao))
-                //{
-                //    var parametros = new DynamicParameters();
-                //    parametros.Add("@ParamCodIdioma", codIdioma);
+                var list = ConsultarEntrevistadores(codIdioma);
+                foreach (var item in list)
+                {
+                    resultado.Add(new ProprietarioDTO
+                    {
+                        Cod = item.CodEntrevistador,
+                        CodStatus = item.CodStatus,
+                        DescricaoStatus = item.Status,
+                        Documento = item.Documento,
+                        Email = item.Email,
+                        Nome = item.Nome,
+                        Telefone = item.Telefone,
+                        Funcao = ""
+                    });
 
-                //    resultado = conexaoBD
-                //        .Query<ProprietarioDTO>(
-                //            "prProprietarioConsultar",
-                //            parametros,
-                //            commandType: CommandType.StoredProcedure,
-                //            commandTimeout: 300
-                //        ).ToList();
-                //}
+                }
             }
             catch (Exception ex)
             {
@@ -63,20 +66,19 @@ namespace DataAccess.DashBoardTwo
 
             try
             {
-                //using (SqlConnection conexaoBD = new SqlConnection(Conexao.strConexao))
-                //{
-                //    var parametros = new DynamicParameters();
-                //    parametros.Add("@ParamCod", cod);
-                //    parametros.Add("@ParamCodIdioma", codIdioma);
+                var item = ConsultarEntrevistadorPeloID(cod);
 
-                //    resultado = conexaoBD
-                //        .Query<ProprietarioDTO>(
-                //            "prProprietarioConsultarPeloID",
-                //            parametros,
-                //            commandType: CommandType.StoredProcedure,
-                //            commandTimeout: 300
-                //        ).ToList();
-                //}
+                resultado.Add(new ProprietarioDTO
+                {
+                    Cod = item.CodEntrevistador,
+                    CodStatus = item.CodStatus,
+                    DescricaoStatus = item.Status,
+                    Documento = item.Documento,
+                    Email = item.Email,
+                    Nome = item.Nome,
+                    Telefone = item.Telefone,
+                    Funcao = ""
+                });
             }
             catch (Exception ex)
             {
@@ -100,48 +102,40 @@ namespace DataAccess.DashBoardTwo
 
             try
             {
-                //using (SqlConnection conexaoBD = new SqlConnection(Conexao.strConexao))
-                //{
 
 
-                //        if (req.Cod == 0)
-                //        {
-                //            var parametros = new DynamicParameters();
-                //            parametros.Add("@ParamNome", req.Nome);
-                //            parametros.Add("@ParamDocumento", Regex.Replace(req.Documento ?? "", "[^0-9]", ""));
-                //            parametros.Add("@ParamStatus", req.Status);
-                //            parametros.Add("@ParamTelefone",
-                //Regex.Replace(req.Telefone ?? "", "[^0-9]", ""));
-                //            parametros.Add("@ParamEmail", req.Email);
 
-                //            novoId = conexaoBD.ExecuteScalar<int>(
-                //                "prProprietarioCadastrar",
-                //                parametros,
-                //                commandType: CommandType.StoredProcedure,
-                //                commandTimeout: 300
-                //            );
-                //        }
-                //        else
-                //        {
-                //            var parametros = new DynamicParameters();
-                //            parametros.Add("@ParamCod", req.Cod);
-                //            parametros.Add("@ParamNome", req.Nome);
-                //            parametros.Add("@ParamDocumento", Regex.Replace(req.Documento ?? "", "[^0-9]", ""));
-                //            parametros.Add("@ParamCodStatus", req.Status);
-                //            parametros.Add("@ParamTelefone",
-                // Regex.Replace(req.Telefone ?? "", "[^0-9]", ""));
-                //            parametros.Add("@ParamEmail", req.Email);
+                if (req.Cod == 0)
+                {
+                    var result = CadastrarEntrevistador(new EntrevistadorCadastrarRequest
+                    {
+                        ParamEmail = req.Email,
+                        ParamCodStatus = req.Status,
+                        ParamDocumento = req.Documento,
+                        ParamNome = req.Nome,
+                        ParamTelefone = req.Telefone
+                    });
 
-                //            conexaoBD.ExecuteScalar<int>(
-                //                  "prProprietarioAtualizar",
-                //                  parametros,
-                //                  commandType: CommandType.StoredProcedure,
-                //                  commandTimeout: 300
-                //              );
+                    novoId = result.Cod;
 
-                //            novoId = req.Cod;
-                //        }
-                //    }
+                }
+                else
+                {
+
+                    var result = AtualizarEntrevistador(new EntrevistadorAtualizarRequest
+                    {
+                        ParamEmail = req.Email,
+                        ParamCodStatus = req.Status,
+                        ParamDocumento = req.Documento,
+                        ParamNome = req.Nome,
+                        ParamTelefone = req.Telefone,
+                        ParamCod = req.Cod
+                    });
+
+                    novoId = result.Cod;
+
+                }
+
             }
             catch (Exception ex)
             {

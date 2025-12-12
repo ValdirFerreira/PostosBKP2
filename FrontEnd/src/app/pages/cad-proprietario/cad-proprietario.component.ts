@@ -712,7 +712,7 @@ export class CadProprietarioComponent implements OnInit {
       console.log("RESULTADO RECEBIDO:", result);
       if (result?.inativar) {
 
-           let model = new ProprietarioCadastrarRequest();
+        let model = new ProprietarioCadastrarRequest();
 
         model.Cod = id;
         model.Status = 2; // Inativa  
@@ -826,10 +826,16 @@ export class CadProprietarioComponent implements OnInit {
 
   activeAssPosto: boolean = false;
 
-  changeAssPosto(value: boolean, cod: any) {
+  IdProprietario: number = 0;
+ NomeProprietario: string ="";
+
+  changeAssPosto(value: boolean, cod: any, nome :any) {
 
     this.activeAssPosto = value
     this.activeCadastro = false;
+
+    this.IdProprietario = cod;
+this.NomeProprietario = nome;
   }
 
 

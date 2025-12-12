@@ -52,7 +52,7 @@
         <tr>
           <th>Ações</th>
           <th>Nome / Email</th>
-          <th>Posição</th>
+          <!-- <th>Posição</th> -->
           <th>Email</th>
         </tr>
       </thead>
@@ -62,21 +62,21 @@
           <td class="col-actions">
             <!-- <button  *ngIf="p.CodStatus == 1" class="icon-btn"><div class="btn-shop"
                 (click)="changeAssPosto(true,p.Cod)"></div></button> -->
-            <button *ngIf="p.CodStatus == 1" class="icon-btn"><div class="btn-edit"
+            <button  class="icon-btn"><div class="btn-edit"
                 (click)="ProprietarioConsultarPeloID(p.Cod)"></div></button>
-            <button *ngIf="p.CodStatus == 1" class="icon-btn"><div
-                class="btn-block"
+            <button  class="icon-btn"><div
+                class="btn-lixeira"
                 (click)="OpenModalDesativarProprietario(p.Cod)"></div></button>
-            <button *ngIf="p.CodStatus == 2" class="icon-btn"><div
+            <!-- <button *ngIf="p.CodStatus == 2" class="icon-btn"><div
                 class="check-desblock"
-                (click)="OpenModalReativarProprietario(p.Cod)"></div></button>
+                (click)="OpenModalReativarProprietario(p.Cod)"></div></button> -->
           </td>
 
           <td class="col-name">{{ p.Nome }}</td>
 
-          <td>
+          <!-- <td>
             <span class="tag">{{ p.Funcao }}</span>
-          </td>
+          </td> -->
 
           <td class="col-email">{{ p.Email }}</td>
         </tr>
@@ -215,7 +215,7 @@
         <div class="actions">
           <button class="btn-cancel" (click)="cancelar()">Cancelar
             cadastro</button>
-          <button disabled class="btn-submit" (click)="salvar()">Criar
+          <button  class="btn-submit" (click)="salvar()">Criar
             Cadastro</button>
         </div>
 

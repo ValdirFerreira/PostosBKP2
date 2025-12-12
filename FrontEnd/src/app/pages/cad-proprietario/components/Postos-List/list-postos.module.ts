@@ -14,14 +14,12 @@ import * as treemap from 'highcharts/modules/treemap.src';
 import * as data from 'highcharts/modules/data.src';
 
 import { FooterBottomModule } from 'src/app/components/footer-bottom/footer-bottom.module';
-import { CadPostosComponent } from './cad-postos.component';
+import { ListPostosComponent } from './list-postos.component';
 
 import { TranslateModule } from '@ngx-translate/core';
 import { SidebarPortaisModule } from 'src/app/components/sidebar-portais/sidebar-portais.module';
 import { FormsModule } from '@angular/forms';
 import { NgxFileDropModule } from 'ngx-file-drop';
-import { ListPostosModule } from '../Postos-List/list-postos.module';
-import { NgSelectModule } from '@ng-select/ng-select';
 
 
 
@@ -30,7 +28,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
   //   { provide: HIGHCHARTS_MODULES, useFactory: () => [more, exporting, solidgauge, wordcloud, treemap] } // add as factory to your providers
   // ],
   declarations: [
-    CadPostosComponent,
+    ListPostosComponent,
 
   ],
   imports: [
@@ -44,10 +42,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     TranslateModule,
     FormsModule,
     NgxFileDropModule,
-    ListPostosModule,
-    NgSelectModule,
 
   ],
-  exports:[CadPostosComponent]
+  exports:[ListPostosComponent]
 })
-export class CadPostosModule { }
+export class ListPostosModule { }

@@ -61,7 +61,7 @@
         <tr *ngFor="let p of pagedList">
           <td class="col-actions">
             <button  *ngIf="p.CodStatus == 1" class="icon-btn"><div class="btn-shop"
-                (click)="changeAssPosto(true,p.Cod)"></div></button>
+                (click)="changeAssPosto(true,p.Cod,p.Nome)"></div></button>
             <button *ngIf="p.CodStatus == 1" class="icon-btn"><div class="btn-edit"
                 (click)="ProprietarioConsultarPeloID(p.Cod)"></div></button>
             <button *ngIf="p.CodStatus == 1" class="icon-btn"><div
@@ -361,4 +361,4 @@
 
 <!-- ASSOSCIAÇÃO DE POSTOS -->
 
-<cad-postos *ngIf="activeAssPosto"></cad-postos>
+<cad-postos [IdProprietario]="IdProprietario" [NomeProprietario]="NomeProprietario" *ngIf="activeAssPosto"></cad-postos>

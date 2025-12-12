@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { FiltroGlobalService } from 'src/app/services/filtro-global.service';
@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PostoModel, ServicoCategoria } from 'src/app/models/PainelPostos/PostoModel';
 import { DownloadService } from 'src/app/services/download.service';
 import { FilePostos } from 'src/app/models/PainelPostos/FilePostos';
+import { PadraoComboFiltro, ParamFiltroPostos } from 'src/app/models/Filtros/PadraoComboFiltro';
 
 
 
@@ -26,6 +27,8 @@ import { FilePostos } from 'src/app/models/PainelPostos/FilePostos';
 })
 export class CadPostosComponent implements OnInit {
 
+  @Input() IdProprietario: number = 0;
+  @Input() NomeProprietario: string = "";
 
   constructor(public router: Router,
     public menuService: MenuService,
@@ -48,8 +51,19 @@ export class CadPostosComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.resetPagination();
+
+    // this.resetPagination();
+    this.FiltroPostos();
   }
+
+
+
+  closeListPost(event: any) {
+    this.activeListPostos = event;
+  }
+
+
+
 
 
   // retorna a lista filtrada por aba (ativo/inativo), pesquisa e filtro adicional
@@ -131,7 +145,7 @@ export class CadPostosComponent implements OnInit {
 
   // utilitário para resetar paginação quando lista muda
   private resetPagination() {
-    this.service.consultarFuncionarios(1).subscribe({
+    this.service.consultarPostos(this.postoModel.IdItem).subscribe({
       next: (res) => {
         this.allData = res;
       }
@@ -357,7 +371,11 @@ export class CadPostosComponent implements OnInit {
       console.log("RESULTADO RECEBIDO:", result);
 
       if (result?.cancel) {
-        window.location.reload();
+        // window.location.reload();
+
+        this.cadFuncionarioActive = false;
+        this.activeListPostos = true;
+
       }
     });
 
@@ -399,6 +417,34 @@ export class CadPostosComponent implements OnInit {
   }
 
 
+  listaPostos: Array<PadraoComboFiltro> = [];
+
+  postoModel = new PadraoComboFiltro();
+
+  FiltroPostos(idSelect: number = 0) {
+
+    var filtro = new ParamFiltroPostos();
+
+    this.filtroService.FiltroPostos(filtro)
+      .subscribe((response: Array<PadraoComboFiltro>) => {
+        this.listaPostos = response;
+        // this.filtroService.ModelTarget = response[0];
+        if (idSelect > 0) {
+          this.postoModel = this.listaPostos.find(x => x.IdItem == idSelect);
+          // Carrega Funcionarios
+          this.resetPagination();
+        }
+
+      }, (error) => console.error(error),
+        () => {
+        }
+      )
+  }
+
+  SelectPosto() {
+    this.resetPagination();
+  }
+
 
   /////////////////////////////////////////////////////
   // SERVICOS
@@ -436,6 +482,9 @@ export class CadPostosComponent implements OnInit {
 
   ////////////////////////////////////////////
   //CADASTRO FUNCIONARIOS
+
+
+  activeListPostos: boolean = true;
 
   activeCadFuncionario: string = 'dados';
 
@@ -566,4 +615,25 @@ export class CadPostosComponent implements OnInit {
     return true; // tudo OK
   }
 
+
+
+  /////////////////////////////////////////////////////////////
+  // EDITAR POSTOS
+  editarPosto(event: any) {
+    this.activeListPostos = false;
+
+    // Carrega dados Postos / Funcionarios
+    this.FiltroPostos(event);
+
+    //  this.service.ConsultarFuncionarioPeloID(this.IdProprietario).subscribe({
+    //       next: (res) => {
+
+    //       }
+    //     });
+
+  }
+
 }
+
+
+

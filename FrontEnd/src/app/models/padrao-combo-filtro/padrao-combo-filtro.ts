@@ -1,7 +1,14 @@
 export class PadraoComboFiltro {
     public IdItem: number = 0;
     public DescItem: string = '';
-    public Tipo: number = 0;
-    public CorItem: string = '';
-    public Ordem: number = 0;
 }
+
+
+export class ParamFiltroPostos {
+    public ParamTextoBuscado: string = '';
+}
+
+export class ParamFiltro {
+    public ParamCodIdioma: number = 0;
+}
+

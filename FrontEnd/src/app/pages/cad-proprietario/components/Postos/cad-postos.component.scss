@@ -1,0 +1,21 @@
+// .selectFiltroGlobal {
+//     height: 48px;
+//     padding: 0 14px;
+//     border: 1px solid #d0d5dd;
+//     border-radius: 8px;
+//     font-size: 14px;
+//     color: #344054;
+//     background: #fff;
+//     color: #98a2b3;
+// }
+
+::ng-deep .ng-select.selectFiltroGlobal .ng-select-container {
+    height: 48px;
+   
+    border: 1px solid #d0d5dd;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #344054;
+    background: #fff;
+    color: #98a2b3;
+}

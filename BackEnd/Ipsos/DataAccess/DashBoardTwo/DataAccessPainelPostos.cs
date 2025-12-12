@@ -11,6 +11,7 @@ using System.Linq;
 using DataAccess.FilesConfig;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Collections;
 
 namespace DataAccess.DashBoardTwo
 {
@@ -255,25 +256,26 @@ namespace DataAccess.DashBoardTwo
         //// FUNCIONARIOS / POSTOS
         ////////////////////////////////////////////////////////////////////////
 
-        public List<ProprietarioDTO> FuncionariosConsultar(int codIdioma)
+        public List<ProprietarioDTO> ConsultarFuncionariosDap(int codPosto, int codIdioma)
         {
             var resultado = new List<ProprietarioDTO>();
 
             try
             {
-                //using (SqlConnection conexaoBD = new SqlConnection(Conexao.strConexao))
-                //{
-                //    var parametros = new DynamicParameters();
-                //    parametros.Add("@ParamCodIdioma", codIdioma);
+                var list = ConsultarFuncionarios(codPosto, codIdioma);
 
-                //    resultado = conexaoBD
-                //        .Query<ProprietarioDTO>(
-                //            "prProprietarioConsultar",
-                //            parametros,
-                //            commandType: CommandType.StoredProcedure,
-                //            commandTimeout: 300
-                //        ).ToList();
-                //}
+                foreach (var item in list)
+                {
+                    resultado.Add(new ProprietarioDTO
+                    {
+                        Cod = item.CodPostoFuncionario,
+                        CodStatus = item.CodStatus,
+                        DescricaoStatus = item.Status,
+                        Funcao = item.DescricaoFuncao
+                    });
+
+
+                }
             }
             catch (Exception ex)
             {
@@ -634,9 +636,9 @@ namespace DataAccess.DashBoardTwo
         }
 
 
-        public AssociacaoPostoConsultarPeloIDResponse ConsultarAssociacaoPeloID(int cod)
+        public List<AssociacaoPostoConsultarPeloIDResponse> ConsultarAssociacaoPeloID(int cod)
         {
-            var retorno = new AssociacaoPostoConsultarPeloIDResponse();
+            var retorno = new List<AssociacaoPostoConsultarPeloIDResponse>();
 
             try
             {
@@ -645,12 +647,15 @@ namespace DataAccess.DashBoardTwo
                     var parametros = new DynamicParameters();
                     parametros.Add("@ParamCod", cod);
 
-                    retorno = conexaoBD.QueryFirstOrDefault<AssociacaoPostoConsultarPeloIDResponse>(
+
+                    var result = conexaoBD.Query<AssociacaoPostoConsultarPeloIDResponse>(
                         "prAssociacaoPostoConsultarPeloID",
                         parametros,
                         commandType: CommandType.StoredProcedure,
                         commandTimeout: 300
                     );
+
+                    retorno = result.ToList();
                 }
             }
             catch (Exception ex)

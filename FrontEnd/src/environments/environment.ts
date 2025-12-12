@@ -10,8 +10,8 @@ export const environment = {
   // IpsosSecureAccessClientKey: "BC241C64-A89A-4C5E-9D3B-0152A892A6C5",  
   IpsosSecureAccessEndPoint: "https://brasil.ipsoslatam.com/IpsosSecureAccess/site/#",
   IpsosSecureAccessClientKey: "59B223AF-3B55-4760-ADD9-6CF170B4F780",
-  //endPoint: 'http://localhost:44326/api',
-   endPoint: "http://192.168.19.4/PainelPostos/webapi/api",
+  endPoint: 'http://localhost:44326/api',
+  // endPoint: "http://192.168.19.4/PainelPostos/webapi/api",
   // IpsosSecureAccessClientKey: "9E12BC39-EE62-44F9-9380-985ABD0E1C8F",
 
   // IpsosSecureAccessEndPoint: "https://brasil.ipsoslatam.com/IpsosSecureAccess-HML/site/#",
