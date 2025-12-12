@@ -59,7 +59,7 @@
         <tr *ngFor="let p of pagedList">
           <td class="col-actions">
             <button class="icon-btn"><div
-                class="btn-shop"></div></button>
+                class="ico-qrcode" (click)="OpenModaQRCode(p)"></div></button>
             <button (click)="editar(p)" class="icon-btn"><div
                 class="btn-edit"></div></button>
             <button class="icon-btn"><div

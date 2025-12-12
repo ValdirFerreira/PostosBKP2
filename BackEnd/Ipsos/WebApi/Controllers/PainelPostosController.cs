@@ -464,15 +464,15 @@ namespace WebApi.Controllers
         }
 
 
-        [HttpGet]
+        [HttpPost]
         [Route("ConsultarAssociacoes")]
-        public HttpResponseMessage ConsultarAssociacoes(int codIdioma)
+        public HttpResponseMessage ConsultarAssociacoes([FromBody]  Postos model)
         {
             var response = new Response();
 
             try
             {
-                var result = _context.ConsultarAssociacoes(codIdioma);
+                var result = _context.ConsultarAssociacoes(model);
 
                 return Request.CreateResponse(HttpStatusCode.OK, result);
             }
@@ -490,6 +490,91 @@ namespace WebApi.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
+
+
+
+        [HttpPost]
+        [Route("ConsultarPostoPeloID")]
+        public HttpResponseMessage ConsultarPostoPeloID([FromBody] Postos model)
+        {
+            var response = new Response();
+
+            try
+            {
+                var result = _context.ConsultarPostoPeloID(model.Cod);
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (SqlException ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    "Sistema" + ex.Message
+                );
+
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Error = $"Bad request - ({ex.Message})";
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+
+        [HttpPost]
+        [Route("ConsultarPostoServico")]
+        public HttpResponseMessage ConsultarPostoServico([FromBody] Postos model)
+        {
+            var response = new Response();
+
+            try
+            {
+                var result = _context.ConsultarPostoServico(model);
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (SqlException ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    "Sistema" + ex.Message
+                );
+
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Error = $"Bad request - ({ex.Message})";
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+
+        [HttpPost]
+        [Route("AtualizarPostoServicoOpcao")]
+        public HttpResponseMessage AtualizarPostoServicoOpcao([FromBody] PostoServicoOpcaoAtualizarRequest model)
+        {
+            var response = new Response();
+
+            try
+            {
+                var result = _context.AtualizarPostoServicoOpcao(model);
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (SqlException ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    "Sistema" + ex.Message
+                );
+
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Error = $"Bad request - ({ex.Message})";
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+
+
 
 
     }

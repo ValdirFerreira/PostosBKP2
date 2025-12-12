@@ -1,10 +1,9 @@
 
 
-
-<list-postos [IdProprietario]="IdProprietario"  [NomeProprietario]="NomeProprietario" *ngIf="activeListPostos" (close)="closeListPost($event)"
-(IdEdit)="editarPosto($event)"
-></list-postos>
-
+<list-postos [IdProprietario]="IdProprietario"
+  [NomeProprietario]="NomeProprietario" *ngIf="activeListPostos"
+  (close)="closeListPost($event)"
+  (IdEdit)="editarPosto($event)"></list-postos>
 
 <div class="page-container" *ngIf="!cadFuncionarioActive && !activeListPostos">
 
@@ -29,11 +28,13 @@
           (click)="activePosto = 'postos'">
           Dados do Posto
         </div>
-        <div *ngIf="postoModel.IdItem > 0" class="menu-item" [class.active]="activePosto === 'servicos'" 
+        <div *ngIf="postoModel.IdItem > 0" class="menu-item"
+          [class.active]="activePosto === 'servicos'"
           (click)="activePosto = 'servicos'">
           Serviços Disponíveis
         </div>
-        <div  *ngIf="postoModel.IdItem > 0" class="menu-item" [class.active]="activePosto  === 'funcionarios'"
+        <div *ngIf="postoModel.IdItem > 0" class="menu-item"
+          [class.active]="activePosto  === 'funcionarios'"
           (click)="activePosto = 'funcionarios'">
           Funcionários
         </div>
@@ -42,6 +43,44 @@
     </aside>
 
     <!-- CONTEÚDO -->
+
+    <div class="content" id="content" style="display: none;">
+
+      <div *ngIf="activePosto === 'postos'">
+        <h1 class="title">Dados do Posto</h1>
+
+        <p class="description">
+          Esta seção reúne os dados essenciais para início do preenchimento.
+          Mantenha as informações claras e atualizadas para
+          garantir a continuidade do processo.
+        </p>
+
+        <!-- FORMULÁRIO -->
+        <form class="form">
+
+          <div class="print-group">
+            <div class=".qrcode-img" [innerHTML]="qrHtml"></div>
+            <div>
+
+            </div>
+
+          </div>
+
+          <div class="form-group" *ngIf="IdAssociado >=0">
+            <label>Postos {{postoModel.DescItem}}</label>
+
+          </div>
+
+          <div class="form-group">
+            <label>Razão Social {{modelPosto.RazaoSocial}}</label>
+
+          </div>
+
+        </form>
+
+      </div>
+
+    </div>
 
     <div class="content">
 
@@ -57,63 +96,80 @@
         <!-- FORMULÁRIO -->
         <form class="form">
 
-          <div class="form-group">
+          <div class="print-group">
+            <div class=".qrcode-img" [innerHTML]="qrHtml"></div>
+            <div>
+              <button (click)="imprimir()" class="btn-cancel">Fazer
+                impressão</button>
+            </div>
+
+          </div>
+
+          <div class="form-group" *ngIf="IdAssociado <=0">
             <label>Postos</label>
-            <ng-select placeholder="Postos" id="tipoAtivoModel" class="selectFiltroGlobal" bindLabel="DescItem"
-            [items]="listaPostos" [searchable]="true" [clearable]="false"
-            [(ngModel)]="postoModel" [multiple]="false" (change)="SelectPosto()"></ng-select>
+            <ng-select placeholder="Postos" id="tipoAtivoModel"
+              class="selectFiltroGlobal" bindLabel="DescItem"
+              [items]="listaPostos" [searchable]="true" [clearable]="false"
+              [(ngModel)]="postoModel" [multiple]="false"
+              (change)="SelectPosto()"></ng-select>
+          </div>
+
+          <div class="form-group" *ngIf="IdAssociado >=0">
+            <label>Postos</label>
+            <input type="text" [value]="postoModel.DescItem"
+              disabled>
           </div>
 
           <div class="form-group">
             <label>Bandeira</label>
-            <input type="text" [(ngModel)]="modelPosto.Bandeira" name="bandeira"
+            <input type="text" [value]="modelPosto.Bandeira"
               disabled>
           </div>
 
           <div class="form-group">
             <label>Razão Social</label>
-            <input type="text" [(ngModel)]="modelPosto.RazaoSocial"
-              name="razaosocial" disabled>
+            <input type="text" [value]="modelPosto.RazaoSocial"
+              disabled>
           </div>
 
           <div class="form-group">
             <label>Nome Fantasia</label>
-            <input type="text" [(ngModel)]="modelPosto.NomeFantasia"
-              name="nomefantasia" disabled>
+            <input type="text" [value]="modelPosto.RazaoSocial"
+              disabled>
           </div>
 
           <div class="form-group">
             <label>Endereço</label>
-            <input type="text" [(ngModel)]="modelPosto.Endereco" name="endereco"
+            <input type="text" [value]="modelPosto.Endereco"
               disabled>
           </div>
 
           <div class="form-group">
             <label>Complemento</label>
-            <input type="text" [(ngModel)]="modelPosto.Complemento"
-              name="complemento" disabled>
+            <input type="text" [value]="modelPosto.Complemento"
+              disabled>
           </div>
 
           <div class="form-group">
             <label>CEP</label>
-            <input type="text" [(ngModel)]="modelPosto.CEP" name="cep" disabled>
+            <input type="text" [value]="modelPosto.CEP" disabled>
           </div>
 
           <div class="form-group">
             <label>Bairro</label>
-            <input type="text" [(ngModel)]="modelPosto.Bairro" name="bairro"
+            <input type="text" [value]="modelPosto.Bairro"
               disabled>
           </div>
 
           <div class="form-group">
             <label>Cidade</label>
-            <input type="text" [(ngModel)]="modelPosto.Cidade" name="cidade"
+            <input type="text" [value]="modelPosto.Cidade"
               disabled>
           </div>
 
           <div class="form-group">
             <label>Estado</label>
-            <input type="text" [(ngModel)]="modelPosto.Estado" name="estado"
+            <input type="text" [value]="modelPosto.Estado"
               disabled>
           </div>
 
@@ -123,7 +179,7 @@
         <div class="actions">
           <button class="btn-cancel" (click)="cancelar()">Cancelar
             cadastro</button>
-          <button disabled class="btn-submit" >Criar
+          <button class="btn-submit" (click)="associaPosto()">Criar
             Cadastro</button>
         </div>
       </div>
@@ -135,7 +191,7 @@
           Habilite os serviços disponíveis no seu posto.
         </p>
 
-        <div class="servico-bloco"
+        <!-- <div class="servico-bloco"
           *ngFor="let categoria of servicosDisponiveis">
 
           <div class="servico-options">
@@ -158,14 +214,49 @@
 
           <hr />
 
+        </div> -->
+
+        <div class="servico-bloco"
+          *ngFor="let categoria of servicosDisponiveis">
+
+          <div class="servico-options">
+            <div>
+              <h2 class="servico-titulo">{{ categoria.Titulo }}</h2>
+              <p class="servico-descricao">{{ categoria.Descricao }}</p>
+            </div>
+
+            <div class="servico-opcoes">
+
+              <div class="servico-item"
+                *ngFor="let opcao of categoria.ListOpcoes">
+
+                <label class="switch">
+                  <!-- <input type="checkbox"
+                    [(ngModel)]="opcao.Resposta"
+                    (change)="onOpcaoChange(opcao)"> -->
+
+                  <input type="checkbox"
+                    [checked]="opcao.Resposta === '1'"
+                    (change)="onOpcaoChange(opcao, $event)">
+
+                  <span class="slider"></span>
+                </label>
+
+                <span class="servico-nome">{{ opcao.DescricaoOpcao }}</span>
+              </div>
+
+            </div>
+          </div>
+
+          <hr />
+
         </div>
 
         <!-- AÇÕES -->
         <div class="actions">
           <button class="btn-cancel" (click)="cancelar()">Cancelar
             cadastro</button>
-          <button disabled class="btn-submit">Criar
-            Cadastro</button>
+          <button  (click)="nextFuncionarios()" class="btn-submit-seg">Avançar</button>
         </div>
 
       </div>
@@ -212,7 +303,6 @@
 
             <tbody>
               <tr *ngFor="let p of pagedList">
-                
 
                 <td class="col-name">{{ p.Nome }}</td>
 
@@ -220,8 +310,7 @@
                   <span class="tag">{{ p.Funcao }}</span>
                 </td>
 
-
-                 <td class="col-actions">
+                <td class="col-actions">
                   <!-- <button class="icon-btn">
                     <div class="btn-shop"
                       (click)="changeAssPosto(true,p.Cod)"></div>
@@ -231,11 +320,11 @@
                       (click)="ProprietarioConsultarPeloID(p.Cod)"></div>
                   </button>-->
                   <button class="icon-btn">
-                    <div class="btn-lixeira" (click)="changeDelete(p.Email)"></div>
-                  </button> 
+                    <div class="btn-lixeira"
+                      (click)="changeDelete(p.Email)"></div>
+                  </button>
                 </td>
 
-                
               </tr>
 
               <tr *ngIf="pagedList.length === 0">
@@ -329,13 +418,13 @@
           <div class="form-group">
             <label>Nome do Funcionário *</label>
             <input type="text" [(ngModel)]="model.Nome"
-              name="razaosocial" >
+              name="razaosocial">
           </div>
 
           <div class="form-group">
             <label>Função</label>
             <input type="text" [(ngModel)]="model.Funcao"
-              name="nomefantasia" >
+              name="nomefantasia">
           </div>
 
           <!-- Status -->

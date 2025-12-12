@@ -6,7 +6,7 @@ import { FiltroPadrao, FiltroPadraoFullLoad } from '../models/Filtros/FiltroPadr
 import { AuthService } from './auth.service';
 import { Postos, Proprietario } from '../models/PainelPostos/Proprietario';
 import { ProprietarioCadastrarRequest, ResponseCad } from '../models/PainelPostos/ProprietarioCadastrarRequest';
-import { AssociacaoPostoConsultarPeloIDResponse, AssociacaoPostoConsultarResponse, FilePostos, PostoAssociacaoAtualizarRequest, PostoAssociacaoCadastrarRequest, PostoFuncionarioCadastrarRequest, PostoFuncionarioConsultarResponse } from '../models/PainelPostos/FilePostos';
+import { AssociacaoPostoConsultarPeloIDResponse, AssociacaoPostoConsultarResponse, FilePostos, PostoAssociacaoAtualizarRequest, PostoAssociacaoCadastrarRequest, PostoDadosResponse, PostoFuncionarioCadastrarRequest, PostoFuncionarioConsultarResponse, PostoServicoConsultarResponse, PostoServicoOpcaoAtualizarRequest } from '../models/PainelPostos/FilePostos';
 
 @Injectable({
   providedIn: 'root'
@@ -164,12 +164,39 @@ export class PainelPostosService {
     );
   }
 
-  ConsultarAssociacoes(codIdioma: number) {
-    return this.httpClient.get<AssociacaoPostoConsultarResponse[]>(
-      `${this.baseUrl}/PainelPostos/ConsultarAssociacoes?codIdioma=${codIdioma}`
+  ConsultarAssociacoes(cod: number) {
+
+    let model = new Postos();
+    model.Cod = cod;
+    model.CodIdioma = 1;
+
+    return this.httpClient.post<AssociacaoPostoConsultarResponse[]>(
+      `${this.baseUrl}/PainelPostos/ConsultarAssociacoes`, model
     );
   }
 
+  ConsultarPostoPeloID(cod: number) {
+    let model = new Postos();
+    model.Cod = cod;
+    model.CodIdioma = 1;
+    return this.httpClient.post<PostoDadosResponse>(
+      `${this.baseUrl}/PainelPostos/ConsultarPostoPeloID`, model
+    );
+  }
+
+  ConsultarPostoServico(model: Postos) {
+    return this.httpClient.post<PostoServicoConsultarResponse[]>(
+      `${this.baseUrl}/PainelPostos/ConsultarPostoServico`,
+      model
+    );
+  }
+
+AtualizarPostoServicoOpcao(model: PostoServicoOpcaoAtualizarRequest) {
+  return this.httpClient.post<boolean>(
+    `${this.baseUrl}/PainelPostos/AtualizarPostoServicoOpcao`,
+    model
+  );
+}
 
 
 

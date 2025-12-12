@@ -7,17 +7,18 @@ import { DownloadArquivoService } from 'src/app/services/download-arquivo.servic
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
 import { TranslateService } from '@ngx-translate/core';
 import { PainelPostosService } from 'src/app/services/painel-postos.service';
-import { Proprietario } from 'src/app/models/PainelPostos/Proprietario';
+import { Postos, Proprietario } from 'src/app/models/PainelPostos/Proprietario';
 import { ProprietarioCadastrarRequest } from 'src/app/models/PainelPostos/ProprietarioCadastrarRequest';
 import { NgxFileDropEntry } from 'ngx-file-drop';
 import { DialogDynamicComponent } from 'src/app/components/dialog-dynamic/dialog-dynamic.component';
 import { MatDialog } from '@angular/material/dialog';
 import { PostoModel, ServicoCategoria } from 'src/app/models/PainelPostos/PostoModel';
 import { DownloadService } from 'src/app/services/download.service';
-import { FilePostos } from 'src/app/models/PainelPostos/FilePostos';
+import { FilePostos, PostoAssociacaoAtualizarRequest, PostoAssociacaoCadastrarRequest, PostoDadosResponse, PostoServicoConsultarResponse, PostoServicoOpcaoAtualizarRequest, PostoServicoOpcaoConsultarResponse } from 'src/app/models/PainelPostos/FilePostos';
 import { PadraoComboFiltro, ParamFiltroPostos } from 'src/app/models/Filtros/PadraoComboFiltro';
 
-
+import QRCodeGen from 'qrcode-generator';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'cad-postos',
@@ -143,7 +144,7 @@ export class CadPostosComponent implements OnInit {
 
   allData: Array<Proprietario> = [];
 
-  // utilitário para resetar paginação quando lista muda
+  // uConsulta lista Funcionarios Posto
   private resetPagination() {
     this.service.consultarPostos(this.postoModel.IdItem).subscribe({
       next: (res) => {
@@ -396,7 +397,7 @@ export class CadPostosComponent implements OnInit {
   ///////////////////////////////////////////////////////////
   //ASSOCIAÇÃO DE POSTOS
   ///////////////////////////////////////////////////////////
-  modelPosto = new PostoModel();
+  modelPosto = new PostoDadosResponse();
   activePosto: string = 'postos';
 
   cargos: string[] = [
@@ -424,15 +425,26 @@ export class CadPostosComponent implements OnInit {
   FiltroPostos(idSelect: number = 0) {
 
     var filtro = new ParamFiltroPostos();
-
+    debugger
     this.filtroService.FiltroPostos(filtro)
       .subscribe((response: Array<PadraoComboFiltro>) => {
         this.listaPostos = response;
+        debugger
         // this.filtroService.ModelTarget = response[0];
         if (idSelect > 0) {
+          debugger
           this.postoModel = this.listaPostos.find(x => x.IdItem == idSelect);
           // Carrega Funcionarios
-          this.resetPagination();
+          debugger
+
+          this.service.ConsultarPostoPeloID(this.postoModel.IdItem).subscribe({
+            next: (res) => {
+              debugger
+              this.modelPosto = res
+              this.resetPagination();
+            }
+          });
+
         }
 
       }, (error) => console.error(error),
@@ -442,7 +454,67 @@ export class CadPostosComponent implements OnInit {
   }
 
   SelectPosto() {
-    this.resetPagination();
+
+    this.service.ConsultarPostoPeloID(this.postoModel.IdItem).subscribe({
+      next: (res) => {
+        this.modelPosto = res
+        this.resetPagination();
+      }
+    });
+  }
+
+
+  associaPosto() {
+
+    // this.service.ConsultarAssociacaoPeloID(this.postoModel.IdItem).subscribe({
+    //   next: (res) => {
+    //     if (res.length > 0) {
+    //       var atualizaAssociacao = new PostoAssociacaoAtualizarRequest();
+    //       atualizaAssociacao.ParamCodPosto = this.postoModel.IdItem;
+    //       atualizaAssociacao.ParamCodProprietario = this.IdProprietario;
+    //       atualizaAssociacao.ParamCodStatus = 1;
+    //       atualizaAssociacao.ParamCod = res[0].CodPostoAssociacao;
+    //       this.service.AtualizarAssociacao(atualizaAssociacao).subscribe({
+    //         next: (res) => {
+    //           this.modelPosto = res
+    //           this.resetPagination();
+    //           this.consultarPostoServico();
+    //           this.activePosto = 'servicos';
+    //         }
+    //       });
+    //     }
+    //     else {
+
+    //     }
+    //  }
+    // });
+    if (this.IdAssociado <= 0) {
+      var postoAssocia = new PostoAssociacaoCadastrarRequest();
+      postoAssocia.ParamCodPosto = this.postoModel.IdItem;
+      postoAssocia.ParamCodProprietario = this.IdProprietario;
+      this.service.CadastrarAssociacao(postoAssocia).subscribe({
+        next: (res) => {
+          //  this.modelPosto = res
+          this.resetPagination();
+          this.consultarPostoServico();
+          this.activePosto = 'servicos';
+
+          this.IdAssociado = res.Cod
+        }
+      });
+    }
+
+    else {
+      this.resetPagination();
+      this.consultarPostoServico();
+      this.activePosto = 'servicos';
+    }
+
+  }
+
+
+  nextFuncionarios() {
+    this.activePosto = 'funcionarios';
   }
 
 
@@ -450,35 +522,44 @@ export class CadPostosComponent implements OnInit {
   // SERVICOS
   /////////////////////////////////////////////////////
 
-  public servicosDisponiveis: ServicoCategoria[] = [
-    {
-      titulo: "Abastecimento",
-      descricao: "Lorem ipsum dolor sit amet consectetur morbi a consectetur senectus metus nunc sapien.",
-      opcoes: [
-        { nome: "Abastecimento", ativo: true },
-        { nome: "Bomba de ar", ativo: false },
-        { nome: "Gôndolas de fluidos", ativo: false }
-      ]
-    },
-    {
-      titulo: "Serviços adicionais",
-      descricao: "Lorem ipsum dolor sit amet consectetur morbi a consectetur senectus metus nunc sapien.",
-      opcoes: [
-        { nome: "Troca de óleo", ativo: true },
-        { nome: "Mecânica automotiva", ativo: false },
-        { nome: "Lavagem", ativo: false }
-      ]
-    },
-    {
-      titulo: "Lojas e estabelecimentos",
-      descricao: "Lorem ipsum dolor sit amet consectetur morbi a consectetur senectus metus nunc sapien.",
-      opcoes: [
-        { nome: "Conveniência", ativo: true },
-        { nome: "Restaurante", ativo: true },
-        { nome: "Lojas", ativo: true }
-      ]
-    }
-  ];
+
+
+
+  servicosDisponiveis: PostoServicoConsultarResponse[]
+
+  consultarPostoServico() {
+
+    let model = new Postos();
+    model.Cod = this.postoModel.IdItem;
+    model.CodIdioma = 1;
+    this.service.ConsultarPostoServico(model).subscribe({
+      next: (res) => {
+        this.servicosDisponiveis = res
+      }
+    });
+  }
+
+
+  onOpcaoChange(opcao: PostoServicoOpcaoConsultarResponse, event: any) {
+    opcao.Resposta = event.target.checked ? "1" : "0";
+
+    let model = new PostoServicoOpcaoAtualizarRequest();
+
+
+    model.CodIdioma = 1
+    model.CodPosto = this.postoModel.IdItem
+    model.CodServico = opcao.CodServico
+    model.CodServicoOpcao = opcao.CodOpcao
+
+    this.service.AtualizarPostoServicoOpcao(model).subscribe({
+      next: (res) => {
+
+      }
+    });
+
+
+  }
+
 
   ////////////////////////////////////////////
   //CADASTRO FUNCIONARIOS
@@ -615,21 +696,106 @@ export class CadPostosComponent implements OnInit {
     return true; // tudo OK
   }
 
+  private readonly basendPointPortal = environment["endPointPortal"];
+  qrHtml: any;
+  gerarQrCode() {
+    const url = `${this.basendPointPortal}/#/pesquisav?idposto=` + this.modelPosto.CodPosto;
+
+    const qr = QRCodeGen(0, 'L');
+    qr.addData(url);
+    qr.make();
+
+    this.qrHtml = qr.createImgTag(6); // cria a imagem do QR
+  }
+
+  imprimir() {
+    debugger
+  const conteudo = document.getElementById('content')?.innerHTML;
+
+  if (!conteudo) return;
+
+  const janela = window.open('', '', 'width=800,height=600');
+
+  if (janela) {
+    janela.document.write(`
+      <html>
+        <head>
+            <title>Impressão</title>
+            <style>
+              body { 
+                font-family: Arial, sans-serif; 
+                padding: 20px;
+                text-align: center;
+              }
+              img { 
+                max-width: 300px;
+              }
+            </style>
+        </head>
+        <body>
+            ${conteudo}
+        </body>
+      </html>
+    `);
+
+    janela.document.close();
+
+    // aguarda o layout carregar antes de imprimir
+    janela.onload = () => {
+      janela.print();
+      janela.close();
+    };
+  }
+}
 
 
   /////////////////////////////////////////////////////////////
   // EDITAR POSTOS
+  IdAssociado: number = 0;
   editarPosto(event: any) {
+    this.gerarQrCode()
+
     this.activeListPostos = false;
-
+    debugger
+    this.IdAssociado = event
     // Carrega dados Postos / Funcionarios
-    this.FiltroPostos(event);
 
-    //  this.service.ConsultarFuncionarioPeloID(this.IdProprietario).subscribe({
-    //       next: (res) => {
 
-    //       }
-    //     });
+    var filtro = new ParamFiltroPostos();
+    debugger
+    this.filtroService.FiltroPostos(filtro)
+      .subscribe((response: Array<PadraoComboFiltro>) => {
+        this.listaPostos = response;
+
+        this.service.ConsultarPostoPeloID(event).subscribe({
+          next: (res) => {
+            debugger
+            this.modelPosto = res
+            this.resetPagination();
+            this.postoModel = this.listaPostos.find(x => x.IdItem == event);
+
+            this.consultarPostoServico();
+            this.activePosto = 'postos';
+          }
+        });
+
+        // this.service.ConsultarAssociacaoPeloID(event).subscribe({
+        //   next: (res) => {
+
+        //     this.postoModel = this.listaPostos.find(x => x.IdItem == event);
+        //     // Carrega Funcionarios
+        //     debugger
+        //   }
+        // });
+
+
+
+      }, (error) => console.error(error),
+        () => {
+        }
+      )
+
+
 
   }
 

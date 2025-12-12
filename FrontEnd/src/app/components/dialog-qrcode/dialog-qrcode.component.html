@@ -1,0 +1,135 @@
+<div>
+
+  <div class="popup-header">
+    <div class="title-area">
+      <h2 class="main-title">{{modelPosto.RazaoSocial}}</h2>
+      <span class="subtitle">{{modelPosto.Bandeira}}</span>
+    </div>
+
+    <button class="close-btn" (click)="close()">
+      ✕
+    </button>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="content" id="content" style="display: none;">
+
+    <div>
+      <h1 class="title">Dados do Posto</h1>
+
+      <p class="description">
+        Esta seção reúne os dados essenciais para início do preenchimento.
+        Mantenha as informações claras e atualizadas para
+        garantir a continuidade do processo.
+      </p>
+
+      <!-- FORMULÁRIO -->
+      <form class="form">
+
+        <div class="print-group">
+          <div class=".qrcode-img" [innerHTML]="qrHtml"></div>
+          <div>
+
+          </div>
+
+        </div>
+
+        <div class="form-group">
+          <label>Razão Social {{modelPosto.RazaoSocial}}</label>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+  <div class="content" style="padding-top: 0px;">
+
+    <!-- FORMULÁRIO -->
+    <form class="form">
+
+      <div class="form-responsive">
+
+        <div class="form-group-qrcode">
+          <div class="qrcode-img" [innerHTML]="qrHtml"></div>
+          <div>
+            <button (click)="imprimir()" class="btn-cancel">Fazer impressão</button>
+          </div>
+
+        </div>
+
+        <!-- <div class="form-group" >
+            <label>Postos</label>
+            <input type="text" [value]="postoModel.DescItem"
+              disabled>
+          </div> -->
+
+        <div class="wrapper">
+          <div class="box">
+            <div class="form-group">
+              <label>Bandeira</label>
+              <input type="text" [value]="modelPosto.Bandeira"
+                disabled>
+            </div>
+          </div>
+
+          <div class="box">
+            <div class="form-group">
+              <label>Razão Social</label>
+              <input type="text" [value]="modelPosto.RazaoSocial"
+                disabled>
+            </div>
+          </div>
+        </div>
+
+        <div class="wrapper">
+          <div class="box">
+            <div class="form-group">
+              <label>Endereço</label>
+              <input type="text" [value]="modelPosto.Endereco"
+                disabled>
+            </div>
+          </div>
+
+          <div class="box">
+            <div class="form-group">
+              <label>CEP</label>
+              <input type="text" [value]="modelPosto.CEP" disabled>
+            </div>
+          </div>
+        </div>
+
+        <div class="wrapper">
+          <div class="box">
+            <div class="form-group">
+              <label>Bairro</label>
+              <input type="text" [value]="modelPosto.Bairro"
+                disabled>
+            </div>
+          </div>
+
+          <div class="box">
+            <div class="form-group">
+              <label>Cidade</label>
+              <input type="text" [value]="modelPosto.Cidade"
+                disabled>
+            </div>
+          </div>
+          <div class="box">
+            <div class="form-group">
+              <label>Estado</label>
+              <input type="text" [value]="modelPosto.Estado"
+                disabled>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </form>
+
+  </div>
+</div>

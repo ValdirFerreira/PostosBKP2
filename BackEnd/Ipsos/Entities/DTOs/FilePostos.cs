@@ -65,6 +65,7 @@ namespace Entities.DTOs
     public class AssociacaoPostoConsultarResponse
     {
         public int CodPostoAssociacao { get; set; }
+        public int CodPosto { get; set; }
         public int CodStatus { get; set; }
         public string Status { get; set; }
         public string RazaoSocial { get; set; }
@@ -110,6 +111,61 @@ namespace Entities.DTOs
         public int ParamCodPosto { get; set; }
         public int ParamCodStatus { get; set; }
     }
+
+
+    public class PostoDadosResponse
+    {
+        public int CodPosto { get; set; }
+        public string RazaoSocial { get; set; }
+        public string Bandeira { get; set; }
+        public string Endereco { get; set; }
+        public string Complemento { get; set; }
+        public string CEP { get; set; }
+        public string Bairro { get; set; }
+        public string Cidade { get; set; }
+        public string Estado { get; set; }
+        public string UF { get; set; }
+    }
+
+
+    public class PostoServicoConsultarResponse
+    {
+        public int CodPostoServico { get; set; }
+        public string Titulo { get; set; }
+        public string Descricao { get; set; }
+        public int Ordem { get; set; }
+
+        public PostoServicoConsultarResponse()
+        {
+            ListOpcoes = new List<PostoServicoOpcaoConsultarResponse>();
+        }
+
+        public List<PostoServicoOpcaoConsultarResponse> ListOpcoes { get; set; }
+    }
+
+
+    public class PostoServicoOpcaoConsultarResponse
+    {
+        public int CodServico { get; set; }
+        public string DescricaoServico { get; set; }
+        public int CodOpcao { get; set; }
+        public string DescricaoOpcao { get; set; }
+        public string Resposta { get; set; }
+    }
+
+
+    public class PostoServicoOpcaoAtualizarRequest
+    {
+        public int CodServicoOpcao { get; set; }
+        public int CodServico { get; set; }
+        public int CodPosto { get; set; }
+        public int CodIdioma { get; set; }
+    }
+
+
+
+
+
 
 
 

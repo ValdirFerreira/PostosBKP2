@@ -33,6 +33,7 @@ export class PostoFuncionarioConsultarResponse {
 
 export class AssociacaoPostoConsultarResponse {
   CodPostoAssociacao: number;
+  CodPosto: number;
   CodStatus: number;
   Status: string;
   RazaoSocial: string;
@@ -73,4 +74,46 @@ export class PostoAssociacaoAtualizarRequest {
   ParamCodProprietario: number;
   ParamCodPosto: number;
   ParamCodStatus: number;
+}
+
+
+export class PostoDadosResponse {
+  CodPosto: number;
+  RazaoSocial: string;
+  Bandeira: string;
+  Endereco: string;
+  Complemento: string;
+  CEP: string;
+  Bairro: string;
+  Cidade: string;
+  Estado: string;
+  UF: string;
+}
+
+
+
+export class PostoServicoOpcaoConsultarResponse {
+  CodServico: number;
+  DescricaoServico: string;
+  CodOpcao: number;
+  DescricaoOpcao: string;
+  Resposta: string;
+}
+
+export class PostoServicoConsultarResponse {
+  CodPostoServico: number;
+  Titulo: string;
+  Descricao: string;
+  Ordem: number;
+
+  ListOpcoes: PostoServicoOpcaoConsultarResponse[];
+
+
+}
+
+export class PostoServicoOpcaoAtualizarRequest {
+  CodServicoOpcao: number;
+  CodServico: number;
+  CodPosto: number;
+  CodIdioma: number;
 }

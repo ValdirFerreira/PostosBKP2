@@ -324,6 +324,14 @@ export class CadProprietarioComponent implements OnInit {
   }
 
 
+  NextContato() {
+    this.active = 'contato';
+  }
+
+  AvancarContato() {
+    this.active = 'upload';
+  }
+
   active: string = 'proprietario';
 
 
@@ -827,15 +835,15 @@ export class CadProprietarioComponent implements OnInit {
   activeAssPosto: boolean = false;
 
   IdProprietario: number = 0;
- NomeProprietario: string ="";
+  NomeProprietario: string = "";
 
-  changeAssPosto(value: boolean, cod: any, nome :any) {
+  changeAssPosto(value: boolean, cod: any, nome: any) {
 
     this.activeAssPosto = value
     this.activeCadastro = false;
 
     this.IdProprietario = cod;
-this.NomeProprietario = nome;
+    this.NomeProprietario = nome;
   }
 
 

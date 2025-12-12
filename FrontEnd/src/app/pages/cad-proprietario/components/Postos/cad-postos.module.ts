@@ -47,6 +47,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ListPostosModule,
     NgSelectModule,
 
+
   ],
   exports:[CadPostosComponent]
 })

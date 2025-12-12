@@ -602,7 +602,7 @@ namespace DataAccess.DashBoardTwo
         }
 
 
-        public List<AssociacaoPostoConsultarResponse> ConsultarAssociacoes(int codIdioma)
+        public List<AssociacaoPostoConsultarResponse> ConsultarAssociacoes(Postos model)
         {
             var lista = new List<AssociacaoPostoConsultarResponse>();
 
@@ -611,7 +611,9 @@ namespace DataAccess.DashBoardTwo
                 using (SqlConnection conexaoBD = new SqlConnection(Conexao.strConexao))
                 {
                     var parametros = new DynamicParameters();
-                    parametros.Add("@ParamCodIdioma", codIdioma);
+                    parametros.Add("@ParamCodProprietario", model.Cod);
+                    parametros.Add("@ParamCodIdioma", model.CodIdioma);
+
 
                     var result = conexaoBD.Query<AssociacaoPostoConsultarResponse>(
                         "prAssociacaoPostoConsultar",
@@ -669,6 +671,166 @@ namespace DataAccess.DashBoardTwo
 
             return retorno;
         }
+
+
+        public PostoDadosResponse ConsultarPostoPeloID(int cod)
+        {
+            var retorno = new PostoDadosResponse();
+
+            try
+            {
+                using (SqlConnection conexaoBD = new SqlConnection(Conexao.strConexao))
+                {
+                    var parametros = new DynamicParameters();
+                    parametros.Add("@ParamCod", cod);
+
+                    var result = conexaoBD.Query<PostoDadosResponse>(
+                        "prPostoConsultarPeloID",
+                        parametros,
+                        commandType: CommandType.StoredProcedure,
+                        commandTimeout: 300
+                    );
+
+                    retorno = result.FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    ex.ToString()
+                );
+            }
+
+            return retorno;
+        }
+
+        /// <summary>
+        /// //////////////////////////////////////////////////////////////////////////////////////////////
+        /// </summary>
+        /// <param name="codIdioma"></param>
+        /// <returns></returns>
+
+        public List<PostoServicoConsultarResponse> ConsultarPostoServico(Postos model)
+        {
+            var retorno = new List<PostoServicoConsultarResponse>();
+
+            try
+            {
+                using (SqlConnection conexaoBD = new SqlConnection(Conexao.strConexao))
+                {
+                    var parametros = new DynamicParameters();
+                    parametros.Add("@ParamCodIdioma", model.CodIdioma);
+
+                    var result = conexaoBD.Query<PostoServicoConsultarResponse>(
+                        "prPostoServicoConsultar",
+                        parametros,
+                        commandType: CommandType.StoredProcedure,
+                        commandTimeout: 300
+                    );
+
+                    retorno = result.ToList();
+
+                    foreach (var item in retorno)
+                    {
+                        var listOpcoes = ConsultarPostoServicoOpcao(item.CodPostoServico, model.Cod, model.CodIdioma);
+                        if (listOpcoes.Any())
+                        {
+                            item.ListOpcoes.AddRange(listOpcoes);
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    ex.ToString()
+                );
+            }
+
+            return retorno;
+        }
+
+
+        public List<PostoServicoOpcaoConsultarResponse> ConsultarPostoServicoOpcao(int codServico, int codPosto, int codIdioma)
+        {
+            var retorno = new List<PostoServicoOpcaoConsultarResponse>();
+
+            try
+            {
+                using (SqlConnection conexaoBD = new SqlConnection(Conexao.strConexao))
+                {
+                    var parametros = new DynamicParameters();
+                    parametros.Add("@ParamCodServico", codServico);
+                    parametros.Add("@ParamCodPosto", codPosto);
+                    parametros.Add("@ParamCodIdioma", codIdioma);
+
+                    var result = conexaoBD.Query<PostoServicoOpcaoConsultarResponse>(
+                        "prPostoServicoOpcaoConsultar",
+                        parametros,
+                        commandType: CommandType.StoredProcedure,
+                        commandTimeout: 300
+                    );
+
+                    retorno = result.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    ex.ToString()
+                );
+            }
+
+            return retorno;
+        }
+
+
+
+
+        public bool AtualizarPostoServicoOpcao(PostoServicoOpcaoAtualizarRequest req)
+        {
+            bool sucesso = false;
+
+            try
+            {
+                using (SqlConnection conexaoBD = new SqlConnection(Conexao.strConexao))
+                {
+                    var parametros = new DynamicParameters();
+                    parametros.Add("@ParamCodServicoOpcao", req.CodServicoOpcao);
+                    parametros.Add("@ParamCodServico", req.CodServico);
+                    parametros.Add("@ParamCodPosto", req.CodPosto);
+                    parametros.Add("@ParamCodIdioma", req.CodIdioma);
+
+                    conexaoBD.Execute(
+                        "prPostoServicoOpcaoAtualizar",
+                        parametros,
+                        commandType: CommandType.StoredProcedure,
+                        commandTimeout: 300
+                    );
+
+                    sucesso = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    ex.ToString()
+                );
+            }
+
+            return sucesso;
+        }
+
+
 
 
 

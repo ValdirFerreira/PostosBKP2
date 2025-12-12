@@ -157,7 +157,11 @@ menus: MenuItem[] = [
  
 ];
 
-
+voltar()
+{
+  this.router.navigate(['/home']);
+  // window.location.reload();
+}
 
   sairPortal() {
     this.authService.UsuarioAutenticado(false);

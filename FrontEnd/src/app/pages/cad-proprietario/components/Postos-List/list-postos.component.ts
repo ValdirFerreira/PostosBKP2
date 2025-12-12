@@ -14,7 +14,8 @@ import { DialogDynamicComponent } from 'src/app/components/dialog-dynamic/dialog
 import { MatDialog } from '@angular/material/dialog';
 import { PostoModel, ServicoCategoria } from 'src/app/models/PainelPostos/PostoModel';
 import { DownloadService } from 'src/app/services/download.service';
-import { AssociacaoPostoConsultarPeloIDResponse, FilePostos } from 'src/app/models/PainelPostos/FilePostos';
+import { AssociacaoPostoConsultarResponse, FilePostos } from 'src/app/models/PainelPostos/FilePostos';
+import { DialogQrCodeComponent } from 'src/app/components/dialog-qrcode/dialog-qrcode.component';
 
 
 
@@ -27,7 +28,7 @@ import { AssociacaoPostoConsultarPeloIDResponse, FilePostos } from 'src/app/mode
 export class ListPostosComponent implements OnInit {
 
   @Input() IdProprietario: number = 0;
-   @Input() NomeProprietario: string ="";
+  @Input() NomeProprietario: string = "";
 
   constructor(public router: Router,
     public menuService: MenuService,
@@ -63,7 +64,7 @@ export class ListPostosComponent implements OnInit {
 
 
   // retorna a lista filtrada por aba (ativo/inativo), pesquisa e filtro adicional
-  get filteredList(): AssociacaoPostoConsultarPeloIDResponse[] {
+  get filteredList(): AssociacaoPostoConsultarResponse[] {
     // const abaFiltro = this.abaAtiva === 'ativo' ? 1 : 2;
     // const q = this.pesquisa.trim().toLowerCase();
 
@@ -88,7 +89,7 @@ export class ListPostosComponent implements OnInit {
   }
 
   // lista paginada presente na tela
-  get pagedList(): AssociacaoPostoConsultarPeloIDResponse[] {
+  get pagedList(): AssociacaoPostoConsultarResponse[] {
     const start = (this.currentPage - 1) * this.pageSize;
     return this.filteredList.slice(start, start + this.pageSize);
   }
@@ -137,11 +138,11 @@ export class ListPostosComponent implements OnInit {
     }
   }
 
-  allData: Array<AssociacaoPostoConsultarPeloIDResponse> = [];
+  allData: Array<AssociacaoPostoConsultarResponse> = [];
 
   // utilitário para resetar paginação quando lista muda
   private resetPagination() {
-    this.service.ConsultarAssociacaoPeloID(this.IdProprietario).subscribe({
+    this.service.ConsultarAssociacoes(this.IdProprietario).subscribe({
       next: (res) => {
         this.allData = res;
       }
@@ -151,23 +152,23 @@ export class ListPostosComponent implements OnInit {
   }
 
 
-   @Output() IdEdit = new EventEmitter<number>();
+  @Output() IdEdit = new EventEmitter<number>();
   // Ações de exemplo (editar / remover / ver)
-  editar(item: AssociacaoPostoConsultarPeloIDResponse) {
+  editar(item: AssociacaoPostoConsultarResponse) {
     console.log('editar', item);
-
-    this.IdEdit.emit(item.CodPostoAssociacao); // Envia para o pai
+    debugger
+    this.IdEdit.emit(item.CodPosto); // Envia para o pai
 
     this.close.emit(false); // Envia para o pai
 
   }
 
-  remover(item: AssociacaoPostoConsultarPeloIDResponse) {
+  remover(item: AssociacaoPostoConsultarResponse) {
     console.log('remover', item);
     // lógica para remover (mock: apenas log)
   }
 
-  ver(item: AssociacaoPostoConsultarPeloIDResponse) {
+  ver(item: AssociacaoPostoConsultarResponse) {
     console.log('ver', item);
     // abrir detalhes
   }
@@ -197,6 +198,17 @@ export class ListPostosComponent implements OnInit {
     });
   }
 
+  OpenModaQRCode(item: AssociacaoPostoConsultarResponse) {
+    const dialogRef = this.dialog.open(DialogQrCodeComponent);
+    dialogRef.componentInstance.modelPosto = item;
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("RESULTADO RECEBIDO:", result);
+
+    });
+  }
+
+
 
 
 
@@ -204,5 +216,9 @@ export class ListPostosComponent implements OnInit {
     window.location.reload();
 
   }
+
+
+
+
 
 }
