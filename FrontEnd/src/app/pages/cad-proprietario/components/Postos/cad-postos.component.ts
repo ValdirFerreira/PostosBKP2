@@ -14,8 +14,8 @@ import { DialogDynamicComponent } from 'src/app/components/dialog-dynamic/dialog
 import { MatDialog } from '@angular/material/dialog';
 import { PostoModel, ServicoCategoria } from 'src/app/models/PainelPostos/PostoModel';
 import { DownloadService } from 'src/app/services/download.service';
-import { FilePostos, PostoAssociacaoAtualizarRequest, PostoAssociacaoCadastrarRequest, PostoDadosResponse, PostoServicoConsultarResponse, PostoServicoOpcaoAtualizarRequest, PostoServicoOpcaoConsultarResponse } from 'src/app/models/PainelPostos/FilePostos';
-import { PadraoComboFiltro, ParamFiltroPostos } from 'src/app/models/Filtros/PadraoComboFiltro';
+import { FilePostos, PostoAssociacaoAtualizarRequest, PostoAssociacaoCadastrarRequest, PostoDadosResponse, PostoFuncionarioCadastrarRequest, PostoServicoConsultarResponse, PostoServicoOpcaoAtualizarRequest, PostoServicoOpcaoConsultarResponse } from 'src/app/models/PainelPostos/FilePostos';
+import { PadraoComboFiltro, ParamFiltro, ParamFiltroPostos } from 'src/app/models/Filtros/PadraoComboFiltro';
 
 import QRCodeGen from 'qrcode-generator';
 import { environment } from 'src/environments/environment';
@@ -55,6 +55,10 @@ export class CadPostosComponent implements OnInit {
 
     // this.resetPagination();
     this.FiltroPostos();
+
+    this.FiltroStatus();
+    this.FiltroFuncionarioFuncoes();
+
   }
 
 
@@ -146,9 +150,26 @@ export class CadPostosComponent implements OnInit {
 
   // uConsulta lista Funcionarios Posto
   private resetPagination() {
+    debugger
     this.service.consultarPostos(this.postoModel.IdItem).subscribe({
       next: (res) => {
+
         this.allData = res;
+        // res.forEach(item => {
+
+        //   var itemN = new Proprietario();
+        //   itemN.Cod = item.CodPostoFuncionario;
+        //   itemN.Nome = item.Nome;
+        //   // itemN.Documento = item.;
+        //   itemN.CodStatus = item.CodStatus;
+        //   itemN.DescricaoStatus = this.getDescricaoStatus(item.CodStatus);
+        //   itemN.Email = item.Email;
+        //   itemN.Funcao = item.DescricaoFuncao;
+        //   itemN.Telefone = "";
+        //   this.allData.push(itemN);
+
+        // });
+
       }
     });
 
@@ -565,6 +586,48 @@ export class CadPostosComponent implements OnInit {
   //CADASTRO FUNCIONARIOS
 
 
+  listFuncoes: Array<PadraoComboFiltro> = [];
+  Funcoes: PadraoComboFiltro;
+
+  FiltroFuncionarioFuncoes() {
+
+    let filtro = new ParamFiltro();
+
+    filtro.ParamCodIdioma = 1;
+
+    this.filtroService.FiltroFuncionarioFuncoes(filtro)
+      .subscribe((response: Array<PadraoComboFiltro>) => {
+
+        this.listFuncoes = response;
+      }, (error) => console.error(error),
+        () => {
+        }
+      )
+  }
+
+
+  listStatus: Array<PadraoComboFiltro> = [];
+  status: PadraoComboFiltro;
+
+  FiltroStatus() {
+
+    let filtro = new ParamFiltro();
+
+    filtro.ParamCodIdioma = 1;
+
+    this.filtroService.FiltroStatus(filtro)
+      .subscribe((response: Array<PadraoComboFiltro>) => {
+
+        this.listStatus = response;
+
+      }, (error) => console.error(error),
+        () => {
+        }
+      )
+  }
+
+
+
   activeListPostos: boolean = true;
 
   activeCadFuncionario: string = 'dados';
@@ -581,53 +644,79 @@ export class CadPostosComponent implements OnInit {
 
   salvarFuncionario() {
 
-    debugger
     if (!this.validarCamposObrigatorios()) {
       return; // interrompe fluxo
     }
 
-    debugger
     const req = this.model;
 
+    let model = new PostoFuncionarioCadastrarRequest();
 
+    model.ParamNome = req.Nome;
+    // req.Documento,
+    model.ParamCodStatus = this.status.IdItem;
+    // this.getDescricaoStatus(req.CodStatus), // opcional
+    // model.ParamCodFuncionarioFuncao = req. ? req.Funcao : "Não Informado",
+    // req.Telefone,
+    model.ParamEmail = req.Email;
+    model.ParamCodPosto = this.postoModel.IdItem;
+    model.ParamCodFuncionarioFuncao = this.Funcoes.IdItem;
 
-    let contem = this.allData.filter(x => x.Email === req.Email);
+    this.service.CadastrarFuncionario(model).subscribe({
+      next: (res) => {
 
-    if (contem.length > 0) {
-      const dialogRef = this.dialog.open(DialogDynamicComponent);
-      dialogRef.componentInstance.typeDialog = 5;
-      dialogRef.afterClosed().subscribe(result => {
-        console.log("RESULTADO RECEBIDO:", result);
+        this.currentPage = 1;
+        this.activeCadFuncionario = 'dados';
+        this.changeCadFuncionario(false)
+        this.model = new Proprietario();
 
-      });
-    }
-    else {
+        this.resetPagination();
 
-      debugger
-      const novo: Proprietario = {
-        Cod: this.allData.length + 1,
-        Nome: req.Nome,
-        Documento: req.Documento,
-        CodStatus: req.CodStatus,
-        DescricaoStatus: this.getDescricaoStatus(req.CodStatus), // opcional
-        Funcao: req.Funcao ? req.Funcao : "Não Informado",
-        Telefone: req.Telefone,
-        Email: req.Email
-      };
-      debugger
-      this.allData.push(novo);
-      this.currentPage = 1;
+      }
+    });
 
-      this.activeCadFuncionario = 'dados';
+    // let contem = this.allData.filter(x => x.Email === req.Email);
 
-      this.changeCadFuncionario(false)
+    // if (contem.length > 0) {
+    //   const dialogRef = this.dialog.open(DialogDynamicComponent);
+    //   dialogRef.componentInstance.typeDialog = 5;
+    //   dialogRef.afterClosed().subscribe(result => {
+    //     console.log("RESULTADO RECEBIDO:", result);
 
-      this.model = new Proprietario();
-    }
+    //   });
+    // }
+    // else {
+
+    //   debugger
+    //   const novo: Proprietario = {
+    //     Cod: this.allData.length + 1,
+    //     Nome: req.Nome,
+    //     Documento: req.Documento,
+    //     CodStatus: req.CodStatus,
+    //     DescricaoStatus: this.getDescricaoStatus(req.CodStatus), // opcional
+    //     Funcao: req.Funcao ? req.Funcao : "Não Informado",
+    //     Telefone: req.Telefone,
+    //     Email: req.Email
+    //   };
+    //   debugger
+    //   this.allData.push(novo);
+    // this.currentPage = 1;
+
+    // this.activeCadFuncionario = 'dados';
+
+    // this.changeCadFuncionario(false)
+
+    // this.model = new Proprietario();
+    //}
 
   }
 
-  changeDelete(email: any) {
+  avancarCadastro() {
+    this.activeCadFuncionario = 'contato';
+  }
+
+  changeDelete(cod: any) {
+
 
     const dialogRef = this.dialog.open(DialogDynamicComponent);
     dialogRef.componentInstance.typeDialog = 4;
@@ -636,7 +725,20 @@ export class CadPostosComponent implements OnInit {
 
       if (result?.ok) {
 
-        this.allData = this.allData.filter(x => x.Email !== email);
+        this.service.ExcluirFuncionario(cod).subscribe({
+          next: (res) => {
+
+            this.currentPage = 1;
+            this.activeCadFuncionario = 'dados';
+            this.changeCadFuncionario(false)
+            this.model = new Proprietario();
+
+            this.resetPagination();
+
+          }
+        });
+
+        // this.allData = this.allData.filter(x => x.Email !== email);
 
         //  const index = this.allData.findIndex(x => x.Email === email);
 
@@ -673,8 +775,12 @@ export class CadPostosComponent implements OnInit {
     // }
 
     // Status (se for número e obrigatório)
-    if (model.CodStatus === null || model.CodStatus === undefined) {
+    if (this.status == null || this.status.IdItem == 0) {
       mensagensErro.push("O campo Status é obrigatório.");
+    }
+
+    if (this.Funcoes == null || this.Funcoes.IdItem == 0) {
+      mensagensErro.push("O campo função é obrigatório.");
     }
 
     // // Telefone
@@ -710,14 +816,14 @@ export class CadPostosComponent implements OnInit {
 
   imprimir() {
     debugger
-  const conteudo = document.getElementById('content')?.innerHTML;
+    const conteudo = document.getElementById('content')?.innerHTML;
 
-  if (!conteudo) return;
+    if (!conteudo) return;
 
-  const janela = window.open('', '', 'width=800,height=600');
+    const janela = window.open('', '', 'width=800,height=600');
 
-  if (janela) {
-    janela.document.write(`
+    if (janela) {
+      janela.document.write(`
       <html>
         <head>
             <title>Impressão</title>
@@ -738,15 +844,15 @@ export class CadPostosComponent implements OnInit {
       </html>
     `);
 
-    janela.document.close();
+      janela.document.close();
 
-    // aguarda o layout carregar antes de imprimir
-    janela.onload = () => {
-      janela.print();
-      janela.close();
-    };
+      // aguarda o layout carregar antes de imprimir
+      janela.onload = () => {
+        janela.print();
+        janela.close();
+      };
+    }
   }
-}
 
 
   /////////////////////////////////////////////////////////////
@@ -771,11 +877,13 @@ export class CadPostosComponent implements OnInit {
           next: (res) => {
             debugger
             this.modelPosto = res
-            this.resetPagination();
+
             this.postoModel = this.listaPostos.find(x => x.IdItem == event);
 
             this.consultarPostoServico();
+            this.resetPagination();
             this.activePosto = 'postos';
+
           }
         });
 

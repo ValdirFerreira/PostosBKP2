@@ -12,6 +12,8 @@ using DataAccess.FilesConfig;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Collections;
+using DataAccess.Usuario;
+using Entities.Usuario;
 
 namespace DataAccess.DashBoardTwo
 {
@@ -98,6 +100,8 @@ namespace DataAccess.DashBoardTwo
 
             var response = new ResponseCad();
 
+            UsuarioDataAccess _context = new UsuarioDataAccess("");
+
             int novoId = 0;
 
             try
@@ -122,6 +126,9 @@ namespace DataAccess.DashBoardTwo
                             commandType: CommandType.StoredProcedure,
                             commandTimeout: 300
                         );
+
+                        _context.InsertUser(new UsuarioModel { Name = req.Nome, Email = req.Email });
+
                     }
                     else
                     {
@@ -271,7 +278,9 @@ namespace DataAccess.DashBoardTwo
                         Cod = item.CodPostoFuncionario,
                         CodStatus = item.CodStatus,
                         DescricaoStatus = item.Status,
-                        Funcao = item.DescricaoFuncao
+                        Funcao = item.DescricaoFuncao,
+                        Nome = item.Nome,
+                        Email = item.Email,
                     });
 
 

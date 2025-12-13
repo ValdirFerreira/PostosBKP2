@@ -256,7 +256,8 @@
         <div class="actions">
           <button class="btn-cancel" (click)="cancelar()">Cancelar
             cadastro</button>
-          <button  (click)="nextFuncionarios()" class="btn-submit-seg">Avançar</button>
+          <button (click)="nextFuncionarios()"
+            class="btn-submit-seg">Avançar</button>
         </div>
 
       </div>
@@ -304,9 +305,13 @@
             <tbody>
               <tr *ngFor="let p of pagedList">
 
-                <td class="col-name">{{ p.Nome }}</td>
+                <td class="col-name">{{ p.Nome }} / {{ p.Email }}</td>
 
-                <td>
+                <td *ngIf="p.Funcao=='Frentista'">
+                  <span class="tag tag-purple">{{ p.Funcao }}</span>
+                </td>
+
+                <td *ngIf="p.Funcao!=='Frentista'">
                   <span class="tag">{{ p.Funcao }}</span>
                 </td>
 
@@ -321,7 +326,7 @@
                   </button>-->
                   <button class="icon-btn">
                     <div class="btn-lixeira"
-                      (click)="changeDelete(p.Email)"></div>
+                      (click)="changeDelete(p.Cod)"></div>
                   </button>
                 </td>
 
@@ -421,20 +426,36 @@
               name="razaosocial">
           </div>
 
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label>Função</label>
             <input type="text" [(ngModel)]="model.Funcao"
               name="nomefantasia">
+          </div> -->
+
+          <div class="form-group">
+            <label>Função</label>
+            <ng-select placeholder="Função" id="tipoAtivoModel"
+              class="selectFiltroGlobal" bindLabel="DescItem"
+              [items]="listFuncoes" [searchable]="false" [clearable]="false"
+              [(ngModel)]="Funcoes" [multiple]="false"></ng-select>
           </div>
 
           <!-- Status -->
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label>Status</label>
 
             <select [(ngModel)]="model.CodStatus" name="status">
               <option value="1">Ativo</option>
               <option value="2">Inativo</option>
             </select>
+          </div> -->
+
+          <div class="form-group">
+            <label>Status</label>
+            <ng-select placeholder="Status" id="tipoAtivoModel"
+              class="selectFiltroGlobal" bindLabel="DescItem"
+              [items]="listStatus" [searchable]="false" [clearable]="false"
+              [(ngModel)]="status" [multiple]="false"></ng-select>
           </div>
 
         </form>
@@ -444,8 +465,8 @@
           <button class="btn-cancel"
             (click)="cancelarDadastroFuncionario()">Cancelar
             cadastro</button>
-          <button disabled class="btn-submit">Criar
-            Cadastro</button>
+          <button (click)="avancarCadastro()"
+            class="btn-submit-seg">Avançar</button>
         </div>
       </div>
 

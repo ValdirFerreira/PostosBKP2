@@ -6,56 +6,57 @@
   </div>
   <div class="menu-wrapper">
 
-    
+    <nav class="top-links">
+      <ng-container *ngFor="let menu of menus">
 
-  <nav class="top-links">
-  <ng-container *ngFor="let menu of menus">
+        <!-- MENU SEM SUBMENU -->
+        <a
+          *ngIf="!menu.Children"
+          [ngClass]="menu.Ativo ? 'btn-primary' : 'link'"
+          (click)="selectParent(menu); goTo(menu.Url!)">
+          {{ menu.Nome }}
+        </a>
 
-    <!-- MENU SEM SUBMENU -->
-    <a
-      *ngIf="!menu.Children"
-      [ngClass]="menu.Ativo ? 'btn-primary' : 'link'"
-      (click)="selectParent(menu); goTo(menu.Url!)"
-    >
-      {{ menu.Nome }}
-    </a>
+        <!-- MENU COM SUBMENU -->
+        <div *ngIf="menu.Children" class="dropdown">
 
-    <!-- MENU COM SUBMENU -->
-    <div *ngIf="menu.Children" class="dropdown">
+          <button
+            [ngClass]="menu.Ativo ? 'btn-primary' : 'link'"
+            (click)="selectParent(menu)">
+            {{ menu.Nome }}
+            <span class="arrow" [class.open]="openMenu === menu.Id"></span>
+          </button>
 
-      <button
-        [ngClass]="menu.Ativo ? 'btn-primary' : 'link'"
-        (click)="selectParent(menu)"
-      >
-        {{ menu.Nome }}
-        <span class="arrow" [class.open]="openMenu === menu.Id"></span>
-      </button>
+          <div class="dropdown-menu" *ngIf="openMenu === menu.Id">
+            <ng-container *ngFor="let item of menu.Children">
 
-      <div class="dropdown-menu" *ngIf="openMenu === menu.Id">
-        <ng-container *ngFor="let item of menu.Children">
+              <a
+                class="dropdown-item"
+                *ngIf="!item.Children"
+                (click)="goTo(item.Url!)">
+                {{ item.Nome }}
+              </a>
 
-          <a
-            class="dropdown-item"
-            *ngIf="!item.Children"
-            (click)="goTo(item.Url!)"
-          >
-            {{ item.Nome }}
-          </a>
+            </ng-container>
+          </div>
 
-        </ng-container>
-      </div>
+        </div>
+      </ng-container>
+    </nav>
 
-    </div>
-  </ng-container>
-</nav>
+  </div>
 
-
-
-
-</div>
-
-
-  <div class="user-area">
+  <div class="user-area" (click)="toggleMenu()">
     <span class="avatar">UA</span>
+  </div>
+
+  <!-- Overlay -->
+  <div class="overlay" *ngIf="menuAberto" (click)="toggleMenu()"></div>
+
+  <!-- Painel -->
+  <div class="user-panel" [class.open]="menuAberto">
+    <!-- <button class="close-btn" (click)="toggleMenu()">×</button> -->
+
+    <p class="txt-sair" (click)="sairPortal()">Sair</p>
   </div>
 </header>

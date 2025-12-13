@@ -79,15 +79,15 @@ export class PostoAssociacaoAtualizarRequest {
 
 export class PostoDadosResponse {
   CodPosto: number;
-  RazaoSocial: string;
-  Bandeira: string;
-  Endereco: string;
-  Complemento: string;
-  CEP: string;
-  Bairro: string;
-  Cidade: string;
-  Estado: string;
-  UF: string;
+  RazaoSocial: string="";
+  Bandeira: string="";
+  Endereco: string="";
+  Complemento: string="";
+  CEP: string="";
+  Bairro: string="";
+  Cidade: string="";
+  Estado: string="";
+  UF: string="";
 }
 
 

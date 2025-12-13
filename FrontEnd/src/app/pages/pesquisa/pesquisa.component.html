@@ -1,157 +1,162 @@
-<div class="container" *ngIf="!pesquisa">
+<div style="display: none;">
 
-  <div class="image-area"></div>
-  <div class="image-wrapper">
-    <div class="side-label">P E S Q U I S A</div>
+  <div class="container" *ngIf="!pesquisa">
 
-  </div>
+    <div class="image-area"></div>
+    <div class="image-wrapper">
+      <div class="side-label">P E S Q U I S A</div>
 
-  <div class="logo">
-
-  </div>
-
-  <div class="content">
-    <h1>Olá!<br>Somos a Ipsos</h1>
-
-    <p class="subtitle">Líder global em pesquisa de mercado!</p>
-
-    <p>Queremos entender como foi sua experiência no posto de combustível que
-      você acabou de visitar.</p>
-
-    <p>Sua opinião é essencial para avaliarmos a qualidade dos serviços e
-      identificar melhorias.</p>
-
-    <p>Não há respostas certas ou erradas, e suas informações serão tratadas com
-      total confidencialidade, apenas para fins de pesquisa.</p>
-
-    <button class="btn-start" (click)="ativarPesquisa(true)">Iniciar
-      pesquisa</button>
-  </div>
-</div>
-
-<div class="form-container" *ngIf="pesquisa">
-
-  <!-- HEADER -->
-  <div class="header">
-    <button class="back-btn" *ngIf="step > 1">←</button>
-    <span>{{ step }}/4</span>
-    <button class="close-btn">✕</button>
-  </div>
-
-  <!-- QUESTION -->
-  <h2 class="question-title">
-    Com que frequência você vem a esse posto?
-  </h2>
-
-  <!-- OPTIONS -->
-  <div class="option-card" *ngFor="let item of options">
-    <label>
-      <input type="radio" name="freq" />
-      <span>{{ item }}</span>
-    </label>
-  </div>
-
-  <!-- BUTTON -->
-  <button class="btn-next">Prosseguir</button>
-
-</div>
-
-<div class="form-container" *ngIf="pesquisa">
-
-  <!-- HEADER -->
-  <div class="header">
-    <button class="back-btn" *ngIf="step > 1">←</button>
-    <span>{{ step }}/4</span>
-    <button class="close-btn">✕</button>
-  </div>
-
-  <!-- QUESTION -->
-  <h2 class="question-title">
-    Considerando o estabelecimento que você acabou de visitar,
-    gostaríamos de saber sua satisfação em relação a algumas características:
-  </h2>
-
-  <div class="scale-card" *ngFor="let item of scaleQuestions">
-    <h3>{{ item.title }}</h3>
-
-    <!-- Linha 1 (1 a 5) -->
-    <div class="scale-row">
-      <label *ngFor="let n of firstRow">
-        <input
-          type="radio"
-          [name]="item.name"
-          [value]="n"
-          [checked]="answers[item.name] === n"
-          (change)="selectValue(item.name, n)" />
-        <span>{{ n }}</span>
-      </label>
     </div>
 
-    <!-- Linha 2 (6 a 10) -->
-    <div class="scale-row">
-      <label *ngFor="let n of secondRow">
-        <input
-          type="radio"
-          [name]="item.name"
-          [value]="n"
-          [checked]="answers[item.name] === n"
-          (change)="selectValue(item.name, n)" />
-        <span>{{ n }}</span>
-      </label>
+    <div class="logo">
+
+    </div>
+
+    <div class="content">
+      <h1>Olá!<br>Somos a Ipsos</h1>
+
+      <p class="subtitle">Líder global em pesquisa de mercado!</p>
+
+      <p>Queremos entender como foi sua experiência no posto de combustível que
+        você acabou de visitar.</p>
+
+      <p>Sua opinião é essencial para avaliarmos a qualidade dos serviços e
+        identificar melhorias.</p>
+
+      <p>Não há respostas certas ou erradas, e suas informações serão tratadas
+        com
+        total confidencialidade, apenas para fins de pesquisa.</p>
+
+      <button class="btn-start" (click)="ativarPesquisa(true)">Iniciar
+        pesquisa</button>
     </div>
   </div>
 
-  <!-- BUTTON -->
-  <button class="btn-next">Prosseguir</button>
+  <div class="form-container" *ngIf="pesquisa">
 
-</div>
+    <!-- HEADER -->
+    <div class="header">
+      <button class="back-btn" *ngIf="step > 1">←</button>
+      <span>{{ step }}/4</span>
+      <button class="close-btn">✕</button>
+    </div>
 
-<div class="form-container" *ngIf="pesquisa">
+    <!-- QUESTION -->
+    <h2 class="question-title">
+      Com que frequência você vem a esse posto?
+    </h2>
 
-  <!-- HEADER -->
-  <div class="header">
-    <button class="back-btn" *ngIf="step > 1">←</button>
-    <span>{{ step }}/4</span>
-    <button class="close-btn">✕</button>
+    <!-- OPTIONS -->
+    <div class="option-card" *ngFor="let item of options">
+      <label>
+        <input type="radio" name="freq" />
+        <span>{{ item }}</span>
+      </label>
+    </div>
+
+    <!-- BUTTON -->
+    <button class="btn-next">Prosseguir</button>
+
   </div>
 
-  <!-- QUESTION -->
-  <p class="question-title">
-    A Ipsos mantém uma base de contatos para envio de convites de pesquisa
-    relacionados ao segmento de postos de combustível.
-  </p>
+  <div class="form-container" *ngIf="pesquisa">
 
-  <p class="question-title">
-    Para saber mais detalhes, clique aqui.
-    Você concorda com as condições descritas no link e gostaria de inserir seu
-    nome, e-mail e telefone na base e receber convites para outras pesquisas?
-  </p>
+    <!-- HEADER -->
+    <div class="header">
+      <button class="back-btn" *ngIf="step > 1">←</button>
+      <span>{{ step }}/4</span>
+      <button class="close-btn">✕</button>
+    </div>
 
-  <p class="question-title">
-    Você poderá descadastrar-se a qualquer momento.
-  </p>
+    <!-- QUESTION -->
+    <h2 class="question-title">
+      Considerando o estabelecimento que você acabou de visitar,
+      gostaríamos de saber sua satisfação em relação a algumas características:
+    </h2>
 
-  <p class="question-title">
-    Caso tenha dúvidas acerca de como seus dados serão tratados, entre em
-    contato com <strong>dpo.brazil</strong>.
-  </p>
+    <div class="scale-card" *ngFor="let item of scaleQuestions">
+      <h3>{{ item.title }}</h3>
 
-  <!-- OPTIONS -->
-  <div class="option-card">
-    <label>
-      <input type="radio" name="freq" />
-      <span>Sim</span>
-    </label>
+      <!-- Linha 1 (1 a 5) -->
+      <div class="scale-row">
+        <label *ngFor="let n of firstRow">
+          <input
+            type="radio"
+            [name]="item.name"
+            [value]="n"
+            [checked]="answers[item.name] === n"
+            (change)="selectValue(item.name, n)" />
+          <span>{{ n }}</span>
+        </label>
+      </div>
+
+      <!-- Linha 2 (6 a 10) -->
+      <div class="scale-row">
+        <label *ngFor="let n of secondRow">
+          <input
+            type="radio"
+            [name]="item.name"
+            [value]="n"
+            [checked]="answers[item.name] === n"
+            (change)="selectValue(item.name, n)" />
+          <span>{{ n }}</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- BUTTON -->
+    <button class="btn-next">Prosseguir</button>
+
   </div>
 
-  <div class="option-card">
-    <label>
-      <input type="radio" name="freq" />
-      <span>Não</span>
-    </label>
-  </div>
+  <div class="form-container" *ngIf="pesquisa">
 
-  <!-- BUTTON -->
-  <button class="btn-next">Prosseguir</button>
+    <!-- HEADER -->
+    <div class="header">
+      <button class="back-btn" *ngIf="step > 1">←</button>
+      <span>{{ step }}/4</span>
+      <button class="close-btn">✕</button>
+    </div>
+
+    <!-- QUESTION -->
+    <p class="question-title">
+      A Ipsos mantém uma base de contatos para envio de convites de pesquisa
+      relacionados ao segmento de postos de combustível.
+    </p>
+
+    <p class="question-title">
+      Para saber mais detalhes, clique aqui.
+      Você concorda com as condições descritas no link e gostaria de inserir seu
+      nome, e-mail e telefone na base e receber convites para outras pesquisas?
+    </p>
+
+    <p class="question-title">
+      Você poderá descadastrar-se a qualquer momento.
+    </p>
+
+    <p class="question-title">
+      Caso tenha dúvidas acerca de como seus dados serão tratados, entre em
+      contato com <strong>dpo.brazil</strong>.
+    </p>
+
+    <!-- OPTIONS -->
+    <div class="option-card">
+      <label>
+        <input type="radio" name="freq" />
+        <span>Sim</span>
+      </label>
+    </div>
+
+    <div class="option-card">
+      <label>
+        <input type="radio" name="freq" />
+        <span>Não</span>
+      </label>
+    </div>
+
+    <!-- BUTTON -->
+    <button class="btn-next">Prosseguir</button>
+
+  </div>
 
 </div>
