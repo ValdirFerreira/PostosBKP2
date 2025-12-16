@@ -1,6 +1,6 @@
 export class PesquisaRequest {
-  ParamCodSegmento: number;
-  ParamCodIdioma: number;
+  CodSegmento: number;
+  CodIdioma: number;
 }
 
 export class PesquisaQuestaoListagemResponse {
@@ -10,7 +10,7 @@ export class PesquisaQuestaoListagemResponse {
   CodTituloBloco: number;
   TituloBloco: string;
   CodVariavel: number;
-  Variavel: number;
+  Variavel: string;
   Descricao: string;
 
   ListOpcoes: PesquisaQuestaoOpcaoResponse[];
@@ -23,7 +23,7 @@ export class PesquisaQuestaoOpcaoResponse {
   CodTituloBloco: number;
   TituloBloco: string;
   CodVariavel: number;
-  Variavel: number;
+  Variavel: string;
   Opcao: string;
   Descricao: string;
 }

@@ -32,7 +32,8 @@
     </div>
   </div>
 
-  <div class="form-container" *ngIf=" pesquisaPasso ==2 && pesquisaPassoAlertas ==0">
+  <div class="form-container"
+    *ngIf=" pesquisaPasso ==2 && pesquisaPassoAlertas ==0">
 
     <!-- HEADER -->
     <div class="header">
@@ -69,7 +70,101 @@
 
   </div>
 
-  <div class="form-container" *ngIf=" pesquisaPasso ==3 && pesquisaPassoAlertas ==0">
+  <div class="form-container"
+    *ngIf="pesquisaPasso == 3 && pesquisaPassoAlertas == 0 && abilitaPesquisa">
+
+    <!-- HEADER -->
+    <div class="header">
+      <button class="back-btn"
+        *ngIf="step > 0"
+        (click)="voltar()">←</button>
+
+      <span>{{ step }}/{{ listQuestions.length }}</span>
+
+      <button (click)="fechar()" class="close-btn">✕</button>
+    </div>
+
+    <!-- QUESTION -->
+    <h2 class="question-title">
+      {{ questaoAtual.Descricao }}
+    </h2>
+
+    <div class="option-card"
+      *ngFor="let opcao of questaoAtual.ListOpcoes">
+
+      <!-- QUANDO AINDA NÃO EXISTE OPÇÃO SELECIONADA -->
+      <label>
+        <input
+          type="radio"
+          name="opcao-{{ opcao.CodVariavel }}"
+          [checked]="isOpcaoSelecionada(opcao)"
+          (change)="onSelecionarOpcao(opcao)" />
+
+        <span>{{ opcao.Descricao }}</span>
+      </label>
+
+    </div>
+
+    <!-- BUTTON -->
+    <button class="btn-next"
+
+      (click)="prosseguir()">
+      Prosseguir
+    </button>
+
+  </div>
+
+  <div style="display: none;" class="form-container"
+    *ngIf="pesquisaPasso == 3 && pesquisaPassoAlertas == 0">
+
+    <!-- HEADER -->
+    <div class="header">
+      <button class="back-btn" *ngIf="step > 1" (click)="voltar()">←</button>
+      <span>{{ step }}/{{ listQuestions.length }}</span>
+      <button (click)="fechar()" class="close-btn">✕</button>
+    </div>
+
+    <!-- QUESTION -->
+    <h2 class="question-title">
+      {{ questaoAtual?.Descricao }}
+    </h2>
+
+    <!-- ESCALA -->
+    <div class="scale-card">
+      <h3> {{ listQuestions[0]?.ListOpcoes[0]?.TituloBloco }}</h3>
+
+      <div class="scale-row">
+        <label *ngFor="let n of firstRow">
+          <input
+            type="radio"
+            name="escala"
+            [value]="n"
+            [(ngModel)]="opcaoSelecionada" />
+          <span>{{ n }}</span>
+        </label>
+      </div>
+
+      <div class="scale-row">
+        <label *ngFor="let n of secondRow">
+          <input
+            type="radio"
+            name="escala"
+            [value]="n"
+            [(ngModel)]="opcaoSelecionada" />
+          <span>{{ n }}</span>
+        </label>
+      </div>
+    </div>
+
+    <button class="btn-next"
+      [disabled]="!opcaoSelecionada"
+      (click)="prosseguir()">
+      Prosseguir
+    </button>
+  </div>
+
+  <div style="display: none;" class="form-container"
+    *ngIf=" pesquisaPasso ==3 && pesquisaPassoAlertas ==0">
 
     <!-- HEADER -->
     <div class="header">
@@ -96,7 +191,8 @@
 
   </div>
 
-  <div class="form-container" *ngIf=" pesquisaPasso ==5 && pesquisaPassoAlertas ==0">
+  <div class="form-container"
+    *ngIf=" pesquisaPasso ==5 && pesquisaPassoAlertas ==0">
 
     <!-- HEADER -->
     <div class="header">
@@ -146,7 +242,8 @@
 
   </div>
 
-  <div class="form-container" *ngIf="     pesquisaPasso ==5 && pesquisaPassoAlertas ==0">
+  <div class="form-container"
+    *ngIf="     pesquisaPasso ==5 && pesquisaPassoAlertas ==0">
 
     <!-- HEADER -->
     <div class="header">
@@ -198,7 +295,8 @@
 
   <!-- /////////////////////////////////////////////////////////////////////////////////////// -->
 
-  <div class="form-container form-container-alert" *ngIf="pesquisaPassoAlertas == 1">
+  <div class="form-container form-container-alert"
+    *ngIf="pesquisaPassoAlertas == 1">
 
     <!-- CONTENT -->
     <div class="aviso-content">

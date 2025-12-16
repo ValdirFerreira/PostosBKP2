@@ -14,7 +14,7 @@ namespace Entities.DTOs
         public int CodTituloBloco { get; set; }
         public string TituloBloco { get; set; }
         public int CodVariavel { get; set; }
-        public int Variavel { get; set; }
+        public string Variavel { get; set; }
         public string Descricao { get; set; }
 
         public PesquisaQuestaoListagemResponse()
@@ -33,7 +33,7 @@ namespace Entities.DTOs
         public int CodTituloBloco { get; set; }
         public string TituloBloco { get; set; }
         public int CodVariavel { get; set; }
-        public int Variavel { get; set; }
+        public string Variavel { get; set; }
         public string Opcao { get; set; }
         public string Descricao { get; set; }
     }

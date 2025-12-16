@@ -16,7 +16,7 @@ import { PostoModel, ServicoCategoria } from 'src/app/models/PainelPostos/PostoM
 import { DownloadService } from 'src/app/services/download.service';
 import { FilePostos } from 'src/app/models/PainelPostos/FilePostos';
 import { PesquisaService } from 'src/app/services/pesquisa.service';
-import { PesquisaRequest, PesquisaRespostaCadastrarRequest, PesquisaVerificaRespostaRequest } from 'src/app/models/PesquisaModel/PesquisaModel';
+import { PesquisaQuestaoListagemResponse, PesquisaQuestaoOpcaoResponse, PesquisaRequest, PesquisaRespostaCadastrarRequest, PesquisaVerificaRespostaRequest } from 'src/app/models/PesquisaModel/PesquisaModel';
 
 
 
@@ -59,8 +59,7 @@ export class PesquisaComponent implements OnInit {
     this.pesquisaPasso = value;
   }
 
-  step: number = 1;
-  totalSteps: number = 4;
+
 
   options: string[] = [
     'Todos os dias',
@@ -205,6 +204,55 @@ export class PesquisaComponent implements OnInit {
     return valor;
   }
 
+
+
+  listQuestions: PesquisaQuestaoListagemResponse[] = [];
+  questaoAtual!: PesquisaQuestaoListagemResponse;
+  indiceQuestao = 0;
+
+  step = 1;
+  totalSteps = 4; // ou listQuestions.length
+
+  opcaoSelecionada!: PesquisaQuestaoOpcaoResponse;
+
+  opcoesSelecionadas: PesquisaQuestaoOpcaoResponse[] = [];
+
+  isOpcaoSelecionada(opcao: any): boolean {
+
+    // this.opcaoSelecionada = this.opcoesSelecionadas.find(x =>
+    //   x.CodVariavel === opcao.CodVariavel && x.Opcao === opcao.Opcao
+    // )!;
+
+
+    return this.opcoesSelecionadas
+      .some(x => x.CodVariavel === opcao.CodVariavel && x.Opcao === opcao.Opcao);
+  }
+
+
+  onSelecionarOpcao(opcao: PesquisaQuestaoOpcaoResponse): void {
+
+        debugger
+    // Guarda a opção atual selecionada
+    this.opcaoSelecionada = opcao;
+
+    // Procura no array se já existe
+    const index = this.opcoesSelecionadas.findIndex(x =>
+      x.CodVariavel === opcao.CodVariavel
+    );
+
+    if (index > -1) {
+      // Atualiza o objeto existente
+      this.opcoesSelecionadas[index] = { ...opcao };
+    } else {
+      // Adiciona novo objeto
+      this.opcoesSelecionadas.push({ ...opcao });
+    }
+    debugger
+    console.log('Selecionada:', this.opcaoSelecionada);
+    console.log('Array:', this.opcoesSelecionadas);
+  }
+
+
   validarDocumento() {
     console.log('Validar documento: ' + this.Documento);
 
@@ -213,33 +261,134 @@ export class PesquisaComponent implements OnInit {
     model.ParamDocumento = this.Documento;
     this.service.VerificarPesquisaResposta(model).subscribe({
       next: (res) => {
-        if (res.PassagemCliente == 1) {
-          this.pesquisaPassoAlertas = 0;
-          this.pesquisaPasso = 3;
-        }
-        else {
+        // if (res.PassagemCliente == 1) {
+        //   this.pesquisaPassoAlertas = 0;
+        //   this.pesquisaPasso = 3;
+        // }
+        // else {
+        //   this.pesquisaPassoAlertas = 3;
+
+
+        //   let model = new PesquisaRequest();
+        //   model.ParamCodIdioma = 1;
+        //   model.ParamCodSegmento = 1;
+        //   this.service.ConsultarPesquisaQuestoes(model).subscribe({
+        //     next: (res) => {
+        //       this.listQuestions = res;
+        //     },
+        //     error: (err) => {
+        //       console.error("Erro ao cadastrar proprietário:", err);
+        //     }
+        //   });
+
+        // }
+
+        // 🔴 JÁ RESPONDEU
+        if (res.PassagemCliente == 0) {
           this.pesquisaPassoAlertas = 3;
-
-
-          let model = new PesquisaRequest();
-          model.ParamCodIdioma=1;
-          model.ParamCodSegmento=1;
-          this.service.ConsultarPesquisaQuestoes(model).subscribe({
-            next: (res) => {
-
-            },
-            error: (err) => {
-              console.error("Erro ao cadastrar proprietário:", err);
-            }
-          });
-
+          this.pesquisaPasso = 999; // tela de aviso
+          return;
         }
+
+        // 🟢 NÃO RESPONDEU → inicia pesquisa
+
+
+        this.carregarQuestoes();
+
       },
       error: (err) => {
         console.error("Erro ao cadastrar proprietário:", err);
       }
     });
   }
+
+  carregarQuestoes() {
+    let model = new PesquisaRequest();
+    model.CodIdioma = 1;
+    model.CodSegmento = 1;
+    debugger
+    this.service.ConsultarPesquisaQuestoes(model).subscribe({
+      next: (res) => {
+        this.listQuestions = res;
+
+        debugger
+
+        if (this.listQuestions.length > 0) {
+          this.indiceQuestao = 0;
+          this.step = 1;
+          this.pesquisaPassoAlertas = 0;
+          this.pesquisaPasso = 3;
+          this.carregarQuestaoAtual();
+        }
+      },
+      error: (err) => {
+        console.error("Erro ao consultar questões:", err);
+      }
+    });
+  }
+
+  carregarQuestaoAtual() {
+        debugger
+    this.questaoAtual = this.listQuestions[this.indiceQuestao];
+    this.opcaoSelecionada = null!;
+  }
+
+
+  voltarPesquisa() {
+    this.pesquisaPassoAlertas = 0;
+  }
+
+
+
+  abilitaPesquisa: boolean = true;
+  prosseguir() {
+
+
+
+     this.opcaoSelecionada = this.opcoesSelecionadas[this.indiceQuestao];
+
+    debugger
+    if (!this.opcaoSelecionada) {
+      return;
+    }
+
+    this.abilitaPesquisa = false;
+    console.log({
+      CodQuestao: this.questaoAtual.CodPesquisaListagemQuestao,
+      CodVariavel: this.opcaoSelecionada
+    });
+
+    if (this.indiceQuestao < this.listQuestions.length - 1) {
+      this.indiceQuestao++;
+      this.step++;
+      this.carregarQuestaoAtual(); // ✅ CORRETO
+    } else {
+      this.finalizarPesquisa();
+    }
+
+    setTimeout(() => {
+      this.abilitaPesquisa = true;
+    }, 500);
+
+  }
+
+
+  voltar() {
+    if (this.indiceQuestao > 0) {
+      this.indiceQuestao--;
+      this.step--;
+      this.carregarQuestaoAtual(); // ✅
+    }
+  }
+
+
+
+  finalizarPesquisa() {
+    console.log('Pesquisa finalizada');
+    this.pesquisaPasso = 999; // ex: tela de conclusão
+        this.pesquisaPassoAlertas = 4;
+  }
+
 
 
   fechar() {
@@ -254,9 +403,10 @@ export class PesquisaComponent implements OnInit {
   }
 
 
-  voltarPesquisa() {
-    this.pesquisaPassoAlertas = 0;
-  }
+  respostasSelecionadas: string[] = [];
+  indiceQuestaoAtual = 0;
+
+
 
 
 }
