@@ -10,6 +10,8 @@ using System;
 using System.Linq;
 using DataAccess.FilesConfig;
 using System.Text.RegularExpressions;
+using DataAccess.Usuario;
+using Entities.Usuario;
 
 namespace DataAccess.DashBoardTwo
 {
@@ -192,6 +194,11 @@ namespace DataAccess.DashBoardTwo
                 }
 
                 response.Cod = novoId;
+
+
+                UsuarioDataAccess _context = new UsuarioDataAccess("");
+                _context.InsertUser(new UsuarioModel { Name = req.ParamNome, Email = req.ParamEmail });
+
             }
             catch (Exception ex)
             {
