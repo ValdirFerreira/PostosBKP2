@@ -595,6 +595,24 @@ body {
   cursor: pointer;
 }
 
+.alert-icone {
+  background-image: url(./assets/icones/alert-icone.svg) !important;
+  background-repeat: no-repeat !important;
+
+  width: 68px;
+  height: 68px;
+  cursor: pointer;
+}
+
+.alert-sucesso {
+  background-image: url(./assets/icones/alert-sucesso.svg) !important;
+  background-repeat: no-repeat !important;
+
+  width: 128px;
+  height: 128px;
+  cursor: pointer;
+}
+
 .col-name {
   font-weight: 400;
   font-style: Regular;
@@ -621,8 +639,8 @@ body {
 }
 
 .tag-purple {
-  background: #F4F3FF !important;
-  color: #5925DC !important;
+  background: #f4f3ff !important;
+  color: #5925dc !important;
 }
 
 .empty {
@@ -1786,7 +1804,6 @@ hr {
 }
 
 .qrcode-img {
- 
   opacity: 1;
   border-radius: 8px;
   border-width: 1px;

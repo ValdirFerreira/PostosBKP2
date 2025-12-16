@@ -1,6 +1,6 @@
 <div>
 
-  <div class="container" *ngIf="!pesquisa">
+  <div class="container" *ngIf="pesquisaPasso ==1">
 
     <div class="image-area"></div>
     <div class="image-wrapper">
@@ -27,12 +27,49 @@
         com
         total confidencialidade, apenas para fins de pesquisa.</p>
 
-      <button class="btn-start" (click)="ativarPesquisa(true)">Iniciar
+      <button class="btn-start" (click)="ativarPesquisa(2)">Iniciar
         pesquisa</button>
     </div>
   </div>
 
-  <div class="form-container" *ngIf="pesquisa">
+  <div class="form-container" *ngIf=" pesquisaPasso ==2">
+
+    <!-- HEADER -->
+    <div class="header">
+      <button class="back-btn" *ngIf="step > 1">←</button>
+      <span></span>
+      <button class="close-btn">✕</button>
+    </div>
+
+    <!-- QUESTION -->
+    <h2 class="question-title">
+      Preciso identificar você.
+    </h2>
+    <h2 class="question-title">
+      Você poderia nos informar seu CPF?
+    </h2>
+
+    <!-- OPTIONS -->
+    <!-- CPF -->
+    <div class="form-group">
+      <label>CPF <span class="required">*</span></label>
+      <input
+        type="text"
+        placeholder="000.000.000-00"
+        [(ngModel)]="Documento"
+        name="cpf"
+        maxlength="14"
+        (input)="onCPFInput($event)"
+        (keydown)="bloquearNaoNumeros($event)">
+    </div>
+
+    <!-- BUTTON -->
+    <button class="btn-inicio" (click)="validarDocumento()">Iniciar
+      pesquisa</button>
+
+  </div>
+
+  <div class="form-container" *ngIf=" pesquisaPasso ==3">
 
     <!-- HEADER -->
     <div class="header">
@@ -59,7 +96,7 @@
 
   </div>
 
-  <div class="form-container" *ngIf="pesquisa">
+  <div class="form-container" *ngIf=" pesquisaPasso ==5">
 
     <!-- HEADER -->
     <div class="header">
@@ -109,7 +146,7 @@
 
   </div>
 
-  <div class="form-container" *ngIf="pesquisa">
+  <div class="form-container" *ngIf="     pesquisaPasso ==5">
 
     <!-- HEADER -->
     <div class="header">
@@ -156,6 +193,106 @@
 
     <!-- BUTTON -->
     <button class="btn-next">Prosseguir</button>
+
+  </div>
+
+  <div class="form-container form-container-alert"
+    *ngIf="pesquisaPasso == 9990">
+
+    <!-- CONTENT -->
+    <div class="aviso-content">
+
+      <div class="header-alert">
+        <div class="alert-icone">
+        </div>
+        <div>
+          <button class="close-btn">✕</button>
+        </div>
+      </div>
+
+      <h2 class="aviso-title">
+        Você está prestes a sair da pesquisa.
+      </h2>
+
+      <p class="aviso-text">
+        Deseja realmente sair?
+      </p>
+
+      <p class="aviso-ajuda">
+        Precisa de ajuda?
+        <a href="#" target="_blank">Visite nossa central de ajuda</a>
+      </p>
+
+      <button class="btn-sair" (click)="sairPesquisa()">
+        Sair da pesquisa
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="form-container aviso-container" *ngIf="pesquisaPasso == 9991">
+
+    <!-- HEADER -->
+    <div class="header">
+      <span></span>
+      <button class="close-btn">✕</button>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="aviso-content-off">
+      <div class="alert-icone">
+
+      </div>
+
+      <h2 class="aviso-title">
+        Você já respondeu a pesquisa
+      </h2>
+
+      <p class="aviso-text">
+        Não é possível participar no momento.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="form-container" *ngIf="pesquisaPasso == 99992">
+
+    <!-- CONTENT -->
+    <div class="aviso-content-off">
+      <div class="alert-icone">
+
+      </div>
+
+      <h2 class="aviso-title">
+        Pesquisa não realizada
+      </h2>
+
+      <p class="aviso-text">
+        Que pena! :(
+        Esperamos você de volta em breve. :)
+      </p>
+    </div>
+
+  </div>
+
+   <div class="form-container" *ngIf="pesquisaPasso == 999">
+
+    <!-- CONTENT -->
+    <div class="aviso-content-off">
+      <div class="alert-sucesso">
+
+      </div>
+
+      <h2 class="aviso-title">
+        Pesquisa realizada
+      </h2>
+
+      <p class="aviso-text">
+        Agradecemos a sua participação na pesquisa.
+        Sua opinião é muito importante para nós!
+      </p>
+    </div>
 
   </div>
 

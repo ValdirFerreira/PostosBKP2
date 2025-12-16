@@ -1,6 +1,6 @@
 * {
   margin: 0;
-  padding: 0;
+  // padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
@@ -234,6 +234,30 @@ p {
     width: 100%;
   }
 
+  .btn-inicio {
+    margin-top: auto;
+    background: var(--Primary-Gray-300, #d0d5dd);
+
+    border: none;
+    padding: 16px;
+    border-radius: 8px;
+    color: #1d2939;
+    font-size: clamp(16px, 4vw, 18px);
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .btn-sair {
+    background: #d92d20;
+    border: none;
+    padding: 16px;
+    border-radius: 8px;
+    color: #fefefe;
+    font-size: clamp(16px, 4vw, 18px);
+    cursor: pointer;
+    width: 60%;
+  }
+
   /////////////////////////////////////////////////////////////////////////////////
 
   .scale-card {
@@ -295,4 +319,106 @@ p {
       font-size: 15px;
     }
   }
+}
+
+.form-container-alert {
+  min-height: 560px !important;
+  height: 560px !important;
+  background: transparent !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20%;
+}
+
+.aviso-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #ffffff;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+}
+
+.header-alert {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 20px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* CONTENT */
+.aviso-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 24px;
+  width: 50%;
+  height: 600px;
+  margin: auto;
+  opacity: 1;
+  gap: 32px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  box-shadow: 0px 8px 8px -4px #10182808;
+  box-shadow: 0px 20px 24px -4px #10182814;
+}
+
+.aviso-content-off {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+}
+
+/* ICON */
+.aviso-icon {
+  font-size: 42px;
+  margin-bottom: 16px;
+  color: #e53935;
+}
+
+/* TEXTS */
+.aviso-title {
+  color: #374659;
+  margin-bottom: 8px;
+  font-family: "Poppins";
+  font-weight: 600;
+  font-style: Semi Bold;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+}
+
+.aviso-text {
+  font-size: 14px;
+  color: #475467;
+  font-family: "Poppins";
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 16px;
+
+  line-height: 24px;
+  letter-spacing: 0%;
+  text-align: center;
 }

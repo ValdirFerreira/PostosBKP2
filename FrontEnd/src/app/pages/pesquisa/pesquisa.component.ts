@@ -15,6 +15,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { PostoModel, ServicoCategoria } from 'src/app/models/PainelPostos/PostoModel';
 import { DownloadService } from 'src/app/services/download.service';
 import { FilePostos } from 'src/app/models/PainelPostos/FilePostos';
+import { PesquisaService } from 'src/app/services/pesquisa.service';
+import { PesquisaRequest, PesquisaRespostaCadastrarRequest, PesquisaVerificaRespostaRequest } from 'src/app/models/PesquisaModel/PesquisaModel';
 
 
 
@@ -31,7 +33,7 @@ export class PesquisaComponent implements OnInit {
     public menuService: MenuService,
     private translate: TranslateService,
     public filtroService: FiltroGlobalService, private downloadArquivoService: DownloadArquivoService,
-    public service: PainelPostosService,
+    public service: PesquisaService,
     public dialog: MatDialog,
     public downloadService: DownloadService,
   ) { }
@@ -50,10 +52,10 @@ export class PesquisaComponent implements OnInit {
     console.log('Iniciar pesquisa');
   }
 
-  pesquisa: boolean = false;
+  pesquisaPasso: number = 1;
 
-  ativarPesquisa(value: boolean) {
-    this.pesquisa = value;
+  ativarPesquisa(value: number) {
+    this.pesquisaPasso = value;
   }
 
   step: number = 1;
@@ -74,7 +76,7 @@ export class PesquisaComponent implements OnInit {
     this.selectedOption = option;
   }
 
-scaleQuestions = [
+  scaleQuestions = [
     { title: 'Qualidade do atendimento da equipe', name: 'atendimento' },
     { title: 'Qualidade do combustível', name: 'combustivel' },
     { title: 'Limpeza e organização deste posto', name: 'limpeza' },
@@ -111,6 +113,110 @@ scaleQuestions = [
   close() {
     console.log('Fechar questionário');
     // implemente aqui: fechar modal, navegar, etc
+  }
+
+
+
+  ConsultarPesquisaQuestoes(model: PesquisaRequest) {
+    this.service.ConsultarPesquisaQuestoes(model).subscribe({
+      next: (res) => {
+
+
+      },
+      error: (err) => {
+        console.error("Erro ao cadastrar proprietário:", err);
+      }
+    });
+  }
+
+  VerificarPesquisaResposta(model: PesquisaVerificaRespostaRequest) {
+    this.service.VerificarPesquisaResposta(model).subscribe({
+      next: (res) => {
+
+
+      },
+      error: (err) => {
+        console.error("Erro ao cadastrar proprietário:", err);
+      }
+    });
+  }
+
+  CadastrarPesquisaResposta(model: PesquisaRespostaCadastrarRequest) {
+    this.service.CadastrarPesquisaResposta(model).subscribe({
+      next: (res) => {
+
+
+      },
+      error: (err) => {
+        console.error("Erro ao cadastrar proprietário:", err);
+      }
+    });
+  }
+
+
+
+
+  Documento: string = "";
+  onCPFInput(event: any) {
+    let valor = event.target.value;
+
+    // Remove absolutamente tudo que não é número
+    valor = valor.replace(/\D/g, "");
+
+    // Limita a 11 dígitos (CPF sem máscara)
+    if (valor.length > 11) {
+      valor = valor.substring(0, 11);
+    }
+
+    // Aplica a máscara
+    this.Documento = this.formatarCPF(valor);
+
+    return this.Documento;
+  }
+
+
+  bloquearNaoNumeros(event: KeyboardEvent) {
+    const teclasPermitidas = [
+      'Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete'
+    ];
+
+    // Permite teclas de navegação e edição
+    if (teclasPermitidas.includes(event.key)) return;
+
+    // Bloqueia se não for número
+    if (!/^\d$/.test(event.key)) {
+      event.preventDefault();
+      return;
+    }
+  }
+
+  formatarCPF(valor: string): string {
+    // 3.333.333-33
+    if (valor.length > 9) {
+      return valor.replace(/(\d{3})(\d{3})(\d{3})(\d{0,2})/, "$1.$2.$3-$4");
+    }
+    if (valor.length > 6) {
+      return valor.replace(/(\d{3})(\d{3})(\d{0,3})/, "$1.$2.$3");
+    }
+    if (valor.length > 3) {
+      return valor.replace(/(\d{3})(\d{0,3})/, "$1.$2");
+    }
+    return valor;
+  }
+
+  validarDocumento() {
+    console.log('Validar documento: ' + this.Documento);
+    this.pesquisaPasso = 999;
+  }
+
+
+  fechar() {
+    this.pesquisaPasso = 0;
+  }
+
+  sairPesquisa() {
+    // lógica para sair da pesquisa
+    // ex: this.router.navigate(['/home']);
   }
 
 
