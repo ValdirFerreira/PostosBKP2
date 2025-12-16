@@ -14,7 +14,7 @@ import { DialogDynamicComponent } from 'src/app/components/dialog-dynamic/dialog
 import { MatDialog } from '@angular/material/dialog';
 import { PostoModel, ServicoCategoria } from 'src/app/models/PainelPostos/PostoModel';
 import { DownloadService } from 'src/app/services/download.service';
-import { AssociacaoPostoConsultarResponse, FilePostos } from 'src/app/models/PainelPostos/FilePostos';
+import { AssociacaoPostoConsultarResponse, FilePostos, PostoAssociacaoAtualizarRequest } from 'src/app/models/PainelPostos/FilePostos';
 import { DialogQrCodeComponent } from 'src/app/components/dialog-qrcode/dialog-qrcode.component';
 
 
@@ -65,27 +65,26 @@ export class ListPostosComponent implements OnInit {
 
   // retorna a lista filtrada por aba (ativo/inativo), pesquisa e filtro adicional
   get filteredList(): AssociacaoPostoConsultarResponse[] {
-    // const abaFiltro = this.abaAtiva === 'ativo' ? 1 : 2;
-    // const q = this.pesquisa.trim().toLowerCase();
+    const abaFiltro = this.abaAtiva === 'ativo' ? 1 : 2;
+    const q = this.pesquisa.trim().toLowerCase();
 
-    // let list = this.allData.filter(x => x.CodStatus === abaFiltro);
+    let list = this.allData.filter(x => x.CodStatus === abaFiltro);
 
     // if (this.filtroSelecionado !== 'Todos') {
     //   // exemplo: caso queira filtrar por posição ou outro critério
     //   list = list.filter(x => x.Funcao === this.filtroSelecionado);
     // }
 
-    // if (q) {
-    //   list = list.filter(x =>
-    //     x.Nome.toLowerCase().includes(q) ||
-    //     x.Funcao.toLowerCase().includes(q) ||
-    //     x.Email.toLowerCase().includes(q)
-    //   );
-    // }
+    if (q) {
+      list = list.filter(x =>
+        x.RazaoSocial.toLowerCase().includes(q) ||
+        x.Bandeira.toLowerCase().includes(q) ||
+        x.Endereco.toLowerCase().includes(q)
+      );
+    }
 
-    // return list;
+    return list;
 
-    return this.allData;
   }
 
   // lista paginada presente na tela
@@ -160,6 +159,61 @@ export class ListPostosComponent implements OnInit {
     this.IdEdit.emit(item.CodPosto); // Envia para o pai
 
     this.close.emit(false); // Envia para o pai
+
+  }
+
+
+  bloquear(item: AssociacaoPostoConsultarResponse) {
+    console.log('bloquear', item);
+
+
+    const dialogRef = this.dialog.open(DialogDynamicComponent);
+    dialogRef.componentInstance.typeDialog = 7;
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("RESULTADO RECEBIDO:", result);
+      if (result?.inativar) {
+
+        let model = new PostoAssociacaoAtualizarRequest();
+        model.ParamCodProprietario = this.IdProprietario;
+        model.ParamCodPosto = item.CodPosto;
+        model.ParamCodStatus = 2; // bloquear
+        model.ParamCod = item.CodPostoAssociacao;
+
+        this.service.AtualizarAssociacao(model).subscribe({
+          next: (res) => {
+            this.resetPagination();
+          }
+        });
+      }
+    });
+
+
+  }
+
+  desbloquear(item: AssociacaoPostoConsultarResponse) {
+
+
+    const dialogRef = this.dialog.open(DialogDynamicComponent);
+    dialogRef.componentInstance.typeDialog = 8;
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("RESULTADO RECEBIDO:", result);
+      if (result?.inativar) {
+
+        console.log('desbloquear', item);
+        let model = new PostoAssociacaoAtualizarRequest();
+        model.ParamCodProprietario = this.IdProprietario;
+        model.ParamCodPosto = item.CodPosto;
+        model.ParamCodStatus = 1; // bloquear
+        model.ParamCod = item.CodPostoAssociacao;
+
+        this.service.AtualizarAssociacao(model).subscribe({
+          next: (res) => {
+            this.resetPagination();
+            this.trocarAba('ativo')
+          }
+        });
+      }
+    });
 
   }
 

@@ -62,10 +62,10 @@
                 class="ico-qrcode" (click)="OpenModaQRCode(p)"></div></button>
             <button (click)="editar(p)" class="icon-btn"><div
                 class="btn-edit"></div></button>
-            <button class="icon-btn"><div
+            <button  *ngIf="p.CodStatus == 1" class="icon-btn" (click)="bloquear(p)"><div
                 class="btn-block"></div></button>
-            <!-- <button  class="icon-btn"><div
-                class="check-desblock"></div></button> -->
+            <button *ngIf="p.CodStatus == 2" (click)="desbloquear(p)" class="icon-btn"><div
+                class="check-desblock"></div></button>
           </td>
 
           <td class="col-name">{{ p.RazaoSocial }}</td>

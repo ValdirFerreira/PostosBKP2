@@ -25,18 +25,18 @@ const routes: Routes = [
   , {
     path: 'home',
     loadChildren: () => import('./pages/menu-home/menu-home.module').then(m => m.MenuHomeModule),
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
   }
 
    , {
     path: 'proprietario',
     loadChildren: () => import('./pages/cad-proprietario/cad-proprietario.module').then(m => m.CadProprietarioModule),
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
   }
     , {
     path: 'entrevistador',
     loadChildren: () => import('./pages/cad-entrevistador/cad-entrevistador.module').then(m => m.CadEntrevistadorModule),
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
   }
   , {
     path: 'pesquisav',

@@ -53,6 +53,7 @@ export class PesquisaComponent implements OnInit {
   }
 
   pesquisaPasso: number = 1;
+  pesquisaPassoAlertas: number = 0;
 
   ativarPesquisa(value: number) {
     this.pesquisaPasso = value;
@@ -206,17 +207,55 @@ export class PesquisaComponent implements OnInit {
 
   validarDocumento() {
     console.log('Validar documento: ' + this.Documento);
-    this.pesquisaPasso = 999;
+
+
+    let model = new PesquisaVerificaRespostaRequest();
+    model.ParamDocumento = this.Documento;
+    this.service.VerificarPesquisaResposta(model).subscribe({
+      next: (res) => {
+        if (res.PassagemCliente == 1) {
+          this.pesquisaPassoAlertas = 0;
+          this.pesquisaPasso = 3;
+        }
+        else {
+          this.pesquisaPassoAlertas = 3;
+
+
+          let model = new PesquisaRequest();
+          model.ParamCodIdioma=1;
+          model.ParamCodSegmento=1;
+          this.service.ConsultarPesquisaQuestoes(model).subscribe({
+            next: (res) => {
+
+            },
+            error: (err) => {
+              console.error("Erro ao cadastrar proprietário:", err);
+            }
+          });
+
+        }
+      },
+      error: (err) => {
+        console.error("Erro ao cadastrar proprietário:", err);
+      }
+    });
   }
 
 
   fechar() {
-    this.pesquisaPasso = 0;
+    this.pesquisaPassoAlertas = 1;
   }
 
   sairPesquisa() {
     // lógica para sair da pesquisa
     // ex: this.router.navigate(['/home']);
+    this.pesquisaPassoAlertas = 2;
+    this.Documento = "";
+  }
+
+
+  voltarPesquisa() {
+    this.pesquisaPassoAlertas = 0;
   }
 
 

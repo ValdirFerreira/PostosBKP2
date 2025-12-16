@@ -136,13 +136,13 @@ export class NavbarComponent implements OnInit {
 
 
     },
-    {
-      Id: 1,
-      Nome: 'Dashboard',
-      Url: '/dashboard',
-      Ordem: 1,
+    // {
+    //   Id: 1,
+    //   Nome: 'Dashboard',
+    //   Url: '/dashboard',
+    //   Ordem: 1,
 
-    },
+    // },
     {
       Id: 2,
       Nome: 'Cadastro Usuário',
@@ -153,13 +153,14 @@ export class NavbarComponent implements OnInit {
           Nome: 'Cadastrar Proprietário',
           Url: '/proprietario',
           Ordem: 1
-        },
-        {
-          Id: 22,
-          Nome: 'Cadastrar Entrevistador',
-          Url: '/entrevistador',
-          Ordem: 2
         }
+        ,
+        // {
+        //   Id: 22,
+        //   Nome: 'Cadastrar Entrevistador',
+        //   Url: '/entrevistador',
+        //   Ordem: 2
+        // }
       ]
     },
 

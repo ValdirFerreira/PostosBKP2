@@ -19,7 +19,7 @@ namespace WebApi.Controllers
     [EnableCors("*", "*", "*")]
     [RoutePrefix("api/Pesquisa")]
 
-    [Authorize]
+    [AllowAnonymous]
     public class PesquisaController : ApiController
     {
 

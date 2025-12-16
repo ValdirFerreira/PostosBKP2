@@ -1,6 +1,6 @@
 <div>
 
-  <div class="container" *ngIf="pesquisaPasso ==1">
+  <div class="container" *ngIf="pesquisaPasso ==1 && pesquisaPassoAlertas ==0">
 
     <div class="image-area"></div>
     <div class="image-wrapper">
@@ -32,13 +32,13 @@
     </div>
   </div>
 
-  <div class="form-container" *ngIf=" pesquisaPasso ==2">
+  <div class="form-container" *ngIf=" pesquisaPasso ==2 && pesquisaPassoAlertas ==0">
 
     <!-- HEADER -->
     <div class="header">
       <button class="back-btn" *ngIf="step > 1">←</button>
       <span></span>
-      <button class="close-btn">✕</button>
+      <button (click)="fechar()" class="close-btn">✕</button>
     </div>
 
     <!-- QUESTION -->
@@ -69,13 +69,13 @@
 
   </div>
 
-  <div class="form-container" *ngIf=" pesquisaPasso ==3">
+  <div class="form-container" *ngIf=" pesquisaPasso ==3 && pesquisaPassoAlertas ==0">
 
     <!-- HEADER -->
     <div class="header">
       <button class="back-btn" *ngIf="step > 1">←</button>
       <span>{{ step }}/4</span>
-      <button class="close-btn">✕</button>
+      <button (click)="fechar()" class="close-btn">✕</button>
     </div>
 
     <!-- QUESTION -->
@@ -96,13 +96,13 @@
 
   </div>
 
-  <div class="form-container" *ngIf=" pesquisaPasso ==5">
+  <div class="form-container" *ngIf=" pesquisaPasso ==5 && pesquisaPassoAlertas ==0">
 
     <!-- HEADER -->
     <div class="header">
       <button class="back-btn" *ngIf="step > 1">←</button>
       <span>{{ step }}/4</span>
-      <button class="close-btn">✕</button>
+      <button (click)="fechar()" class="close-btn">✕</button>
     </div>
 
     <!-- QUESTION -->
@@ -146,7 +146,7 @@
 
   </div>
 
-  <div class="form-container" *ngIf="     pesquisaPasso ==5">
+  <div class="form-container" *ngIf="     pesquisaPasso ==5 && pesquisaPassoAlertas ==0">
 
     <!-- HEADER -->
     <div class="header">
@@ -196,8 +196,9 @@
 
   </div>
 
-  <div class="form-container form-container-alert"
-    *ngIf="pesquisaPasso == 9990">
+  <!-- /////////////////////////////////////////////////////////////////////////////////////// -->
+
+  <div class="form-container form-container-alert" *ngIf="pesquisaPassoAlertas == 1">
 
     <!-- CONTENT -->
     <div class="aviso-content">
@@ -206,7 +207,7 @@
         <div class="alert-icone">
         </div>
         <div>
-          <button class="close-btn">✕</button>
+          <button (click)="voltarPesquisa()" class="close-btn">✕</button>
         </div>
       </div>
 
@@ -231,32 +232,7 @@
 
   </div>
 
-  <div class="form-container aviso-container" *ngIf="pesquisaPasso == 9991">
-
-    <!-- HEADER -->
-    <div class="header">
-      <span></span>
-      <button class="close-btn">✕</button>
-    </div>
-
-    <!-- CONTENT -->
-    <div class="aviso-content-off">
-      <div class="alert-icone">
-
-      </div>
-
-      <h2 class="aviso-title">
-        Você já respondeu a pesquisa
-      </h2>
-
-      <p class="aviso-text">
-        Não é possível participar no momento.
-      </p>
-    </div>
-
-  </div>
-
-  <div class="form-container" *ngIf="pesquisaPasso == 99992">
+  <div class="form-container" *ngIf="pesquisaPassoAlertas == 2">
 
     <!-- CONTENT -->
     <div class="aviso-content-off">
@@ -276,7 +252,32 @@
 
   </div>
 
-   <div class="form-container" *ngIf="pesquisaPasso == 999">
+  <div class="form-container aviso-container" *ngIf="pesquisaPassoAlertas == 3">
+
+    <!-- HEADER -->
+    <!-- <div class="header">
+      <span></span>
+      <button class="close-btn">✕</button>
+    </div> -->
+
+    <!-- CONTENT -->
+    <div class="aviso-content-off">
+      <div class="alert-icone">
+
+      </div>
+
+      <h2 class="aviso-title">
+        Você já respondeu a pesquisa
+      </h2>
+
+      <p class="aviso-text">
+        Não é possível participar no momento.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="form-container" *ngIf="pesquisaPassoAlertas == 4">
 
     <!-- CONTENT -->
     <div class="aviso-content-off">
