@@ -258,7 +258,8 @@ export class PesquisaComponent implements OnInit {
 
 
     let model = new PesquisaVerificaRespostaRequest();
-    model.ParamDocumento = this.Documento;
+model.ParamDocumento = this.Documento.replace(/\D/g, '');
+
     this.service.VerificarPesquisaResposta(model).subscribe({
       next: (res) => {
         // if (res.PassagemCliente == 1) {
