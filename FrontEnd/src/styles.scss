@@ -1722,6 +1722,8 @@ ngx-file-drop.drop-over .upload-area-custom {
   max-width: 500px;
 }
 
+
+/* Container */
 .servico-opcoes {
   display: flex;
   flex-direction: column;
@@ -1732,12 +1734,11 @@ ngx-file-drop.drop-over .upload-area-custom {
 .servico-item {
   display: flex;
   align-items: center;
-  justify-self: start;
   gap: 10px;
   width: 260px;
 }
 
-/* Toggle Switch */
+/* Switch */
 .switch {
   position: relative;
   display: inline-block;
@@ -1751,34 +1752,51 @@ ngx-file-drop.drop-over .upload-area-custom {
   height: 0;
 }
 
+/* Fundo */
 .slider {
   position: absolute;
-  cursor: pointer;
   inset: 0;
-  background-color: #d9d9d9;
+  cursor: pointer;
+  background-color: #e5e7eb;
   border-radius: 24px;
-  transition: 0.3s;
+  transition: background-color 0.3s;
 }
 
-.slider:before {
+/* Bolinha */
+.slider::before {
+  content: "✕";
   position: absolute;
-  content: "";
   height: 18px;
   width: 18px;
   left: 3px;
   bottom: 3px;
-  background-color: white;
+
+  background-color: #ffffff;
   border-radius: 50%;
-  transition: 0.3s;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 12px;
+  font-weight: bold;
+  color: #9ca3af;
+
+  transition: transform 0.3s, content 0.3s, color 0.3s;
 }
 
+/* Ligado */
 input:checked + .slider {
   background-color: #1664ff;
 }
 
-input:checked + .slider:before {
+/* Bolinha ligada */
+input:checked + .slider::before {
+  content: "✓";
   transform: translateX(22px);
+  color: #1664ff;
 }
+
 
 .servico-nome {
   font-size: 15px;

@@ -155,12 +155,12 @@ export class NavbarComponent implements OnInit {
           Ordem: 1
         }
         ,
-        // {
-        //   Id: 22,
-        //   Nome: 'Cadastrar Entrevistador',
-        //   Url: '/entrevistador',
-        //   Ordem: 2
-        // }
+        {
+          Id: 22,
+          Nome: 'Cadastrar Entrevistador',
+          Url: '/entrevistador',
+          Ordem: 2
+        }
       ]
     },
 

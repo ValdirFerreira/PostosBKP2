@@ -28,12 +28,12 @@
           (click)="activePosto = 'postos'">
           Dados do Posto
         </div>
-        <div *ngIf="postoModel.IdItem > 0" class="menu-item"
+        <div *ngIf="this.IdAssociado > 0" class="menu-item"
           [class.active]="activePosto === 'servicos'"
           (click)="activePosto = 'servicos'">
           Serviços Disponíveis
         </div>
-        <div *ngIf="postoModel.IdItem > 0" class="menu-item"
+        <div *ngIf="this.IdAssociado > 0" class="menu-item"
           [class.active]="activePosto  === 'funcionarios'"
           (click)="activePosto = 'funcionarios'">
           Funcionários
@@ -114,7 +114,7 @@
               (change)="SelectPosto()"></ng-select>
           </div>
 
-          <div class="form-group" *ngIf="IdAssociado >=0">
+          <div class="form-group" *ngIf="IdAssociado > 0">
             <label>Postos</label>
             <input type="text" [value]="postoModel.DescItem"
               disabled>
@@ -254,8 +254,8 @@
 
         <!-- AÇÕES -->
         <div class="actions">
-          <button class="btn-cancel" (click)="cancelar()">Cancelar
-            cadastro</button>
+          <!-- <button class="btn-cancel" (click)="cancelar()">Cancelar
+            cadastro</button> -->
           <button (click)="nextFuncionarios()"
             class="btn-submit-seg">Avançar</button>
         </div>
@@ -357,10 +357,9 @@
 
         <!-- AÇÕES -->
         <div class="actions">
-          <button class="btn-cancel" (click)="cancelar()">Cancelar
-            cadastro</button>
-          <button class="btn-submit" (click)="salvarPosto()">Criar
-            Cadastro</button>
+          <!-- <button class="btn-cancel" (click)="cancelar()">Cancelar
+            cadastro</button> -->
+          <button class="btn-submit" (click)="salvarPosto()">Finalizar associação</button>
         </div>
 
       </div>

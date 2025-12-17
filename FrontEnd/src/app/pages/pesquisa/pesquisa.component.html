@@ -70,7 +70,7 @@
 
   </div>
 
-  <div class="form-container"
+  <div style="display: none;" class="form-container"
     *ngIf="pesquisaPasso == 3 && pesquisaPassoAlertas == 0 && abilitaPesquisa">
 
     <!-- HEADER -->
@@ -107,33 +107,70 @@
 
     <!-- BUTTON -->
     <button class="btn-next"
-
       (click)="prosseguir()">
       Prosseguir
     </button>
 
   </div>
 
-  <div style="display: none;" class="form-container"
-    *ngIf="pesquisaPasso == 3 && pesquisaPassoAlertas == 0">
+  <div class="form-container"
+   *ngIf="pesquisaPasso == 3 && pesquisaPassoAlertas == 0 && abilitaPesquisa">
 
     <!-- HEADER -->
     <div class="header">
-      <button class="back-btn" *ngIf="step > 1" (click)="voltar()">←</button>
+      <button class="back-btn"
+        *ngIf="step > 0"
+        (click)="voltar()">←</button>
+
       <span>{{ step }}/{{ listQuestions.length }}</span>
+
       <button (click)="fechar()" class="close-btn">✕</button>
     </div>
 
     <!-- QUESTION -->
     <h2 class="question-title">
-      {{ questaoAtual?.Descricao }}
+      {{ questaoAtual.Descricao }}
     </h2>
 
     <!-- ESCALA -->
     <div class="scale-card">
       <h3> {{ listQuestions[0]?.ListOpcoes[0]?.TituloBloco }}</h3>
 
-      <div class="scale-row">
+      <div class="scale-row" *ngIf="questaoAtual.ListOpcoes.length >= 3">
+
+        <!-- QUANDO AINDA NÃO EXISTE OPÇÃO SELECIONADA -->
+        <label *ngFor="let opcao of questaoAtual.ListOpcoes">
+          <input
+            type="radio"
+            name="opcao-{{ opcao.CodVariavel }}"
+            [checked]="isOpcaoSelecionada(opcao)"
+            (change)="onSelecionarOpcao(opcao)" />
+
+          <span *ngIf="opcao.Opcao!='99'">{{ opcao.Opcao }}</span>
+          <span *ngIf="opcao.Opcao==='99'">{{ opcao.Descricao }}</span>
+        </label>
+
+      </div>
+
+      <div *ngIf="questaoAtual.ListOpcoes.length < 3">
+        <div class="option-card"
+          *ngFor="let opcao of questaoAtual.ListOpcoes">
+
+          <!-- QUANDO AINDA NÃO EXISTE OPÇÃO SELECIONADA -->
+          <label>
+            <input
+              type="radio"
+              name="opcao-{{ opcao.CodVariavel }}"
+              [checked]="isOpcaoSelecionada(opcao)"
+              (change)="onSelecionarOpcao(opcao)" />
+
+            <span>{{ opcao.Descricao }}</span>
+          </label>
+
+        </div>
+      </div>
+
+      <!-- <div class="scale-row">
         <label *ngFor="let n of firstRow">
           <input
             type="radio"
@@ -153,11 +190,11 @@
             [(ngModel)]="opcaoSelecionada" />
           <span>{{ n }}</span>
         </label>
-      </div>
+      </div> -->
     </div>
 
     <button class="btn-next"
-      [disabled]="!opcaoSelecionada"
+  
       (click)="prosseguir()">
       Prosseguir
     </button>

@@ -253,6 +253,8 @@ export class CadPostosComponent implements OnInit {
     this.servicosDisponiveis; // Serviços
     this.allData; // funcionarios
 
+   this.closeListPost(true);
+
     // console.log('Dados enviados:', this.model);
     // const model = this.model;
     // if (!this.validarCamposObrigatorios()) {
@@ -487,40 +489,38 @@ export class CadPostosComponent implements OnInit {
 
   associaPosto() {
 
-    // this.service.ConsultarAssociacaoPeloID(this.postoModel.IdItem).subscribe({
-    //   next: (res) => {
-    //     if (res.length > 0) {
-    //       var atualizaAssociacao = new PostoAssociacaoAtualizarRequest();
-    //       atualizaAssociacao.ParamCodPosto = this.postoModel.IdItem;
-    //       atualizaAssociacao.ParamCodProprietario = this.IdProprietario;
-    //       atualizaAssociacao.ParamCodStatus = 1;
-    //       atualizaAssociacao.ParamCod = res[0].CodPostoAssociacao;
-    //       this.service.AtualizarAssociacao(atualizaAssociacao).subscribe({
-    //         next: (res) => {
-    //           this.modelPosto = res
-    //           this.resetPagination();
-    //           this.consultarPostoServico();
-    //           this.activePosto = 'servicos';
-    //         }
-    //       });
-    //     }
-    //     else {
 
-    //     }
-    //  }
-    // });
     if (this.IdAssociado <= 0) {
       var postoAssocia = new PostoAssociacaoCadastrarRequest();
       postoAssocia.ParamCodPosto = this.postoModel.IdItem;
       postoAssocia.ParamCodProprietario = this.IdProprietario;
-      this.service.CadastrarAssociacao(postoAssocia).subscribe({
-        next: (res) => {
-          //  this.modelPosto = res
-          this.resetPagination();
-          this.consultarPostoServico();
-          this.activePosto = 'servicos';
 
-          this.IdAssociado = res.Cod
+      this.service.AssociacaoPostoVerificar(this.postoModel.IdItem).subscribe({
+        next: (res) => {
+
+          if (res) {
+
+            const dialogRef = this.dialog.open(DialogDynamicComponent);
+            dialogRef.componentInstance.typeDialog = 9;
+            dialogRef.afterClosed().subscribe(result => {
+              console.log("RESULTADO RECEBIDO:", result);
+
+              return;
+            });
+
+          }
+          else {
+            this.service.CadastrarAssociacao(postoAssocia).subscribe({
+              next: (res) => {
+                //  this.modelPosto = res
+                this.resetPagination();
+                this.consultarPostoServico();
+                this.activePosto = 'servicos';
+
+                this.IdAssociado = res.Cod
+              }
+            });
+          }
         }
       });
     }

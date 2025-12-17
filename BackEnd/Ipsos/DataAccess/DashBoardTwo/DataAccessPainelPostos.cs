@@ -804,9 +804,6 @@ namespace DataAccess.DashBoardTwo
             return retorno;
         }
 
-
-
-
         public bool AtualizarPostoServicoOpcao(PostoServicoOpcaoAtualizarRequest req)
         {
             bool sucesso = false;
@@ -843,7 +840,39 @@ namespace DataAccess.DashBoardTwo
             return sucesso;
         }
 
+        public bool AssociacaoPostoVerificar(int ParamCodPosto)
+        {
+            try
+            {
+                using (SqlConnection conexaoBD = new SqlConnection(Conexao.strConexao))
+                {
+                    var parametros = new DynamicParameters();
+                    parametros.Add("@ParamCodPosto", ParamCodPosto);
 
+                    // Lê o retorno da coluna Existe
+                    int existe = conexaoBD.QuerySingle<int>(
+                        "prAssociacaoPostoVerificar",
+                        parametros,
+                        commandType: CommandType.StoredProcedure,
+                        commandTimeout: 300
+                    );
+
+                    // Se retornar 1 → já existe associação
+                    // Se retornar 0 → pode cadastrar
+                    return existe == 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    ex.ToString()
+                );
+
+                throw; // ou return false, dependendo da regra
+            }
+        }
 
 
 

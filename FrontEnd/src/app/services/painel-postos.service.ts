@@ -191,13 +191,18 @@ export class PainelPostosService {
     );
   }
 
-AtualizarPostoServicoOpcao(model: PostoServicoOpcaoAtualizarRequest) {
-  return this.httpClient.post<boolean>(
-    `${this.baseUrl}/PainelPostos/AtualizarPostoServicoOpcao`,
-    model
-  );
-}
+  AtualizarPostoServicoOpcao(model: PostoServicoOpcaoAtualizarRequest) {
+    return this.httpClient.post<boolean>(
+      `${this.baseUrl}/PainelPostos/AtualizarPostoServicoOpcao`,
+      model
+    );
+  }
 
+  AssociacaoPostoVerificar(cod: number) {
+    return this.httpClient.get<boolean>(
+      `${this.baseUrl}/PainelPostos/AssociacaoPostoVerificar?cod=${cod}`
+    );
+  }
 
 
 }

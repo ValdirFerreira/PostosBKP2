@@ -272,7 +272,7 @@ namespace WebApi.Controllers
         [HttpPost]
         [Route("ConsultarFuncionariosDap")]
         public HttpResponseMessage ConsultarFuncionariosDap([FromBody] Postos model)
-        { 
+        {
             var response = new Response();
 
             try
@@ -466,7 +466,7 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [Route("ConsultarAssociacoes")]
-        public HttpResponseMessage ConsultarAssociacoes([FromBody]  Postos model)
+        public HttpResponseMessage ConsultarAssociacoes([FromBody] Postos model)
         {
             var response = new Response();
 
@@ -576,6 +576,32 @@ namespace WebApi.Controllers
 
 
 
+        [HttpGet]
+        [Route("AssociacaoPostoVerificar")]
+        public HttpResponseMessage AssociacaoPostoVerificar(int cod)
+        {
+            var response = new Response();
+
+            try
+            {
+                var result = _context.AssociacaoPostoVerificar(cod);
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (SqlException ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    "Sistema" + ex.Message
+                );
+
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Error = $"Bad request - ({ex.Message})";
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
 
     }
 }
