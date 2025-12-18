@@ -42,6 +42,7 @@ export class PesquisaRespostaCadastrarRequest {
   ParamRespostas: string;
   ParamCodSegmento: number;
   ParamClienteDocumento: string;
+  ParamCodPosto:number;
 }
 export class PesquisaRespostaCadastrarResponse {
   CodCliente: number;

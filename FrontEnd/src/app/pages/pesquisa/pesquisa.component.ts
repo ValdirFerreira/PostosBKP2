@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { FiltroGlobalService } from 'src/app/services/filtro-global.service';
 import { MenuService } from 'src/app/services/menu.service';
@@ -17,8 +17,7 @@ import { DownloadService } from 'src/app/services/download.service';
 import { FilePostos } from 'src/app/models/PainelPostos/FilePostos';
 import { PesquisaService } from 'src/app/services/pesquisa.service';
 import { PesquisaQuestaoListagemResponse, PesquisaQuestaoOpcaoResponse, PesquisaRequest, PesquisaRespostaCadastrarRequest, PesquisaVerificaRespostaRequest } from 'src/app/models/PesquisaModel/PesquisaModel';
-
-
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-pesquisa',
@@ -28,7 +27,6 @@ import { PesquisaQuestaoListagemResponse, PesquisaQuestaoOpcaoResponse, Pesquisa
 })
 export class PesquisaComponent implements OnInit {
 
-
   constructor(public router: Router,
     public menuService: MenuService,
     private translate: TranslateService,
@@ -36,16 +34,24 @@ export class PesquisaComponent implements OnInit {
     public service: PesquisaService,
     public dialog: MatDialog,
     public downloadService: DownloadService,
+    private activatedRoute: ActivatedRoute,
+    private sanitizer: DomSanitizer
   ) { }
 
+  idpostoSelecionado: number = 0;
 
   ngOnInit(): void {
 
+    this.activatedRoute.queryParams.subscribe(params => {
+      var idposto = params['idposto'];
+
+      if (idposto) {
+        this.idpostoSelecionado = idposto;
+      }
+    });
   }
 
-
   @Output() begin = new EventEmitter<void>();
-
 
   startSurvey() {
     this.begin.emit();
@@ -59,41 +65,12 @@ export class PesquisaComponent implements OnInit {
     this.pesquisaPasso = value;
   }
 
-
-
-  options: string[] = [
-    'Todos os dias',
-    'Algumas vezes por semana',
-    'Uma vez por semana',
-    'Poucas vezes no mês',
-    'Raramente'
-  ];
-
   selectedOption: string | null = null;
 
   // Selecionar opção
   onSelect(option: string) {
     this.selectedOption = option;
   }
-
-  scaleQuestions = [
-    { title: 'Qualidade do atendimento da equipe', name: 'atendimento' },
-    { title: 'Qualidade do combustível', name: 'combustivel' },
-    { title: 'Limpeza e organização deste posto', name: 'limpeza' },
-    { title: 'Segurança deste posto', name: 'seguranca' },
-    { title: 'Você recomendaria este posto?', name: 'recomendacao' }
-  ];
-
-  firstRow = [1, 2, 3, 4, 5];
-  secondRow = [6, 7, 8, 9, 10];
-
-  answers: { [key: string]: number } = {};
-
-  selectValue(key: string, value: number) {
-    this.answers[key] = value;
-    console.log(this.answers);
-  }
-
 
   // Voltar uma etapa
   goBack() {
@@ -115,8 +92,6 @@ export class PesquisaComponent implements OnInit {
     // implemente aqui: fechar modal, navegar, etc
   }
 
-
-
   ConsultarPesquisaQuestoes(model: PesquisaRequest) {
     this.service.ConsultarPesquisaQuestoes(model).subscribe({
       next: (res) => {
@@ -132,7 +107,6 @@ export class PesquisaComponent implements OnInit {
   VerificarPesquisaResposta(model: PesquisaVerificaRespostaRequest) {
     this.service.VerificarPesquisaResposta(model).subscribe({
       next: (res) => {
-
 
       },
       error: (err) => {
@@ -153,9 +127,6 @@ export class PesquisaComponent implements OnInit {
     });
   }
 
-
-
-
   Documento: string = "";
   onCPFInput(event: any) {
     let valor = event.target.value;
@@ -173,7 +144,6 @@ export class PesquisaComponent implements OnInit {
 
     return this.Documento;
   }
-
 
   bloquearNaoNumeros(event: KeyboardEvent) {
     const teclasPermitidas = [
@@ -204,8 +174,6 @@ export class PesquisaComponent implements OnInit {
     return valor;
   }
 
-
-
   listQuestions: PesquisaQuestaoListagemResponse[] = [];
   questaoAtual!: PesquisaQuestaoListagemResponse;
   indiceQuestao = 0;
@@ -227,7 +195,6 @@ export class PesquisaComponent implements OnInit {
     return this.opcoesSelecionadas
       .some(x => x.CodVariavel === opcao.CodVariavel && x.Opcao === opcao.Opcao);
   }
-
 
   onSelecionarOpcao(opcao: PesquisaQuestaoOpcaoResponse): void {
 
@@ -251,8 +218,6 @@ export class PesquisaComponent implements OnInit {
     console.log('Selecionada:', this.opcaoSelecionada);
     console.log('Array:', this.opcoesSelecionadas);
   }
-
-
 
   cpfInvalido = false;
 
@@ -341,7 +306,6 @@ export class PesquisaComponent implements OnInit {
     this.opcaoSelecionada = null!;
   }
 
-
   voltarPesquisa() {
     this.pesquisaPassoAlertas = 0;
   }
@@ -362,6 +326,8 @@ export class PesquisaComponent implements OnInit {
       CodVariavel: this.opcaoSelecionada
     });
 
+    this.processarDescricao()
+
     if (this.indiceQuestao < this.listQuestions.length - 1) {
       this.indiceQuestao++;
       this.step++;
@@ -375,6 +341,8 @@ export class PesquisaComponent implements OnInit {
     }, 500);
 
   }
+
+
 
 
   voltar() {
@@ -396,9 +364,11 @@ export class PesquisaComponent implements OnInit {
     model.ParamRespostas = respostas;
     model.ParamCodSegmento = 1;
     model.ParamClienteDocumento = this.Documento.replace(/\D/g, '')
+    model.ParamCodPosto = this.idpostoSelecionado;
+
     this.service.CadastrarPesquisaResposta(model).subscribe({
       next: (res) => {
-        if (res.ErroCadastro == 0) {
+        if (res.CodCliente <= 0) {
           this.pesquisaPassoAlertas = 999; // erro
         }
         else {
@@ -412,6 +382,7 @@ export class PesquisaComponent implements OnInit {
     });
 
   }
+
   fechar() {
     this.pesquisaPassoAlertas = 1;
   }
@@ -425,5 +396,52 @@ export class PesquisaComponent implements OnInit {
 
   respostasSelecionadas: string[] = [];
   indiceQuestaoAtual = 0;
+
+
+
+  temLink = false;
+  linkEncontrado = '';
+  textoSemLink = '';
+
+  // ngOnInit() {
+  //   this.processarDescricao();
+  // }
+
+  mostrarFrame = false;
+
+  processarDescricao() {
+    const descricao = this.questaoAtual?.Descricao || '';
+
+    const regexUrl = /(https?:\/\/[^\s]+)/g;
+    const match = descricao.match(regexUrl);
+
+    if (match) {
+      this.temLink = true;
+      this.linkEncontrado = match[0];
+      this.textoSemLink = descricao.replace(match[0], '').trim();
+    } else {
+      this.temLink = false;
+      this.textoSemLink = descricao;
+    }
+  }
+
+  onCliqueLinkClose() {
+    this.mostrarFrame = false;
+  }
+
+  onCliqueLink() {
+    this.linkSeguro = this.sanitizer.bypassSecurityTrustResourceUrl(
+      this.linkEncontrado.replace('.pdf.','.pdf')
+    );
+
+    this.mostrarFrame = true;
+  }
+
+  linkSeguro!: SafeResourceUrl;
+
+
+
+
+
 
 }

@@ -153,7 +153,8 @@ namespace DataAccess.DashBoardTwo
                     var parametros = new DynamicParameters();
                     parametros.Add("@ParamRespostas", model.ParamRespostas);
                     parametros.Add("@ParamCodSegmento", model.ParamCodSegmento);
-                    parametros.Add("@ParamClienteDocumento", model.ParamClienteDocumento);
+                    parametros.Add("@ParamCodPosto", model.ParamCodPosto);
+                    parametros.Add("@ParamClienteDocumento", model.ParamClienteDocumento);                   
 
                     var result = conexaoBD.QueryFirstOrDefault<PesquisaRespostaCadastrarResponse>(
                         "prPesquisaRespostaCadastrar",

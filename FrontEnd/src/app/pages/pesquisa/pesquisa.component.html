@@ -61,7 +61,7 @@
         name="cpf"
         maxlength="14"
         (input)="onCPFInput($event)"
-         [class.cpf-invalido]="cpfInvalido"
+        [class.cpf-invalido]="cpfInvalido"
         (keydown)="bloquearNaoNumeros($event)">
     </div>
 
@@ -72,7 +72,7 @@
   </div>
 
   <div class="form-container"
-    *ngIf="pesquisaPasso == 3 && pesquisaPassoAlertas == 0 && abilitaPesquisa">
+    *ngIf="pesquisaPasso == 3 && pesquisaPassoAlertas == 0 && abilitaPesquisa && mostrarFrame== false">
 
     <!-- HEADER -->
     <div class="header">
@@ -86,8 +86,19 @@
     </div>
 
     <!-- QUESTION -->
-    <h2 class="question-title">
+    <!-- <h2 class="question-title">
       {{ questaoAtual.Descricao }}
+    </h2> -->
+
+    <h2 class="question-title">
+      {{ textoSemLink }}
+      <a
+        *ngIf="temLink"
+        href="javascript:void(0)"
+        class="link-termo"
+        (click)="onCliqueLink()">
+        clique aqui
+      </a>
     </h2>
 
     <!-- ESCALA -->
@@ -274,6 +285,27 @@
       <p class="aviso-text">
         Ocorreu um erro inesperado. Tente novamente mais tarde.
       </p>
+    </div>
+
+  </div>
+
+  <div class="frame-container" *ngIf="mostrarFrame">
+
+    <div class="header">
+
+      <span>Documento</span>
+
+      <button (click)="onCliqueLinkClose()" class="close-btn">✕</button>
+    </div>
+
+    <div class="aviso-content" style="width: 100%; height: 100%;">
+
+      <iframe
+        [src]="this.linkSeguro"
+        frameborder="0"
+        width="100%"
+        height="800px">
+      </iframe>
     </div>
 
   </div>

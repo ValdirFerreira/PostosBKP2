@@ -85,8 +85,7 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [Route("CadastrarPesquisaResposta")]
-        public HttpResponseMessage CadastrarPesquisaResposta(
-    [FromBody] PesquisaRespostaCadastrarRequest model
+        public HttpResponseMessage CadastrarPesquisaResposta([FromBody] PesquisaRespostaCadastrarRequest model
 )
         {
             var response = new Response();

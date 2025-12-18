@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   local: "DEV",
-  //endPoint: "http://192.168.19.4/PainelPostos/webapi/api",
+ // endPoint: "http://192.168.19.4/PainelPostos/webapi/api",
    endPoint: 'http://localhost:44326/api',
 
   IpsosSecureAccessEndPoint: "http://192.168.19.4/IpsosSecureAccess/site/#",
