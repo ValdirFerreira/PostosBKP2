@@ -41,7 +41,7 @@ export class PesquisaVerificaRespostaResponse {
 export class PesquisaRespostaCadastrarRequest {
   ParamRespostas: string;
   ParamCodSegmento: number;
-  ParamClienteDocumento: number;
+  ParamClienteDocumento: string;
 }
 export class PesquisaRespostaCadastrarResponse {
   CodCliente: number;

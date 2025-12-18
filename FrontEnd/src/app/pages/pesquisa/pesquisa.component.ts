@@ -231,7 +231,7 @@ export class PesquisaComponent implements OnInit {
 
   onSelecionarOpcao(opcao: PesquisaQuestaoOpcaoResponse): void {
 
-        debugger
+    debugger
     // Guarda a opção atual selecionada
     this.opcaoSelecionada = opcao;
 
@@ -253,12 +253,19 @@ export class PesquisaComponent implements OnInit {
   }
 
 
+
+  cpfInvalido = false;
+
   validarDocumento() {
     console.log('Validar documento: ' + this.Documento);
 
+    if (!this.Documento || this.Documento.replace(/\D/g, '').length != 11) {
+      this.cpfInvalido = true;
+      return;
+    }
 
     let model = new PesquisaVerificaRespostaRequest();
-model.ParamDocumento = this.Documento.replace(/\D/g, '');
+    model.ParamDocumento = this.Documento.replace(/\D/g, '');
 
     this.service.VerificarPesquisaResposta(model).subscribe({
       next: (res) => {
@@ -329,7 +336,7 @@ model.ParamDocumento = this.Documento.replace(/\D/g, '');
   }
 
   carregarQuestaoAtual() {
-        debugger
+    debugger
     this.questaoAtual = this.listQuestions[this.indiceQuestao];
     this.opcaoSelecionada = null!;
   }
@@ -339,14 +346,10 @@ model.ParamDocumento = this.Documento.replace(/\D/g, '');
     this.pesquisaPassoAlertas = 0;
   }
 
-
-
   abilitaPesquisa: boolean = true;
   prosseguir() {
 
-
-
-     this.opcaoSelecionada = this.opcoesSelecionadas[this.indiceQuestao];
+    this.opcaoSelecionada = this.opcoesSelecionadas[this.indiceQuestao];
 
     debugger
     if (!this.opcaoSelecionada) {
@@ -382,16 +385,33 @@ model.ParamDocumento = this.Documento.replace(/\D/g, '');
     }
   }
 
-
-
   finalizarPesquisa() {
     console.log('Pesquisa finalizada');
-    this.pesquisaPasso = 999; // ex: tela de conclusão
-        this.pesquisaPassoAlertas = 4;
+
+    let respostas = this.opcoesSelecionadas
+      .map(x => x.Opcao)
+      .join(',') + ',';
+
+    let model = new PesquisaRespostaCadastrarRequest();
+    model.ParamRespostas = respostas;
+    model.ParamCodSegmento = 1;
+    model.ParamClienteDocumento = this.Documento.replace(/\D/g, '')
+    this.service.CadastrarPesquisaResposta(model).subscribe({
+      next: (res) => {
+        if (res.ErroCadastro == 0) {
+          this.pesquisaPassoAlertas = 999; // erro
+        }
+        else {
+          this.pesquisaPasso = 999;  // tela de agradecimento
+          this.pesquisaPassoAlertas = 4;
+        }
+      },
+      error: (err) => {
+        console.error("Erro ao consultar questões:", err);
+      }
+    });
+
   }
-
-
-
   fechar() {
     this.pesquisaPassoAlertas = 1;
   }
@@ -403,11 +423,7 @@ model.ParamDocumento = this.Documento.replace(/\D/g, '');
     this.Documento = "";
   }
 
-
   respostasSelecionadas: string[] = [];
   indiceQuestaoAtual = 0;
-
-
-
 
 }

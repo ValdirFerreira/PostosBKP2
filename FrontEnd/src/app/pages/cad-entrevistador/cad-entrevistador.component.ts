@@ -274,7 +274,7 @@ export class CadEntrevistadorComponent implements OnInit {
 
         if (res.Cod == 0) {
           const mensagensErro: string[] = [];
-          mensagensErro.push(res.Info)
+          mensagensErro.push("Ocorreu um erro interno ao cadastrar o entrevistador.")
           this.OpenModalErro(mensagensErro);
         }
         else {

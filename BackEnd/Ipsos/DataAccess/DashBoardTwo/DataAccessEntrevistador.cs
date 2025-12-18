@@ -206,9 +206,12 @@ namespace DataAccess.DashBoardTwo
                     this.GetType().Name,
                     System.Reflection.MethodBase.GetCurrentMethod().Name,
                     ex.ToString()
-                );
+
+                    
+                ); ;
 
                 response.Cod = 0;
+                response.Info = ex.ToString();
             }
 
             return response;

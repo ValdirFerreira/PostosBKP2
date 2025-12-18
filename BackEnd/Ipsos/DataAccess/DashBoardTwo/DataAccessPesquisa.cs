@@ -162,6 +162,8 @@ namespace DataAccess.DashBoardTwo
                         commandTimeout: 300
                     );
 
+
+
                     return result;
                 }
             }
@@ -173,7 +175,7 @@ namespace DataAccess.DashBoardTwo
                     ex.ToString()
                 );
 
-                return null;
+                return new PesquisaRespostaCadastrarResponse { ErroCadastro = 0 };
             }
         }
 

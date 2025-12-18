@@ -63,7 +63,7 @@ namespace Entities.DTOs
     {
         public string ParamRespostas { get; set; }
         public int ParamCodSegmento { get; set; }
-        public int ParamClienteDocumento { get; set; }
+        public string ParamClienteDocumento { get; set; }
     }
 
     public class PesquisaRespostaCadastrarResponse

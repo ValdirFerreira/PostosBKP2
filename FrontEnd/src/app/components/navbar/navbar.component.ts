@@ -121,10 +121,21 @@ export class NavbarComponent implements OnInit {
 
 
 
-  goTo(url: string) {
+ goTo(url: string) {
+  const rotaAtual = this.router.url;
+
+  if (rotaAtual === url) {
+    // 🔄 força reload da rota atual
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([url]);
+    });
+  } else {
     this.router.navigate([url]);
-    this.openMenu = null;
   }
+
+  this.openMenu = null;
+}
+
 
 
   menus: MenuItem[] = [

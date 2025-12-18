@@ -542,20 +542,23 @@ export class CadProprietarioComponent implements OnInit {
     return regex.test(email);
   }
 
-  bloquearNaoNumeros(event: KeyboardEvent) {
-    const teclasPermitidas = [
-      'Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete'
-    ];
+bloquearNaoNumeros(event: KeyboardEvent) {
+  const teclasPermitidas = [
+    'Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete'
+  ];
 
-    // Permite teclas de navegação e edição
-    if (teclasPermitidas.includes(event.key)) return;
+  // Permite teclas de navegação
+  if (teclasPermitidas.includes(event.key)) return;
 
-    // Bloqueia se não for número
-    if (!/^\d$/.test(event.key)) {
-      event.preventDefault();
-      return;
-    }
+  // ✅ PERMITE COLAR (Ctrl+V / Cmd+V)
+  if (event.ctrlKey || event.metaKey) return;
+
+  // Bloqueia se não for número
+  if (!/^\d$/.test(event.key)) {
+    event.preventDefault();
   }
+}
+
 
 
   //////////////////////////////////////////////

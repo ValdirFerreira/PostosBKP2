@@ -61,6 +61,7 @@
         name="cpf"
         maxlength="14"
         (input)="onCPFInput($event)"
+         [class.cpf-invalido]="cpfInvalido"
         (keydown)="bloquearNaoNumeros($event)">
     </div>
 
@@ -70,51 +71,8 @@
 
   </div>
 
-  <div style="display: none;" class="form-container"
-    *ngIf="pesquisaPasso == 3 && pesquisaPassoAlertas == 0 && abilitaPesquisa">
-
-    <!-- HEADER -->
-    <div class="header">
-      <button class="back-btn"
-        *ngIf="step > 0"
-        (click)="voltar()">←</button>
-
-      <span>{{ step }}/{{ listQuestions.length }}</span>
-
-      <button (click)="fechar()" class="close-btn">✕</button>
-    </div>
-
-    <!-- QUESTION -->
-    <h2 class="question-title">
-      {{ questaoAtual.Descricao }}
-    </h2>
-
-    <div class="option-card"
-      *ngFor="let opcao of questaoAtual.ListOpcoes">
-
-      <!-- QUANDO AINDA NÃO EXISTE OPÇÃO SELECIONADA -->
-      <label>
-        <input
-          type="radio"
-          name="opcao-{{ opcao.CodVariavel }}"
-          [checked]="isOpcaoSelecionada(opcao)"
-          (change)="onSelecionarOpcao(opcao)" />
-
-        <span>{{ opcao.Descricao }}</span>
-      </label>
-
-    </div>
-
-    <!-- BUTTON -->
-    <button class="btn-next"
-      (click)="prosseguir()">
-      Prosseguir
-    </button>
-
-  </div>
-
   <div class="form-container"
-   *ngIf="pesquisaPasso == 3 && pesquisaPassoAlertas == 0 && abilitaPesquisa">
+    *ngIf="pesquisaPasso == 3 && pesquisaPassoAlertas == 0 && abilitaPesquisa">
 
     <!-- HEADER -->
     <div class="header">
@@ -194,140 +152,9 @@
     </div>
 
     <button class="btn-next"
-  
       (click)="prosseguir()">
       Prosseguir
     </button>
-  </div>
-
-  <div style="display: none;" class="form-container"
-    *ngIf=" pesquisaPasso ==3 && pesquisaPassoAlertas ==0">
-
-    <!-- HEADER -->
-    <div class="header">
-      <button class="back-btn" *ngIf="step > 1">←</button>
-      <span>{{ step }}/4</span>
-      <button (click)="fechar()" class="close-btn">✕</button>
-    </div>
-
-    <!-- QUESTION -->
-    <h2 class="question-title">
-      Com que frequência você vem a esse posto?
-    </h2>
-
-    <!-- OPTIONS -->
-    <div class="option-card" *ngFor="let item of options">
-      <label>
-        <input type="radio" name="freq" />
-        <span>{{ item }}</span>
-      </label>
-    </div>
-
-    <!-- BUTTON -->
-    <button class="btn-next">Prosseguir</button>
-
-  </div>
-
-  <div class="form-container"
-    *ngIf=" pesquisaPasso ==5 && pesquisaPassoAlertas ==0">
-
-    <!-- HEADER -->
-    <div class="header">
-      <button class="back-btn" *ngIf="step > 1">←</button>
-      <span>{{ step }}/4</span>
-      <button (click)="fechar()" class="close-btn">✕</button>
-    </div>
-
-    <!-- QUESTION -->
-    <h2 class="question-title">
-      Considerando o estabelecimento que você acabou de visitar,
-      gostaríamos de saber sua satisfação em relação a algumas características:
-    </h2>
-
-    <div class="scale-card" *ngFor="let item of scaleQuestions">
-      <h3>{{ item.title }}</h3>
-
-      <!-- Linha 1 (1 a 5) -->
-      <div class="scale-row">
-        <label *ngFor="let n of firstRow">
-          <input
-            type="radio"
-            [name]="item.name"
-            [value]="n"
-            [checked]="answers[item.name] === n"
-            (change)="selectValue(item.name, n)" />
-          <span>{{ n }}</span>
-        </label>
-      </div>
-
-      <!-- Linha 2 (6 a 10) -->
-      <div class="scale-row">
-        <label *ngFor="let n of secondRow">
-          <input
-            type="radio"
-            [name]="item.name"
-            [value]="n"
-            [checked]="answers[item.name] === n"
-            (change)="selectValue(item.name, n)" />
-          <span>{{ n }}</span>
-        </label>
-      </div>
-    </div>
-
-    <!-- BUTTON -->
-    <button class="btn-next">Prosseguir</button>
-
-  </div>
-
-  <div class="form-container"
-    *ngIf="     pesquisaPasso ==5 && pesquisaPassoAlertas ==0">
-
-    <!-- HEADER -->
-    <div class="header">
-      <button class="back-btn" *ngIf="step > 1">←</button>
-      <span>{{ step }}/4</span>
-      <button class="close-btn">✕</button>
-    </div>
-
-    <!-- QUESTION -->
-    <p class="question-title">
-      A Ipsos mantém uma base de contatos para envio de convites de pesquisa
-      relacionados ao segmento de postos de combustível.
-    </p>
-
-    <p class="question-title">
-      Para saber mais detalhes, clique aqui.
-      Você concorda com as condições descritas no link e gostaria de inserir seu
-      nome, e-mail e telefone na base e receber convites para outras pesquisas?
-    </p>
-
-    <p class="question-title">
-      Você poderá descadastrar-se a qualquer momento.
-    </p>
-
-    <p class="question-title">
-      Caso tenha dúvidas acerca de como seus dados serão tratados, entre em
-      contato com <strong>dpo.brazil</strong>.
-    </p>
-
-    <!-- OPTIONS -->
-    <div class="option-card">
-      <label>
-        <input type="radio" name="freq" />
-        <span>Sim</span>
-      </label>
-    </div>
-
-    <div class="option-card">
-      <label>
-        <input type="radio" name="freq" />
-        <span>Não</span>
-      </label>
-    </div>
-
-    <!-- BUTTON -->
-    <button class="btn-next">Prosseguir</button>
-
   </div>
 
   <!-- /////////////////////////////////////////////////////////////////////////////////////// -->
@@ -427,6 +254,25 @@
       <p class="aviso-text">
         Agradecemos a sua participação na pesquisa.
         Sua opinião é muito importante para nós!
+      </p>
+    </div>
+
+  </div>
+
+  <div class="form-container" *ngIf="pesquisaPassoAlertas == 999">
+
+    <!-- CONTENT -->
+    <div class="aviso-content-off">
+      <div class="alert-icone">
+
+      </div>
+
+      <h2 class="aviso-title">
+        Pesquisa não realizada
+      </h2>
+
+      <p class="aviso-text">
+        Ocorreu um erro inesperado. Tente novamente mais tarde.
       </p>
     </div>
 
