@@ -326,7 +326,15 @@ namespace DataAccess.DashBoardTwo
                 response.Cod = novoId;
 
                 UsuarioDataAccess _context = new UsuarioDataAccess("");
-                _context.InsertUser(new UsuarioModel { Name = req.ParamNome, Email = req.ParamEmail });
+
+
+                var codUserPerfil = 2;
+               if( req.ParamCodFuncionarioFuncao == 3)
+                {
+                    codUserPerfil = 3;
+                }
+
+                _context.InsertUser(new UsuarioModel { Name = req.ParamNome, Email = req.ParamEmail , CodUserPerfil = codUserPerfil });
 
             }
             catch (Exception ex)

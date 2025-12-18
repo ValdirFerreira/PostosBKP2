@@ -39,7 +39,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   }
   , {
-    path: 'pesquisav',
+    path: 'pesquisa-postos',
     loadChildren: () => import('./pages/pesquisa/pesquisa.module').then(m => m.PesquisaModule),
     // canActivate: [AuthGuard],
   }

@@ -96,8 +96,46 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  // --- opcional: marcar com base na rota atual ao iniciar (mantém ativo após reload)
+  userADM: boolean = false;
+
   ngOnInit() {
+    const current = this.router.url;
+    const user = this.session.getUserSession();
+
+    if (user) {
+      this.userADM = user.CodUserPerfil === 1 || user.CodUserPerfil === 3;
+
+      // PERFIL 2 → somente Dashboard/Home
+      if (user.CodUserPerfil === 2) {
+        this.menus = this.menus.filter(m => m.Url === '/home');
+      }
+    }
+
+    this.clearAllActive(this.menus);
+
+    for (const m of this.menus) {
+      if (m.Url === current) {
+        m.Ativo = true;
+        break;
+      }
+
+      if (m.Children?.length) {
+        for (const c of m.Children) {
+          if (c.Url === current) {
+            m.Ativo = true;
+            c.Ativo = true;
+            break;
+          }
+        }
+      }
+    }
+  }
+
+
+
+
+  // --- opcional: marcar com base na rota atual ao iniciar (mantém ativo após reload)
+  ngOnInitOLC() {
     const current = this.router.url; // por exemplo '/proprietario'
     this.clearAllActive(this.menus);
 
@@ -118,25 +156,6 @@ export class NavbarComponent implements OnInit {
       }
     }
   }
-
-
-
- goTo(url: string) {
-  const rotaAtual = this.router.url;
-
-  if (rotaAtual === url) {
-    // 🔄 força reload da rota atual
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate([url]);
-    });
-  } else {
-    this.router.navigate([url]);
-  }
-
-  this.openMenu = null;
-}
-
-
 
   menus: MenuItem[] = [
     {
@@ -176,6 +195,25 @@ export class NavbarComponent implements OnInit {
     },
 
   ];
+
+  goTo(url: string) {
+    const rotaAtual = this.router.url;
+
+    if (rotaAtual === url) {
+      // 🔄 força reload da rota atual
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate([url]);
+      });
+    } else {
+      this.router.navigate([url]);
+    }
+
+    this.openMenu = null;
+  }
+
+
+
+
 
   voltar() {
     this.router.navigate(['/home']);

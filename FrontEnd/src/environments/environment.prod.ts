@@ -2,7 +2,7 @@ export const environment = {
   production: true,
   local: "PROD",
   IpsosSecureAccessEndPoint: "https://brasil.ipsoslatam.com/IpsosSecureAccess/site/#",
-  IpsosSecureAccessClientKey: "59B223AF-3B55-4760-ADD9-6CF170B4F780",
+  IpsosSecureAccessClientKey: "191B3CD8-CF9A-4A5D-82F5-43CD15AB827F",
   endPoint: "https://brasil.ipsoslatam.com/BHTInter/webapi/api",
       endPointPortal: "https://brasil.ipsoslatam.com/PainelPostos",
 

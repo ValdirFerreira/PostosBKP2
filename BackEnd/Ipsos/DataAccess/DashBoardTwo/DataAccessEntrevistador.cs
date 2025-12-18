@@ -197,7 +197,7 @@ namespace DataAccess.DashBoardTwo
 
 
                 UsuarioDataAccess _context = new UsuarioDataAccess("");
-                _context.InsertUser(new UsuarioModel { Name = req.ParamNome, Email = req.ParamEmail });
+                _context.InsertUser(new UsuarioModel { Name = req.ParamNome, Email = req.ParamEmail , CodUserPerfil = 3 });
 
             }
             catch (Exception ex)

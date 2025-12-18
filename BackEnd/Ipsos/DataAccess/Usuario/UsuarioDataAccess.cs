@@ -198,6 +198,16 @@ namespace DataAccess.Usuario
         {
             try
             {
+
+                // 1 - ADM
+                // 2 - COMUN
+                // 3 - GERENTE
+
+                if(usuarioModel.CodUserPerfil <=0)
+                {
+                    usuarioModel.CodUserPerfil = 2; // COMUN
+                }
+
                 usuarioModel.CreateDate = DateTime.Now;
                 usuarioModel.UpdateDate = DateTime.Now;
                 usuarioModel.FlagAtivo = true;
@@ -233,7 +243,7 @@ namespace DataAccess.Usuario
                         @CreateDate = usuarioModel.CreateDate,
                         @UpdateDate = usuarioModel.UpdateDate,
                         @FlagAtivo = usuarioModel.FlagAtivo,
-                        @CodUserPerfil = 2 // COMUN
+                        @CodUserPerfil = usuarioModel.CodUserPerfil
 
                     });
 

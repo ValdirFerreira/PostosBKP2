@@ -128,6 +128,7 @@ export class PesquisaComponent implements OnInit {
   }
 
   Documento: string = "";
+  cpfInvalidoBTN = false;
   onCPFInput(event: any) {
     let valor = event.target.value;
 
@@ -141,6 +142,15 @@ export class PesquisaComponent implements OnInit {
 
     // Aplica a máscara
     this.Documento = this.formatarCPF(valor);
+
+    if (!this.Documento || this.Documento.replace(/\D/g, '').length != 11) {
+      this.cpfInvalidoBTN = false;
+       this.cpfInvalido = true;
+    }
+    else{
+       this.cpfInvalidoBTN = true;
+        this.cpfInvalido = false;
+    }
 
     return this.Documento;
   }
@@ -431,7 +441,7 @@ export class PesquisaComponent implements OnInit {
 
   onCliqueLink() {
     this.linkSeguro = this.sanitizer.bypassSecurityTrustResourceUrl(
-      this.linkEncontrado.replace('.pdf.','.pdf')
+      this.linkEncontrado.replace('.pdf.', '.pdf')
     );
 
     this.mostrarFrame = true;

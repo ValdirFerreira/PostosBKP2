@@ -66,7 +66,10 @@
     </div>
 
     <!-- BUTTON -->
-    <button class="btn-inicio" (click)="validarDocumento()">Iniciar
+    <button style="cursor:no-drop;" disabled *ngIf="!cpfInvalidoBTN" class="btn-inicio" (click)="validarDocumento()">Iniciar
+      pesquisa</button>
+
+        <button *ngIf="cpfInvalidoBTN" class="btn-next" (click)="validarDocumento()">Iniciar
       pesquisa</button>
 
   </div>
