@@ -1,0 +1,48 @@
+.card-termo {
+    background: #ffffff;
+    border-radius: 12px;
+    // margin-top: 4px;
+    // padding: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    max-width: 420px;
+
+    .card-header {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 16px;
+    }
+
+    .card-header h2 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    .card-header span {
+        font-size: 13px;
+        color: #666;
+    }
+
+    .card-body {
+        display: flex;
+        justify-content: center;
+    }
+
+    .btn-download {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        background-color: #1976d2;
+        color: #fff;
+        border-radius: 8px;
+        border: none;
+        text-decoration: none;
+        font-weight: 500;
+        transition: background 0.2s ease;
+    }
+
+    .btn-download:hover {
+        background-color: #125aa0;
+    }
+}

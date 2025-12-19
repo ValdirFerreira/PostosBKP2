@@ -158,9 +158,16 @@ export class PainelPostosService {
   }
 
   ExcluirAssociacao(cod: number) {
-    return this.httpClient.delete<any>(
-      `${this.baseUrl}/PainelPostos/ExcluirAssociacao?cod=${cod}`
+
+    let model = new ResponseCad();
+    model.Cod = cod;
+    model.Info = "asdasd";
+
+    return this.httpClient.post<any>(
+      `${this.baseUrl}/PainelPostos/ExcluirAssociacao`,
+      model
     );
+
   }
 
   ConsultarAssociacaoPeloID(cod: number) {

@@ -262,3 +262,26 @@
     </div>
   </div>
 </div>
+
+
+<div class="popup-wrapper" *ngIf="typeDialog == 10">
+  <div class="left-area">
+    <div class="icon-circle-thunder">
+
+    </div>
+  </div>
+
+  <div class="right-area">
+    <h2 class="title">Deseja excluir este Posto de Gasolina?</h2>
+
+    <p class="subtitle">
+     Se prosseguir, o posto e todas as suas associações serão excluídos. Deseja prosseguir?
+    </p>
+
+    <div class="buttons">
+      <button (click)="closeDialog()" class="btn-text">Não, manter
+        ativo</button>
+      <button class="btn-primary-p" (click)="closeDialogInativar()">Excluir Posto</button>
+    </div>
+  </div>
+</div>

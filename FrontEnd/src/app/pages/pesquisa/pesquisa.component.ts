@@ -321,6 +321,14 @@ export class PesquisaComponent implements OnInit {
     this.pesquisaPassoAlertas = 0;
   }
 
+
+  baixarTermo() {
+  const link = document.createElement('a');
+  link.href = 'assets/Files/Proposta Postos_dashboards_v3.pptx';
+  link.download = 'Proposta Postos_dashboards_v3.pptx';
+  link.click();
+}
+
   abilitaPesquisa: boolean = true;
   prosseguir() {
 

@@ -333,14 +333,14 @@ p {
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 15px;
+    font-size: 14px;
     cursor: pointer;
     color: #475467;
     font-weight: 500;
     line-height: 30px;
     letter-spacing: 0%;
     vertical-align: middle;
-
+    text-align: center;
     flex: 0 0 calc((100% / 6) - 26px);
   }
 
@@ -358,8 +358,8 @@ p {
     align-items: center;
     gap: 6px;
     cursor: pointer;
-
-    font-size: 15px;
+    text-align: center;
+    font-size: 14px;
     font-weight: 500;
     color: #475467;
 

@@ -409,15 +409,15 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpPost]
         [Route("ExcluirAssociacao")]
-        public HttpResponseMessage ExcluirAssociacao(int cod)
+        public HttpResponseMessage ExcluirAssociacao(ResponseCad request)
         {
             var response = new Response();
 
             try
             {
-                var result = _context.ExcluirAssociacao(cod);
+                var result = _context.ExcluirAssociacao(request.Cod);
 
                 return Request.CreateResponse(HttpStatusCode.OK, result);
             }

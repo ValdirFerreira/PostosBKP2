@@ -217,6 +217,29 @@ export class ListPostosComponent implements OnInit {
 
   }
 
+
+deleter(item: AssociacaoPostoConsultarResponse) {
+    console.log('bloquear', item);
+
+
+    const dialogRef = this.dialog.open(DialogDynamicComponent);
+    dialogRef.componentInstance.typeDialog = 10;
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("RESULTADO RECEBIDO:", result);
+      if (result?.inativar) {
+
+        this.service.ExcluirAssociacao(item.CodPostoAssociacao).subscribe({
+          next: (res) => {
+            this.resetPagination();
+          }
+        });
+      }
+    });
+
+
+  }
+
+
   remover(item: AssociacaoPostoConsultarResponse) {
     console.log('remover', item);
     // lógica para remover (mock: apenas log)

@@ -560,6 +560,14 @@ bloquearNaoNumeros(event: KeyboardEvent) {
 }
 
 
+baixarTermo() {
+  const link = document.createElement('a');
+  link.href = 'assets/Files/TERMO-PARCERIA-POSTOS.pdf';
+  link.download = 'TERMO-PARCERIA-POSTOS.pdf';
+  link.click();
+}
+
+
 
   //////////////////////////////////////////////
   // files
