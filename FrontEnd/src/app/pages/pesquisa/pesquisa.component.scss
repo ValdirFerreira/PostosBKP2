@@ -341,7 +341,7 @@ p {
     letter-spacing: 0%;
     vertical-align: middle;
     text-align: center;
-    flex: 0 0 calc((100% / 6) - 26px);
+ 
   }
 
   /* Radio padrão igual ao da imagem */
@@ -363,7 +363,7 @@ p {
     font-weight: 500;
     color: #475467;
 
-    flex: 0 0 calc((100% / 6) - 26px); /* 6 por linha */
+   // flex: 0 0 calc((100% / 6) - 26px); /* 6 por linha */
   }
 
   .scale-number {
