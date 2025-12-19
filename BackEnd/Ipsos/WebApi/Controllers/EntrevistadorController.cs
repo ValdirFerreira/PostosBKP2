@@ -211,15 +211,15 @@ namespace WebApi.Controllers
         }
 
 
-        [HttpDelete]
+        [HttpPost]
         [Route("ExcluirEntrevistador")]
-        public HttpResponseMessage ExcluirEntrevistador([FromBody]  int cod)
+        public HttpResponseMessage ExcluirEntrevistador([FromBody] ResponseCad request)
         {
             var response = new Response();
 
             try
             {
-                var result = _context.ExcluirEntrevistador(cod);
+                var result = _context.ExcluirEntrevistador(request.Cod);
                 return Request.CreateResponse(HttpStatusCode.OK, result);
             }
             catch (SqlException ex)

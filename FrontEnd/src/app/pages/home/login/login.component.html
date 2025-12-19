@@ -12,7 +12,8 @@
                     {{'login.titulo' | translate}}
                 </div>
                 <div class="sub-titulo-login">
-                    {{'login.sub-titulo' | translate}}
+                    <!-- {{'login.sub-titulo' | translate}} -->
+                     Insira suas credenciais para acessar a plataforma.
                 </div>
 
                 <div class="form-group-login">
@@ -39,8 +40,10 @@
                             <div class="input-senha-eye"
                                 [ngClass]="{'input-senha-eye-open': mostraSenha, 'input-senha-eye': !mostraSenha}"
                                 (click)="mostrarSenha()"></div>
-                            <div class="desc-input-senha">{{'login.senha' |
-                                translate}}</div>
+                            <div class="desc-input-senha">
+                                <!-- {{'login.senha' | translate}} -->
+                                 Senha
+                            </div>
 
                             <input *ngIf="!mostraSenha"
                                 class="input-login input-senha" type="password"
@@ -79,8 +82,10 @@
                         <div>
                             <a class="esqueceu-senha">
                                 <div
-                                    (click)="abrirEsqueciSenha()">{{'login.esqueceu.senha'
-                                    | translate}}</div>
+                                    (click)="abrirEsqueciSenha()">
+                                    <!-- {{'login.esqueceu.senha' | translate}} -->
+                                     Esqueceu sua senha
+                                </div>
                             </a>
                         </div>
 
@@ -88,8 +93,10 @@
                             <!-- <button [disabled]="!loginForm.valid" [ngClass]="{'disabled': !loginForm.valid}"
                                 class="btn-login">{{'login.btn.acessar' | translate}}</button> -->
                             <button [ngClass]="{'disabled': !loginForm.valid}"
-                                class="btn-login">{{'login.btn.acessar' |
-                                translate}}</button>
+                                class="btn-login">
+                                <!-- {{'login.btn.acessar' | translate}} -->
+                                 Entrar
+                            </button>
 
                         </div>
 

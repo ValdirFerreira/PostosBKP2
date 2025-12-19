@@ -27,7 +27,8 @@
         com
         total confidencialidade, apenas para fins de pesquisa.</p>
 
-      <button *ngIf="this.idpostoSelecionado > 0" class="btn-start" (click)="ativarPesquisa(2)">Iniciar
+      <button *ngIf="this.idpostoSelecionado > 0" class="btn-start"
+        (click)="ativarPesquisa(2)">Iniciar
         pesquisa</button>
     </div>
   </div>
@@ -106,7 +107,7 @@
       </a>
     </h2> -->
 
-    <h2 class="sub-title"> {{ listQuestions[0]?.ListOpcoes[0]?.TituloBloco }}</h2>
+    <h2 *ngIf="!temLink" class="sub-title"> {{ questaoAtual.TituloBloco }}</h2>
 
     <!-- ESCALA -->
     <div class="scale-card">
@@ -124,7 +125,7 @@
       <div class="scale-row" *ngIf="questaoAtual.ListOpcoes.length >= 3">
 
         <!-- QUANDO AINDA NÃO EXISTE OPÇÃO SELECIONADA -->
-        <label *ngFor="let opcao of questaoAtual.ListOpcoes">
+        <!-- <label *ngFor="let opcao of questaoAtual.ListOpcoes">
           <input
             type="radio"
             name="opcao-{{ opcao.CodVariavel }}"
@@ -133,6 +134,25 @@
 
           <span *ngIf="opcao.Opcao!='99'">{{ opcao.Opcao }}</span>
           <span *ngIf="opcao.Opcao==='99'">{{ opcao.Descricao }}</span>
+        </label> -->
+
+        <label
+          class="scale-label"
+          *ngFor="let opcao of questaoAtual.ListOpcoes">
+
+          <span class="scale-number" *ngIf="opcao.Opcao != '99'">
+            {{ opcao.Opcao }}
+          </span>
+
+          <span class="scale-text" *ngIf="opcao.Opcao === '99'">
+            {{ opcao.Descricao }}
+          </span>
+
+          <input
+            type="radio"
+            name="opcao-{{ opcao.CodVariavel }}"
+            [checked]="isOpcaoSelecionada(opcao)"
+            (change)="onSelecionarOpcao(opcao)" />
         </label>
 
       </div>
@@ -190,7 +210,7 @@
     *ngIf="pesquisaPassoAlertas == 1">
 
     <!-- CONTENT -->
-    <div class="aviso-content">
+    <div class="aviso-content-off">
 
       <div class="header-alert">
         <div class="alert-icone">

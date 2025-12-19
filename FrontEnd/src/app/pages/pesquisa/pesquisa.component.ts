@@ -208,7 +208,7 @@ export class PesquisaComponent implements OnInit {
 
   onSelecionarOpcao(opcao: PesquisaQuestaoOpcaoResponse): void {
 
-    debugger
+    
     // Guarda a opção atual selecionada
     this.opcaoSelecionada = opcao;
 
@@ -224,7 +224,7 @@ export class PesquisaComponent implements OnInit {
       // Adiciona novo objeto
       this.opcoesSelecionadas.push({ ...opcao });
     }
-    debugger
+    
     console.log('Selecionada:', this.opcaoSelecionada);
     console.log('Array:', this.opcoesSelecionadas);
   }
@@ -289,12 +289,12 @@ export class PesquisaComponent implements OnInit {
     let model = new PesquisaRequest();
     model.CodIdioma = 1;
     model.CodSegmento = 1;
-    debugger
+    
     this.service.ConsultarPesquisaQuestoes(model).subscribe({
       next: (res) => {
         this.listQuestions = res;
 
-        debugger
+        
 
         if (this.listQuestions.length > 0) {
           this.indiceQuestao = 0;
@@ -312,7 +312,7 @@ export class PesquisaComponent implements OnInit {
   }
 
   carregarQuestaoAtual() {
-    debugger
+    
     this.questaoAtual = this.listQuestions[this.indiceQuestao];
     this.opcaoSelecionada = null!;
   }
@@ -326,7 +326,7 @@ export class PesquisaComponent implements OnInit {
 
     this.opcaoSelecionada = this.opcoesSelecionadas[this.indiceQuestao];
 
-    debugger
+    
     if (!this.opcaoSelecionada) {
       return;
     }

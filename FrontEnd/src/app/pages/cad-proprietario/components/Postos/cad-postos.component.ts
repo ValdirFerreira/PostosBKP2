@@ -805,7 +805,7 @@ export class CadPostosComponent implements OnInit {
   private readonly basendPointPortal = environment["endPointPortal"];
   qrHtml: any;
   gerarQrCode() {
-    const url = `${this.basendPointPortal}/#/pesquisa-postos?idposto=` + this.modelPosto.CodPosto;
+    const url = `${this.basendPointPortal}/site/#/#/pesquisa-postos?idposto=` + this.modelPosto.CodPosto;
 
     const qr = QRCodeGen(0, 'L');
     qr.addData(url);

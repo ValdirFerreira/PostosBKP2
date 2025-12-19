@@ -325,15 +325,15 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpPost]
         [Route("ExcluirFuncionario")]
-        public HttpResponseMessage ExcluirFuncionario(int cod)
+        public HttpResponseMessage ExcluirFuncionario([FromBody]  ResponseCad request)
         {
             var response = new Response();
 
             try
             {
-                var result = _context.ExcluirFuncionario(cod);
+                var result = _context.ExcluirFuncionario(request.Cod);
 
                 return Request.CreateResponse(HttpStatusCode.OK, result);
             }

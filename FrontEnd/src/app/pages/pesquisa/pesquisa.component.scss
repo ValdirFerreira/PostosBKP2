@@ -306,7 +306,7 @@ p {
     font-style: Bold;
     font-size: clamp(24px, 4vw, 18px);
     color: #475467;
-     margin-bottom: 24px;
+    margin-bottom: 24px;
   }
 
   .scale-row {
@@ -314,7 +314,19 @@ p {
     justify-content: space-between;
     gap: 26px;
     margin-bottom: 10px;
-    flex-wrap: wrap;
+    flex-wrap: wrap; /* permite quebrar linha */
+  }
+
+  @media (max-width: 768px) {
+    .scale-row {
+      gap: 0; /* remove o gap no mobile */
+    }
+
+    .scale-row .scale-label:last-child {
+      flex-basis: 100%; /* última opção na linha de baixo */
+      margin-top: 10px;
+      align-items: flex-end;
+    }
   }
 
   .scale-row label {
@@ -340,10 +352,38 @@ p {
     cursor: pointer;
   }
 
+  .scale-label {
+    display: flex;
+    flex-direction: column; /* número em cima */
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+
+    font-size: 15px;
+    font-weight: 500;
+    color: #475467;
+
+    flex: 0 0 calc((100% / 6) - 26px); /* 6 por linha */
+  }
+
+  .scale-number {
+    font-size: 14px;
+    color: #667085;
+    line-height: 1;
+  }
+
+  /* Radio padrão igual ao layout */
+  .scale-label input[type="radio"] {
+    width: 17px;
+    height: 17px;
+    accent-color: #2563eb;
+    cursor: pointer;
+  }
+
   /* Responsivo */
   @media (max-width: 600px) {
     .scale-row {
-      gap: 20px;
+      // gap: 20px;
     }
 
     .scale-card {
