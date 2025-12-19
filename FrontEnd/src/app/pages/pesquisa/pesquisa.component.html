@@ -27,7 +27,7 @@
         com
         total confidencialidade, apenas para fins de pesquisa.</p>
 
-      <button class="btn-start" (click)="ativarPesquisa(2)">Iniciar
+      <button *ngIf="this.idpostoSelecionado > 0" class="btn-start" (click)="ativarPesquisa(2)">Iniciar
         pesquisa</button>
     </div>
   </div>
