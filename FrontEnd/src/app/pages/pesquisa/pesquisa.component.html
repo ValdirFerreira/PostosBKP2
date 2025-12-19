@@ -37,9 +37,9 @@
 
     <!-- HEADER -->
     <div class="header">
-      <button class="back-btn" *ngIf="step > 1">←</button>
+      <div class="btn-back" *ngIf="step > 1"></div>
       <span></span>
-      <button (click)="fechar()" class="close-btn">✕</button>
+      <div (click)="fechar()" class="btn-close"></div>
     </div>
 
     <!-- QUESTION -->
@@ -66,10 +66,12 @@
     </div>
 
     <!-- BUTTON -->
-    <button style="cursor:no-drop;" disabled *ngIf="!cpfInvalidoBTN" class="btn-inicio" (click)="validarDocumento()">Iniciar
+    <button style="cursor:no-drop;" disabled *ngIf="!cpfInvalidoBTN"
+      class="btn-inicio" (click)="validarDocumento()">Iniciar
       pesquisa</button>
 
-        <button *ngIf="cpfInvalidoBTN" class="btn-next" (click)="validarDocumento()">Iniciar
+    <button *ngIf="cpfInvalidoBTN" class="btn-next"
+      (click)="validarDocumento()">Iniciar
       pesquisa</button>
 
   </div>
@@ -79,9 +81,9 @@
 
     <!-- HEADER -->
     <div class="header">
-      <button class="back-btn"
+      <div class="btn-back"
         *ngIf="step > 0"
-        (click)="voltar()">←</button>
+        (click)="voltar()"></div>
 
       <span>{{ step }}/{{ listQuestions.length }}</span>
 
@@ -93,7 +95,7 @@
       {{ questaoAtual.Descricao }}
     </h2> -->
 
-    <h2 class="question-title">
+    <!-- <h2 class="question-title">
       {{ textoSemLink }}
       <a
         *ngIf="temLink"
@@ -102,12 +104,23 @@
         (click)="onCliqueLink()">
         clique aqui
       </a>
-    </h2>
+    </h2> -->
+
+    <h2 class="sub-title"> {{ listQuestions[0]?.ListOpcoes[0]?.TituloBloco }}</h2>
 
     <!-- ESCALA -->
     <div class="scale-card">
-      <h3> {{ listQuestions[0]?.ListOpcoes[0]?.TituloBloco }}</h3>
-
+      <!-- <h3> {{ listQuestions[0]?.ListOpcoes[0]?.TituloBloco }}</h3> -->
+      <h3 class="question-title">
+        {{ textoSemLink }}
+        <a
+          *ngIf="temLink"
+          href="javascript:void(0)"
+          class="link-termo"
+          (click)="onCliqueLink()">
+          clique aqui
+        </a>
+      </h3>
       <div class="scale-row" *ngIf="questaoAtual.ListOpcoes.length >= 3">
 
         <!-- QUANDO AINDA NÃO EXISTE OPÇÃO SELECIONADA -->
@@ -197,7 +210,8 @@
 
       <p class="aviso-ajuda">
         Precisa de ajuda?
-        <a href="#" target="_blank">Visite nossa central de ajuda</a>
+        <a href="https://www.ipsos.com" target="_blank">Visite nossa central de
+          ajuda</a>
       </p>
 
       <button class="btn-sair" (click)="sairPesquisa()">

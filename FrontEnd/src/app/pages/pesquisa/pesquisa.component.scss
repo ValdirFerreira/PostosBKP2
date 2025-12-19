@@ -14,15 +14,13 @@
   box-shadow: 0 0 0 2px rgba(229, 57, 53, 0.2);
 }
 
-
-.content
-{
+.content {
   display: flex;
   flex-direction: column;
   align-items: start;
   justify-content: center;
- position: relative;
- top: -90px;
+  position: relative;
+  top: -90px;
 
   background: transparent;
 }
@@ -291,10 +289,24 @@ p {
   }
 
   .scale-card h3 {
-    font-size: 16px;
-    font-weight: 500;
-    color: #1a1a1a;
+    font-size: clamp(16px, 4vw, 18px);
+    color: #475467;
     margin-bottom: 14px;
+
+    font-weight: 600;
+    font-style: Bold;
+
+    line-height: 30px;
+    letter-spacing: 0%;
+    vertical-align: middle;
+  }
+
+  .sub-title {
+    font-weight: 700;
+    font-style: Bold;
+    font-size: clamp(24px, 4vw, 18px);
+    color: #475467;
+     margin-bottom: 24px;
   }
 
   .scale-row {
@@ -305,21 +317,20 @@ p {
     flex-wrap: wrap;
   }
 
-.scale-row label {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 15px;
-  cursor: pointer;
-  color: #475467;
-  font-weight: 500;
-  line-height: 30px;
-  letter-spacing: 0%;
-  vertical-align: middle;
+  .scale-row label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    color: #475467;
+    font-weight: 500;
+    line-height: 30px;
+    letter-spacing: 0%;
+    vertical-align: middle;
 
-  flex: 0 0 calc((100% / 6) - 26px);
-}
-
+    flex: 0 0 calc((100% / 6) - 26px);
+  }
 
   /* Radio padrão igual ao da imagem */
   .scale-row input[type="radio"] {
@@ -411,7 +422,6 @@ p {
   justify-content: center;
   align-items: center;
   text-align: center;
-
 }
 
 /* ICON */

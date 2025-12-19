@@ -513,6 +513,26 @@ body {
   cursor: pointer;
 }
 
+
+.btn-close
+{
+  background-image: url(./assets/icones/btn-close.svg) !important;
+  background-repeat: no-repeat !important;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+
+.btn-back
+{
+  background-image: url(./assets/icones/btn-back.svg) !important;
+  background-repeat: no-repeat !important;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+
+
 .ico-qrcode {
   background-image: url(./assets/icones/ico-qrcode.svg) !important;
   background-repeat: no-repeat !important;

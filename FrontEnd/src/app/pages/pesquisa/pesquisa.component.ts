@@ -302,6 +302,7 @@ export class PesquisaComponent implements OnInit {
           this.pesquisaPassoAlertas = 0;
           this.pesquisaPasso = 3;
           this.carregarQuestaoAtual();
+          this.processarDescricao();
         }
       },
       error: (err) => {
@@ -342,6 +343,7 @@ export class PesquisaComponent implements OnInit {
       this.indiceQuestao++;
       this.step++;
       this.carregarQuestaoAtual(); // ✅ CORRETO
+        this.processarDescricao()
     } else {
       this.finalizarPesquisa();
     }
@@ -360,6 +362,7 @@ export class PesquisaComponent implements OnInit {
       this.indiceQuestao--;
       this.step--;
       this.carregarQuestaoAtual(); // ✅
+        this.processarDescricao()
     }
   }
 
