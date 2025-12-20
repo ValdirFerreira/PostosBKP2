@@ -325,7 +325,7 @@ p {
     .scale-row .scale-label:last-child {
       flex-basis: 100%; /* última opção na linha de baixo */
       margin-top: 10px;
-      align-items: flex-end;
+      align-items: flex-start;
     }
   }
 
