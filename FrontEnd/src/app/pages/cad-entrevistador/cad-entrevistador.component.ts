@@ -256,6 +256,16 @@ export class CadEntrevistadorComponent implements OnInit {
     this.OpenModalCancelar();
   }
 
+
+reloadPage() {
+  const currentUrl = this.router.url;
+
+  this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+    this.router.navigate([currentUrl]);
+  });
+}
+
+
   salvar() {
     console.log('Dados enviados:', this.model);
     const model = this.model;
@@ -267,6 +277,9 @@ export class CadEntrevistadorComponent implements OnInit {
 
     model.Documento = ""
     model.Telefone = ""
+
+
+    
 
     this.service.cadastrarEntrevistador(model).subscribe({
       next: (res) => {
@@ -288,7 +301,7 @@ export class CadEntrevistadorComponent implements OnInit {
 
 
 
-            window.location.reload();
+            this.reloadPage();
             console.log("Proprietário cadastrado com sucesso! Novo ID:", res.Cod);
 
           });
@@ -452,7 +465,7 @@ export class CadEntrevistadorComponent implements OnInit {
       console.log("RESULTADO RECEBIDO:", result);
 
       if (result?.cancel) {
-        window.location.reload();
+       this.reloadPage();
       }
     });
 
@@ -485,7 +498,7 @@ export class CadEntrevistadorComponent implements OnInit {
           next: (res) => {
             debugger
 
-            window.location.reload();
+           this.reloadPage();
           },
           error: (err) => {
             console.error("Erro ao cadastrar proprietário:", err);
@@ -519,7 +532,7 @@ export class CadEntrevistadorComponent implements OnInit {
             }
             else {
 
-              window.location.reload();
+              this.reloadPage();
 
               // debugger
               // const dialogRef = this.dialog.open(DialogDynamicComponent);

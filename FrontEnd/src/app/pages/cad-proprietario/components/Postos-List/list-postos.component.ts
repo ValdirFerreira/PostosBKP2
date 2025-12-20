@@ -258,11 +258,19 @@ deleter(item: AssociacaoPostoConsultarResponse) {
       console.log("RESULTADO RECEBIDO:", result);
 
       if (result?.cancel) {
-        window.location.reload();
+        this.reloadPage();
       }
     });
 
   }
+
+  reloadPage() {
+  const currentUrl = this.router.url;
+
+  this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+    this.router.navigate([currentUrl]);
+  });
+}
 
   OpenModalErro(mensagensErro: string[]) {
     const dialogRef = this.dialog.open(DialogDynamicComponent);
@@ -290,7 +298,7 @@ deleter(item: AssociacaoPostoConsultarResponse) {
 
 
   cancelar() {
-    window.location.reload();
+    this.reloadPage();
 
   }
 

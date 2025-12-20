@@ -127,7 +127,7 @@ namespace DataAccess.DashBoardTwo
                             commandTimeout: 300
                         );
 
-                        _context.InsertUser(new UsuarioModel { Name = req.Nome, Email = req.Email });
+                        _context.InsertUser(new UsuarioModel { Name = req.Nome, Email = req.Email ,CodUserPerfil = 3 });
 
                     }
                     else

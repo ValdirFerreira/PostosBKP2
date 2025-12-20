@@ -406,7 +406,7 @@ export class CadProprietarioComponent implements OnInit {
 
             this.salveFile(res.Cod);
 
-            // window.location.reload();
+            // this.reloadPage();
             console.log("Proprietário cadastrado com sucesso! Novo ID:", res.Cod);
 
           });
@@ -443,7 +443,7 @@ export class CadProprietarioComponent implements OnInit {
               this.OpenModalErro(mensagensErro);
             }
             else {
-              window.location.reload();
+              this.reloadPage();
             }
 
           },
@@ -458,6 +458,16 @@ export class CadProprietarioComponent implements OnInit {
 
 
   }
+
+
+reloadPage() {
+  const currentUrl = this.router.url;
+
+  this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+    this.router.navigate([currentUrl]);
+  });
+}
+
 
   onCPFInput(event: any) {
     let valor = event.target.value;
@@ -705,7 +715,7 @@ baixarTermo() {
       console.log("RESULTADO RECEBIDO:", result);
 
       if (result?.cancel) {
-        window.location.reload();
+        this.reloadPage();
       }
     });
 
@@ -747,7 +757,7 @@ baixarTermo() {
             }
             else {
 
-              window.location.reload();
+              this.reloadPage();
 
               // debugger
               // const dialogRef = this.dialog.open(DialogDynamicComponent);
@@ -758,7 +768,7 @@ baixarTermo() {
 
 
 
-              //   // window.location.reload();
+              //   // this.reloadPage();
               //   console.log("Proprietário cadastrado com sucesso! Novo ID:", res.Cod);
 
               // });
@@ -797,7 +807,7 @@ baixarTermo() {
             }
             else {
 
-              window.location.reload();
+              this.reloadPage();
 
               // debugger
               // const dialogRef = this.dialog.open(DialogDynamicComponent);
@@ -808,7 +818,7 @@ baixarTermo() {
 
 
 
-              //   // window.location.reload();
+              //   // this.reloadPage();
               //   console.log("Proprietário cadastrado com sucesso! Novo ID:", res.Cod);
 
               // });

@@ -287,6 +287,13 @@ export class MenuHomeComponent implements OnInit {
 
   active: string = 'proprietario';
 
+  reloadPage() {
+  const currentUrl = this.router.url;
+
+  this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+    this.router.navigate([currentUrl]);
+  });
+}
 
   validarCamposObrigatorios() {
     const mensagensErro: string[] = [];
@@ -354,7 +361,7 @@ export class MenuHomeComponent implements OnInit {
 
             this.salveFile(res.Cod);
 
-            // window.location.reload();
+            // this.reloadPage();
             console.log("Proprietário cadastrado com sucesso! Novo ID:", res.Cod);
 
           });
@@ -391,7 +398,7 @@ export class MenuHomeComponent implements OnInit {
               this.OpenModalErro(mensagensErro);
             }
             else {
-              window.location.reload();
+              this.reloadPage();
             }
 
           },
@@ -638,7 +645,7 @@ export class MenuHomeComponent implements OnInit {
       console.log("RESULTADO RECEBIDO:", result);
 
       if (result?.cancel) {
-        window.location.reload();
+        this.reloadPage();
       }
     });
 
