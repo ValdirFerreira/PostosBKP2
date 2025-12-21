@@ -97,9 +97,10 @@ export class NavbarComponent implements OnInit {
   }
 
   userADM: boolean = false;
+   current = this.router.url;
 
   ngOnInit() {
-    const current = this.router.url;
+    this.current = this.router.url;
     const user = this.session.getUserSession();
 
     if (user) {
@@ -114,14 +115,14 @@ export class NavbarComponent implements OnInit {
     this.clearAllActive(this.menus);
 
     for (const m of this.menus) {
-      if (m.Url === current) {
+      if (m.Url === this.current) {
         m.Ativo = true;
         break;
       }
 
       if (m.Children?.length) {
         for (const c of m.Children) {
-          if (c.Url === current) {
+          if (c.Url === this.current) {
             m.Ativo = true;
             c.Ativo = true;
             break;
@@ -196,7 +197,7 @@ export class NavbarComponent implements OnInit {
 
   ];
 
-  goTo(url: string) {
+  goTo(url: string, codmenu: number =0) {
     const rotaAtual = this.router.url;
 
     if (rotaAtual === url) {
@@ -206,9 +207,13 @@ export class NavbarComponent implements OnInit {
       });
     } else {
       this.router.navigate([url]);
-    }
+    }    
 
     this.openMenu = null;
+
+ 
+
+
   }
 
 

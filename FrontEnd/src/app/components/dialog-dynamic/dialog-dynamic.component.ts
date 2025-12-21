@@ -30,6 +30,8 @@ export class DialogDynamicComponent implements OnInit {
     mensagensErro: string[] = [];
     confirmation: boolean = false;
 
+     typeDialogTitle: number = 0;
+
     valorEditado: string = '';
     descricao: string = '';
     mes: string = '';

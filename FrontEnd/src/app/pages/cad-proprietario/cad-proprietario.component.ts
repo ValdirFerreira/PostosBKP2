@@ -386,6 +386,8 @@ export class CadProprietarioComponent implements OnInit {
       return; // interrompe fluxo
     }
 
+    let isUpdate = model.Cod > 0;
+
     this.service.cadastrarProprietario(model).subscribe({
       next: (res) => {
         debugger
@@ -401,6 +403,10 @@ export class CadProprietarioComponent implements OnInit {
           const dialogRef = this.dialog.open(DialogDynamicComponent);
 
           dialogRef.componentInstance.typeDialog = 1;
+
+          if (isUpdate)
+            dialogRef.componentInstance.typeDialogTitle = 1;
+
           dialogRef.afterClosed().subscribe(result => {
             console.log("RESULTADO RECEBIDO:", result);
 

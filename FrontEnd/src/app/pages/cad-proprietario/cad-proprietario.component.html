@@ -363,10 +363,16 @@
 
           </div>
         </form>
-        <div class="actions">
+        <div  *ngIf="model.Cod <=0" class="actions">
           <button class="btn-cancel" (click)="cancelar()">Cancelar
             cadastro</button>
           <button class="btn-submit" (click)="salvar()">Criar Cadastro</button>
+        </div>
+
+         <div  *ngIf="model.Cod > 0" class="actions">
+          <button class="btn-cancel" (click)="cancelar()">Cancelar
+            Alteração</button>
+          <button class="btn-submit" (click)="salvar()">Atualizar Cadastro</button>
         </div>
       </div>
     </div>

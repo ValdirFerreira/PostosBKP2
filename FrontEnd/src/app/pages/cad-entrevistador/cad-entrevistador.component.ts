@@ -257,14 +257,17 @@ export class CadEntrevistadorComponent implements OnInit {
   }
 
 
-reloadPage() {
-  const currentUrl = this.router.url;
+  reloadPage() {
+    const currentUrl = this.router.url;
 
-  this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-    this.router.navigate([currentUrl]);
-  });
-}
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([currentUrl]);
+    });
+  }
 
+  avancar() {
+    this.active = 'contato';
+  }
 
   salvar() {
     console.log('Dados enviados:', this.model);
@@ -279,7 +282,9 @@ reloadPage() {
     model.Telefone = ""
 
 
-    
+    let isUpdate = model.Cod > 0;
+
+
 
     this.service.cadastrarEntrevistador(model).subscribe({
       next: (res) => {
@@ -295,7 +300,10 @@ reloadPage() {
           debugger
           const dialogRef = this.dialog.open(DialogDynamicComponent);
 
-          dialogRef.componentInstance.typeDialog = 1;
+          dialogRef.componentInstance.typeDialog = 11;
+          if (isUpdate)
+            dialogRef.componentInstance.typeDialogTitle = 1;
+
           dialogRef.afterClosed().subscribe(result => {
             console.log("RESULTADO RECEBIDO:", result);
 
@@ -465,7 +473,7 @@ reloadPage() {
       console.log("RESULTADO RECEBIDO:", result);
 
       if (result?.cancel) {
-       this.reloadPage();
+        this.reloadPage();
       }
     });
 
@@ -498,7 +506,7 @@ reloadPage() {
           next: (res) => {
             debugger
 
-           this.reloadPage();
+            this.reloadPage();
           },
           error: (err) => {
             console.error("Erro ao cadastrar proprietário:", err);

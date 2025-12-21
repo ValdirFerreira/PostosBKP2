@@ -179,8 +179,7 @@
         <div class="actions">
           <button class="btn-cancel" (click)="cancelar()">Cancelar
             cadastro</button>
-          <button disabled class="btn-submit" (click)="salvar()">Criar
-            Cadastro</button>
+          <button  class="btn-submit-seg" (click)="avancar()">Avançar</button>
         </div>
       </div>
 
@@ -215,7 +214,9 @@
         <div class="actions">
           <button class="btn-cancel" (click)="cancelar()">Cancelar
             cadastro</button>
-          <button  class="btn-submit" (click)="salvar()">Criar
+          <button *ngIf="model.Cod <=0"  class="btn-submit" (click)="salvar()">Criar
+            Cadastro</button>
+             <button *ngIf="model.Cod > 0"  class="btn-submit" (click)="salvar()">Atualizar
             Cadastro</button>
         </div>
 

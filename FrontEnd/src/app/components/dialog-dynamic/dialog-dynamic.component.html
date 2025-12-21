@@ -31,7 +31,8 @@
       </div>
     </div>
 
-    <h2 class="title">Cadastro criado</h2>
+    <h2 *ngIf="typeDialogTitle == 0" class="title">Cadastro criado</h2>
+    <h2 *ngIf="typeDialogTitle == 1" class="title">Cadastro Atualizado</h2>
 
     <p class="subtitle">
       O proprietário já pode ser alocado no cadastro do Posto
@@ -192,8 +193,6 @@
   </div>
 </div>
 
-
-
 <div class="popup-wrapper" *ngIf="typeDialog == 7">
   <div class="left-area">
     <div class="icon-circle-thunder">
@@ -238,8 +237,6 @@
   </div>
 </div>
 
-
-
 <div class="popup-wrapper" *ngIf="typeDialog == 9">
   <div class="left-area">
     <!-- <div class="icon-circle">
@@ -263,7 +260,6 @@
   </div>
 </div>
 
-
 <div class="popup-wrapper" *ngIf="typeDialog == 10">
   <div class="left-area">
     <div class="icon-circle-thunder">
@@ -283,5 +279,29 @@
         ativo</button>
       <button class="btn-primary-p" (click)="closeDialogInativar()">Excluir Posto</button>
     </div>
+  </div>
+</div>
+
+
+<div class="popup-wrapper-10" *ngIf="typeDialog == 11">
+  <div class="popup-success-10">
+
+    <div class="icon-area-10">
+      <div class="icon-circle-10">
+        <span class="check-10">✔</span>
+      </div>
+    </div>
+
+    <h2 *ngIf="typeDialogTitle == 0" class="title">Cadastro criado</h2>
+    <h2 *ngIf="typeDialogTitle == 1" class="title">Cadastro Atualizado</h2>
+
+    <!-- <p class="subtitle">
+      O Entrevistadores já pode utilizar o login
+    </p> -->
+
+    <button class="link-button-10" (click)="closeDialog()">
+      Ir para backlog
+    </button>
+
   </div>
 </div>
