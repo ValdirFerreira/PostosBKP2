@@ -86,6 +86,33 @@ namespace DataAccess.FilesConfig
         }
 
 
+        public FilePostos RecuperaArquivoTermo()
+        {
+
+            FilePostos response = new FilePostos();
+
+            var base64String = string.Empty;
+
+            var diretorio = string.Concat(VerificaDiretorio, "TERMO-PARCERIA-POSTOS.pdf");
+
+            using (var temp = new FileStream(diretorio, FileMode.Open))
+            {
+
+                using (var ms = new MemoryStream())
+                {
+                    temp.CopyTo(ms);
+                    byte[] fileBytes = ms.ToArray();
+                    response.FileBase64 = base64String = Convert.ToBase64String(fileBytes);
+
+
+                }
+            }
+
+            return response;
+
+        }
+
+
         //public void SalvaArquivo(Arquivo arquivo)
         //{
 

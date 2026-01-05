@@ -74,6 +74,15 @@ export class PainelPostosService {
     );
   }
 
+    RecuperaArquivoTermo(model: FilePostos) {
+    return this.httpClient.post<FilePostos>(
+      `${this.baseUrl}/PainelPostos/RecuperaArquivoTermo`,
+      model
+    );
+  }
+
+  
+
   ///////////////////////////////////////////////////////////////
   // Parte Postos
   consultarPostos(cod: number) {

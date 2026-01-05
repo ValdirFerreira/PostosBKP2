@@ -257,6 +257,24 @@ namespace DataAccess.DashBoardTwo
 
         }
 
+        public FilePostos RecuperaArquivoTermo(FilePostos req)
+        {
+
+            try
+            {
+                SaveFiles saveFiles = new SaveFiles();
+                return saveFiles.RecuperaArquivoTermo();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+
+        }
+
+        
+
 
 
         ////////////////////////////////////////////////////////////////////////

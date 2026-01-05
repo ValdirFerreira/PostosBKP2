@@ -184,6 +184,38 @@ namespace WebApi.Controllers
         }
 
 
+        [HttpPost]
+        [Route("RecuperaArquivoTermo")]
+        public HttpResponseMessage RecuperaArquivoTermo([FromBody] FilePostos model)
+        {
+            var response = new Response();
+
+            try
+            {
+                // chama o método no service/context
+                var result = _context.RecuperaArquivoTermo(model);
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (SqlException ex)
+            {
+                LogText.Instance.Error(
+                    this.GetType().Name,
+                    System.Reflection.MethodBase.GetCurrentMethod().Name,
+                    "Sistema" + ex.Message
+                );
+
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.Error = $"Bad request - ({ex.Message})";
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+
+        
+
+
         ////////////////////////////////////////////////////////////
         ///
 

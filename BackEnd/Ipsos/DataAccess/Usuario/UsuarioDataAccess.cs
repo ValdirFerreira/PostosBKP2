@@ -110,9 +110,9 @@ namespace DataAccess.Usuario
 
 
 
-                // IpsosSecureResult IpsosSecureResult = IpsosSecureLogin(login.Email, login.Password, login.IP, login.IdiomaId);
+                 IpsosSecureResult IpsosSecureResult = IpsosSecureLogin(login.Email, login.Password, login.IP, login.IdiomaId);
 
-                IpsosSecureResult IpsosSecureResult = new IpsosSecureResult {  Status = 200 , UsuarioId = 1};
+               // IpsosSecureResult IpsosSecureResult = new IpsosSecureResult {  Status = 200 , UsuarioId = 1};
 
                 if (IpsosSecureResult.Status == 200)
                 {

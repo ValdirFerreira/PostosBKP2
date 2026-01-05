@@ -235,7 +235,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Arquivos\ExcelExportacao\Workspace\" />
-    <Folder Include="Files\" />
     <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>
@@ -258,6 +257,7 @@
     <Content Include="Arquivos\ExcelExportacao\Modelos\Modelo_Exportação_Gráficos_Padrao_linhas.xlsx" />
     <Content Include="Arquivos\ExcelExportacao\Modelos\Modelo_Exportação_Gráficos_PadraoDenominators.xlsx" />
     <Content Include="Arquivos\ExcelExportacao\Modelos\Modelo_Exportação_Gráficos_Padrao_3_columns.xlsx" />
+    <Content Include="Files\TERMO-PARCERIA-POSTOS.pdf" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

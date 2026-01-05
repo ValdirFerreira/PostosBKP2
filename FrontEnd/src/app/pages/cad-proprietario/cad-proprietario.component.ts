@@ -288,6 +288,30 @@ export class CadProprietarioComponent implements OnInit {
     });
   }
 
+
+
+  RecuperaArquivoTermo() {
+
+    var fileSend = new FilePostos();
+
+    fileSend.Cod = 0;
+    fileSend.FileBase64 = "carregar";
+    fileSend.NomeArquivo = "TERMO-PARCERIA-POSTOS";
+
+    this.service.RecuperaArquivoTermo(fileSend).subscribe({
+      next: (res) => {
+        debugger
+
+        return this.downloadService.downloadFileFromBase64(res.FileBase64, "TERMO-PARCERIA-POSTOS.pdf");
+
+      },
+      error: (err) => {
+        console.error("Erro file proprietário:", err);
+      }
+    });
+  }
+
+
   ///////////////////////////////////////////////////////////////////////////////////
   // Cadastro 
   ///////////////////////////////////////////////////////////////////////////////////
